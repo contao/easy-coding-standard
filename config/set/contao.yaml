@@ -1,0 +1,137 @@
+imports:
+    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/php70.yaml' }
+    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/php71.yaml' }
+    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/common.yaml' }
+    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/clean-code.yaml' }
+    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/dead-code.yaml' }
+    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/symfony.yaml' }
+    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/symfony-risky.yaml' }
+
+parameters:
+    skip:
+        # We allow assignments in conditions (see common.yaml)
+        PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff: ~
+
+        # We do not want explicit variables (see common.yaml)
+        PhpCsFixer\Fixer\LanguageConstruct\ExplicitIndirectVariableFixer: ~
+        PhpCsFixer\Fixer\StringNotation\ExplicitStringVariableFixer: ~
+
+        # We do not want a space after the ! operator (see common.yaml)
+        PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer: ~
+
+        # We allow assertEquals() to compare objects in configuration tests (see phpunit.yaml)
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
+            - '*/*BundleTest.php'
+            - '*/*ExtensionTest.php'
+
+        # The method chaining identation fixer does not work for the Symfony configuration tree
+        PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer:
+            - '*/Configuration.php'
+            - '*/src/Resources/contao/*' # FIXME: remove?
+
+        # We do not require null default values to be nullable (see php71.yaml)
+        SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff: ~
+
+        # Do not report unused variables in foreach loops etc. (see clean-code.yaml)
+        SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff: ~ # FIXME: remove?
+
+services:
+    PhpCsFixer\Fixer\Comment\HeaderCommentFixer:
+        header: "This file is part of Contao.\n\n(c) Leo Feyer\n\n@license LGPL-3.0-or-later"
+
+    PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer:
+        scope: namespaced
+        fix_built_in: false
+        include:
+            - DIRECTORY_SEPARATOR
+            - PHP_SAPI
+            - PHP_VERSION_ID
+
+    PhpCsFixer\Fixer\FunctionNotation\FopenFlagsFixer:
+        b_mode: false
+
+    PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer:
+        scope: namespaced
+        strict: true
+        include:
+            - '@@compiler_optimized'
+
+    # We do not enforce blank lines before "break", "continue" and "yield"
+    PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer:
+        statements:
+            - case
+            - declare
+            - default
+            - do
+            - for
+            - foreach
+            - if
+            - return
+            - switch
+            - throw
+            - try
+            - while
+
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitTestCaseStaticMethodCallsFixer:
+        call_type: this
+
+    # Add fixers from PHP-CS-Fixer
+    PhpCsFixer\Fixer\Alias\PowToExponentiationFixer: ~
+    PhpCsFixer\Fixer\Alias\SetTypeToCastFixer: ~
+    PhpCsFixer\Fixer\Casing\LowercaseStaticReferenceFixer: ~
+    PhpCsFixer\Fixer\Casing\MagicMethodCasingFixer: ~
+    PhpCsFixer\Fixer\Casing\NativeFunctionTypeDeclarationCasingFixer: ~
+    PhpCsFixer\Fixer\CastNotation\NoUnsetCastFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\NoNullPropertyInitializationFixer: ~
+    PhpCsFixer\Fixer\Comment\MultilineCommentOpeningClosingFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\IncludeFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\NoAlternativeSyntaxFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\NoSuperfluousElseifFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\CombineNestedDirnameFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\FopenFlagOrderFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\ImplodeCallFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\NoUnreachableDefaultArgumentValueFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\SingleLineThrowFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\StaticLambdaFixer: ~
+    PhpCsFixer\Fixer\Import\FullyQualifiedStrictTypesFixer: ~
+    PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveIssetsFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\ErrorSuppressionFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\NoUnsetOnPropertyFixer: ~
+    PhpCsFixer\Fixer\Operator\LogicalOperatorsFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\AlignMultilineCommentFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocVarAnnotationCorrectOrderFixer: ~
+    PhpCsFixer\Fixer\PhpTag\LinebreakAfterOpeningTagFixer: ~
+    PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer: ~
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertInternalTypeFixer: ~
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitExpectationFixer: ~
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitMockFixer: ~
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitMockShortWillReturnFixer: ~
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitNamespacedFixer: ~
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitNoExpectationAnnotationFixer: ~
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitOrderedCoversFixer: ~
+    PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer: ~
+    PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer: ~
+    PhpCsFixer\Fixer\StringNotation\EscapeImplicitBackslashesFixer: ~
+    PhpCsFixer\Fixer\StringNotation\HeredocToNowdocFixer: ~
+    PhpCsFixer\Fixer\StringNotation\NoBinaryStringFixer: ~
+    PhpCsFixer\Fixer\StringNotation\SimpleToComplexStringVariableFixer: ~
+    PhpCsFixer\Fixer\StringNotation\StringLineEndingFixer: ~
+
+    # Add fixers and sniffs from https://github.com/Symplify/CodingStandard
+    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: ~
+    Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer: ~
+    Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer: ~
+    Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer: ~
+    Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff: ~
+    Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: ~
+    Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff: ~
+    Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff: ~
+    Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff: ~
+    Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff: ~
+
+    # Add custom fixers
+    Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer: ~
+    Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff: ~

@@ -1,0 +1,77 @@
+imports:
+    - { resource: set/contao.yaml }
+
+parameters:
+    exclude_files:
+        - '*/languages/*'
+        - '*/templates/*'
+        - '*/themes/*'
+
+    skip:
+        PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer: ~
+        PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer: ~
+        PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:  ~
+        PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer: ~
+        PhpCsFixer\Fixer\FunctionNotation\NoSpacesAfterFunctionNameFixer: ~
+        PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer: ~
+        PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer: ~
+        PhpCsFixer\Fixer\Operator\IncrementStyleFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer: ~ # FIXME: remove
+        PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocScalarFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocSeparationFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocSummaryFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer: ~
+        PhpCsFixer\Fixer\ReturnNotation\ReturnAssignmentFixer: ~
+        PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer: ~
+        PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer: ~
+        PhpCsFixer\Fixer\Strict\StrictComparisonFixer: ~
+        PhpCsFixer\Fixer\Strict\StrictParamFixer: ~
+        PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer: ~
+        SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff: ~
+        SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff: ~
+        Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff: ~
+        Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff: ~
+        Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff: ~
+
+    indentation: tab
+    cache_directory: '%sys_get_temp_dir%/ecs_legacy_cache'
+
+services:
+    PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
+        syntax: long
+
+    PhpCsFixer\Fixer\Basic\BracesFixer:
+        allow_single_line_closure: true
+        position_after_anonymous_constructs: next
+        position_after_control_structures: next
+
+    PhpCsFixer\Fixer\ListNotation\ListSyntaxFixer:
+        syntax: long
+
+    PhpCsFixer\Fixer\Operator\ConcatSpaceFixer:
+        spacing: one
+
+    # Remove the "case" statement (see contao.yaml)
+    PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer:
+        statements:
+            - declare
+            - default
+            - do
+            - for
+            - foreach
+            - if
+            - return
+            - switch
+            - throw
+            - try
+            - while
+
+    # Remove the "throws" token (see symfony.yaml)
+    PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer:
+        tokens:
+            - curly_brace_block
+            - extra
+            - parenthesis_brace_block
+            - square_brace_block
+            - use

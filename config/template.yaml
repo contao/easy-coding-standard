@@ -1,0 +1,21 @@
+imports:
+    - { resource: set/contao.yaml }
+
+parameters:
+    file_extensions:
+        - html5
+
+    skip:
+        PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:  ~
+        PhpCsFixer\Fixer\Comment\HeaderCommentFixer: ~
+        PhpCsFixer\Fixer\ControlStructure\NoAlternativeSyntaxFixer: ~
+        PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer: ~
+        PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
+        PhpCsFixer\Fixer\PhpTag\LinebreakAfterOpeningTagFixer: ~
+        PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer: ~
+        PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer: ~
+        PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer: ~
+        PhpCsFixer\Fixer\Strict\StrictComparisonFixer: ~
+        PhpCsFixer\Fixer\Strict\StrictParamFixer: ~
+
+    cache_directory: '%sys_get_temp_dir%/ecs_template_cache'

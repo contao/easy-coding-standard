@@ -1,0 +1,22 @@
+{
+    "name": "contao/easy-coding-standard",
+    "type": "library",
+    "description": "EasyCodingStandard configurations for Contao",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Leo Feyer",
+            "homepage": "https://github.com/leofeyer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "symplify/coding-standard": "^7.1",
+        "symplify/easy-coding-standard": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Contao\\EasyCodingStandard\\": "src/"
+        }
+    }
+}

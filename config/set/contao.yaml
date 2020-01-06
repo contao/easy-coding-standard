@@ -133,5 +133,7 @@ services:
     Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff: ~
 
     # Add custom fixers
+    Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer: ~
+    Contao\EasyCodingStandard\Fixer\NoExpectsThisAnyFixer: ~
     Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer: ~
     Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff: ~

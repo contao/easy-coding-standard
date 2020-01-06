@@ -63,7 +63,7 @@ class SomeCommand extends Command
                     if ('configure' !== $tokens[$nextMeaningful]->getContent()) {
                         $nextMeaningful = $tokens->getNextMeaningfulToken($index);
 
-                        if ($tokens[$nextMeaningful]->isGivenKind('(')) {
+                        if ($tokens[$nextMeaningful]->equals('(')) {
                             $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextMeaningful);
                         }
                     }

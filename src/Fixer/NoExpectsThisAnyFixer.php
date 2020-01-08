@@ -53,6 +53,11 @@ class SomeTest extends TestCase
                 continue;
             }
 
+            // Not a method call
+            if (!$tokens[$nextMeaningful + 1]->equals('(')) {
+                continue;
+            }
+
             $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextMeaningful + 1);
 
             if ('($this->any())' === $tokens->generatePartialCode($nextMeaningful + 1, $end)) {

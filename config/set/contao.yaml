@@ -134,6 +134,8 @@ services:
 
     # Add custom fixers
     Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer: ~
+    Contao\EasyCodingStandard\Fixer\MultiLineLambdaFunctionArgumentsFixer: ~
     Contao\EasyCodingStandard\Fixer\NoExpectsThisAnyFixer: ~
+    Contao\EasyCodingStandard\Fixer\NoLineBreakBetweenMethodArgumentsFixer: ~
     Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer: ~
     Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff: ~

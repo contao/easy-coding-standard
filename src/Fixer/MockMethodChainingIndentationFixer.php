@@ -84,9 +84,12 @@ class SomeTest extends TestCase
                 continue;
             }
 
-            if (!$tokens[$index - 1]->isGivenKind(T_WHITESPACE)) {
-                $tokens->insertAt($index, new Token([T_WHITESPACE, "\n"]));
+            // The method call is indented already
+            if ($tokens[$index - 1]->isGivenKind(T_WHITESPACE)) {
+                continue;
             }
+
+            $tokens->insertAt($index, new Token([T_WHITESPACE, "\n"]));
         }
     }
 
@@ -95,6 +98,6 @@ class SomeTest extends TestCase
         $start = $tokens->getPrevTokenOfKind($index, [';', '{']);
         $end = $tokens->getNextTokenOfKind($index, [';']);
 
-        return 1 === \count($tokens->findGivenKind(T_OBJECT_OPERATOR, $start + 1, $end));
+        return 1 === \count($tokens->findGivenKind(T_OBJECT_OPERATOR, $start, $end));
     }
 }

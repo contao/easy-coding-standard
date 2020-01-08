@@ -12,24 +12,22 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
     public function getDefinition(): FixerDefinition
     {
         return new FixerDefinition(
-            'Defining command arguments and options must be done in single line.',
+            'Defining command arguments and options must be done in a single line.',
             [
                 new CodeSample(
                     '<?php
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class SomeCommand extends Command
 {
     protected function configure(): void
     {
         $this
-            ->addOption(
-                "bundles",
-                null,
-                InputOption::VALUE_NONE,
-                "List all bundles or the bundle configuration of the given plugin"
-            );
+            ->addArgument("foo", InputArgument::REQUIRED, "The argument")
+            ->addOption("bar", null, InputOption::VALUE_NONE, "The option");
     }
 }
 '

@@ -5,6 +5,7 @@ namespace Contao\EasyCodingStandard\Fixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class SingleLineConfigureCommandFixer extends AbstractFixer
@@ -77,9 +78,17 @@ class SomeCommand extends Command
                     $blockStart = $nextMeaningful + 1;
                     $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $blockStart);
 
-                    for ($i = $blockStart; $i < $blockEnd; ++$i) {
+                    if ($tokens[$blockStart + 1]->isGivenKind(T_WHITESPACE)) {
+                        $tokens->clearAt(++$blockStart);
+                    }
+
+                    if ($tokens[$blockEnd - 1]->isGivenKind(T_WHITESPACE)) {
+                        $tokens->clearAt(--$blockEnd);
+                    }
+
+                    for ($i = $blockStart + 1; $i < $blockEnd; ++$i) {
                         if ($tokens[$i]->isWhitespace()) {
-                            $tokens->clearAt($i);
+                            $tokens->offsetSet($i, new Token([T_WHITESPACE, ' ']));
                         }
                     }
             }

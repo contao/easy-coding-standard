@@ -133,7 +133,9 @@ services:
     Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff: ~
 
     # Add custom fixers
+    Contao\EasyCodingStandard\Fixer\IsArrayNotEmptyFixer: ~
     Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer: ~
+    Contao\EasyCodingStandard\Fixer\MultiLineIfIndentationFixer: ~
     Contao\EasyCodingStandard\Fixer\MultiLineLambdaFunctionArgumentsFixer: ~
     Contao\EasyCodingStandard\Fixer\NoExpectsThisAnyFixer: ~
     Contao\EasyCodingStandard\Fixer\NoLineBreakBetweenMethodArgumentsFixer: ~

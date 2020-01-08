@@ -109,9 +109,11 @@ $array = array_map(
 
     private function getIndent(Tokens $tokens, int $index): string
     {
-        $whitespace = $tokens->getPrevTokenOfKind($index, [[T_WHITESPACE]]);
+        if (!$whitespace = $tokens->getPrevTokenOfKind($index, [[T_WHITESPACE]])) {
+            return '';
+        }
 
-        return $tokens[$whitespace]->getContent();
+        return "\n".ltrim($tokens[$whitespace]->getContent(), "\n");
     }
 
     private function fixIndentation(Tokens $tokens, int $start, int &$end, string $indent): void

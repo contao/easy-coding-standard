@@ -73,10 +73,7 @@ $array = array_map(
             }
 
             $start = $tokens->getPrevTokenOfKind($index, ['(']);
-
-            if (!$end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $start)) {
-                continue;
-            }
+            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $start);
 
             // No line-breaks required for inline lambda functions
             if ($this->isInlineLambdaFunction($tokens, $start, $end)) {
@@ -109,9 +106,13 @@ $array = array_map(
 
     private function getIndent(Tokens $tokens, int $index): string
     {
-        if (!$whitespace = $tokens->getPrevTokenOfKind($index, [[T_WHITESPACE]])) {
-            return '';
-        }
+        $whitespace = $index;
+
+        do  {
+            if (!$whitespace = $tokens->getPrevTokenOfKind($whitespace, [[T_WHITESPACE]])) {
+                return '';
+            }
+        } while (false === strpos($tokens[$whitespace]->getContent(), "\n"));
 
         return "\n".ltrim($tokens[$whitespace]->getContent(), "\n");
     }

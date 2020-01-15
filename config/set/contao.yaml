@@ -19,21 +19,11 @@ parameters:
         # We do not want a space after the ! operator (see common.yaml)
         PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer: ~
 
-        # We allow assertEquals() to compare objects in configuration tests (see phpunit.yaml)
-        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer:
-            - '*/*BundleTest.php'
-            - '*/*ExtensionTest.php'
-
-        # The method chaining identation fixer does not work for the Symfony configuration tree
-        PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer:
-            - '*/Configuration.php'
-            - '*/src/Resources/contao/*' # FIXME: remove?
+        # We allow assertEquals() to compare objects (see phpunit.yaml)
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer: ~
 
         # We do not require null default values to be nullable (see php71.yaml)
         SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff: ~
-
-        # Do not report unused variables in foreach loops etc. (see clean-code.yaml)
-        SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff: ~ # FIXME: remove?
 
 services:
     PhpCsFixer\Fixer\Comment\HeaderCommentFixer:
@@ -133,6 +123,8 @@ services:
     Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff: ~
 
     # Add custom fixers
+    Contao\EasyCodingStandard\Fixer\AsserEqualsFixer: ~
+    Contao\EasyCodingStandard\Fixer\ExpectsWithCallbackFixer: ~
     Contao\EasyCodingStandard\Fixer\IsArrayNotEmptyFixer: ~
     Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer: ~
     Contao\EasyCodingStandard\Fixer\MultiLineIfIndentationFixer: ~

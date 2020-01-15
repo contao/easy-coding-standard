@@ -29,7 +29,9 @@ parameters:
         PhpCsFixer\Fixer\Strict\StrictComparisonFixer: ~
         PhpCsFixer\Fixer\Strict\StrictParamFixer: ~
         PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer: ~
+        PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer: ~
         SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff: ~
+        SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff: ~
         SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff: ~
         Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff: ~
         Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff: ~

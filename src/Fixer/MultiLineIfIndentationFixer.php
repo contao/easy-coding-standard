@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -10,6 +12,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class MultiLineIfIndentationFixer extends AbstractFixer
 {
+    use IndentationFixerTrait;
+
     public function getDefinition(): FixerDefinition
     {
         return new FixerDefinition(
@@ -73,27 +77,5 @@ class Foo
                 ++$index;
             }
         }
-    }
-
-    private function isMultiLineStatement(Tokens $tokens, int $start, int $end): bool
-    {
-        $whitespaces = $tokens->findGivenKind(T_WHITESPACE, $start, $end);
-
-        foreach ($whitespaces as $whitespace) {
-            if (false !== strpos($whitespace->getContent(), "\n")) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function getIndent(Tokens $tokens, int $index): string
-    {
-        if (!$whitespace = $tokens->getPrevTokenOfKind($index, [[T_WHITESPACE]])) {
-            return '';
-        }
-
-        return "\n".ltrim($tokens[$whitespace]->getContent(), "\n");
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -9,7 +11,7 @@ use PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
-final class AsserEqualsFixer extends AbstractFixer
+final class AssertEqualsFixer extends AbstractFixer
 {
     /**
      * @var array
@@ -54,7 +56,11 @@ public function testFoo(): void
 
             $name = $tokens[$index]->getContent();
 
-            if (!isset($this->mapper[$name]) || !$tokens[$index + 1]->equals('(')) {
+            if (
+                !isset($this->mapper[$name])
+                || !$tokens[$index - 1]->isGivenKind(T_OBJECT_OPERATOR)
+                || !$tokens[$index + 1]->equals('(')
+            ) {
                 continue;
             }
 

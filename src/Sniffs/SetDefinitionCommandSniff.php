@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Contao\EasyCodingStandard\Sniffs;
 
 use PHP_CodeSniffer\Files\File;

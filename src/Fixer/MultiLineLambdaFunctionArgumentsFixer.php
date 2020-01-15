@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -11,6 +13,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class MultiLineLambdaFunctionArgumentsFixer extends AbstractFixer
 {
+    use IndentationFixerTrait;
+
     public function getDefinition(): FixerDefinition
     {
         return new FixerDefinition(
@@ -76,7 +80,7 @@ $array = array_map(
             $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $start);
 
             // No line-breaks required for inline lambda functions
-            if ($this->isInlineLambdaFunction($tokens, $start, $end)) {
+            if (!$this->isMultiLineStatement($tokens, $start, $end)) {
                 continue;
             }
 
@@ -88,33 +92,8 @@ $array = array_map(
 
     private function hasNewline(Tokens $tokens, int $index): bool
     {
-        return $tokens[$index]->isGivenKind(T_WHITESPACE) && false !== strpos($tokens[$index]->getContent(), "\n");
-    }
-
-    private function isInlineLambdaFunction(Tokens $tokens, int $start, int $end): bool
-    {
-        $whitespaceTokens = $tokens->findGivenKind(T_WHITESPACE, $start, $end);
-
-        foreach ($whitespaceTokens as $whitespaceToken) {
-            if (false !== strpos($whitespaceToken->getContent(), "\n")) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function getIndent(Tokens $tokens, int $index): string
-    {
-        $whitespace = $index;
-
-        do  {
-            if (!$whitespace = $tokens->getPrevTokenOfKind($whitespace, [[T_WHITESPACE]])) {
-                return '';
-            }
-        } while (false === strpos($tokens[$whitespace]->getContent(), "\n"));
-
-        return "\n".ltrim($tokens[$whitespace]->getContent(), "\n");
+        return $tokens[$index]->isGivenKind(T_WHITESPACE)
+            && false !== strpos($tokens[$index]->getContent(), "\n");
     }
 
     private function fixIndentation(Tokens $tokens, int $start, int &$end, string $indent): void
@@ -163,14 +142,14 @@ $array = array_map(
 
         $whitespaces = $tokens->findGivenKind(T_WHITESPACE, $bodyStart, $argumentEnd);
 
-        foreach ($whitespaces as $index => $whitespace) {
+        foreach ($whitespaces as $pos => $whitespace) {
             $ws = $whitespace->getContent();
 
             if (false === strpos($ws, "\n")) {
                 continue;
             }
 
-            $tokens->offsetSet($index, new Token([T_WHITESPACE, $ws.'    ']));
+            $tokens->offsetSet($pos, new Token([T_WHITESPACE, $ws.'    ']));
         }
     }
 }

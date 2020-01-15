@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -11,6 +13,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
 {
+    use IndentationFixerTrait;
+
     public function getDefinition(): FixerDefinition
     {
         return new FixerDefinition(
@@ -49,7 +53,9 @@ class Foo
                 $nextMeaningful = $tokens->getNextMeaningfulToken($nextMeaningful);
             }
 
-            if ($tokens[$nextMeaningful]->isGivenKind(T_STRING)) {
+            $isLambda = !$tokens[$nextMeaningful]->isGivenKind(T_STRING);
+
+            if (!$isLambda) {
                 $nextMeaningful = $tokens->getNextMeaningfulToken($nextMeaningful);
             }
 
@@ -70,6 +76,22 @@ class Foo
             }
 
             $index = $end + 1;
+
+            if ($isLambda) {
+                return;
+            }
+
+            $bodyStart = $tokens->getNextTokenOfKind($index, ['{', ';']);
+
+            // The method is an abstract method
+            if (!$bodyStart || $tokens[$bodyStart]->equals(';')) {
+                continue;
+            }
+
+            // Insert a line-break before the opening curly brace
+            if (false === strpos($tokens[$bodyStart - 1]->getContent(), "\n")) {
+                $tokens->offsetSet($bodyStart - 1, new Token([T_WHITESPACE, $this->getIndent($tokens, $index)]));
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ parameters:
         PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer: ~
         PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer: ~
         PhpCsFixer\Fixer\Operator\IncrementStyleFixer: ~
-        PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer: ~ # FIXME: remove
+        PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer: ~
         PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer: ~
         PhpCsFixer\Fixer\Phpdoc\PhpdocScalarFixer: ~
         PhpCsFixer\Fixer\Phpdoc\PhpdocSeparationFixer: ~

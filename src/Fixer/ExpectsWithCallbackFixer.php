@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -11,6 +13,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class ExpectsWithCallbackFixer extends AbstractFixer
 {
+    use IndentationFixerTrait;
+
     public function getDefinition(): FixerDefinition
     {
         return new FixerDefinition(
@@ -61,6 +65,12 @@ public function testFoo(): void
         return $tokens->isTokenKindFound(T_STRING);
     }
 
+    public function getPriority(): int
+    {
+        // must be run after MultiLineLambdaFunctionArgumentsFixer and MultilineWhitespaceBeforeSemicolonsFixer
+        return 1;
+    }
+
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = 1, $count = \count($tokens); $index < $count; ++$index) {
@@ -76,14 +86,9 @@ public function testFoo(): void
                 continue;
             }
 
-            $start = $index - 1;
-
-            // Find the parent method call
-            do {
-                if (!$start = (int) $tokens->getPrevTokenOfKind($start, ['('])) {
-                    continue 2;
-                }
-            } while ('with' !== $tokens[$start - 1]->getContent());
+            if (!$start = $this->findParentMethodStart($tokens, $index - 1)) {
+                continue;
+            }
 
             $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $start);
 
@@ -103,6 +108,17 @@ public function testFoo(): void
         }
     }
 
+    private function findParentMethodStart(Tokens $tokens, int $start): int
+    {
+        do {
+            if (!$start = (int) $tokens->getPrevTokenOfKind($start, ['('])) {
+                return 0;
+            }
+        } while ('with' !== $tokens[$start - 1]->getContent());
+
+        return $start;
+    }
+
     private function addLineBreak(Tokens $tokens, array $argumentsIndexes, int $start, int $end): void
     {
         $indent = $this->getIndent($tokens, $start);
@@ -111,31 +127,15 @@ public function testFoo(): void
             if ($tokens[$argEnd + 1]->equals(',') && false === strpos($tokens[$argEnd + 2]->getContent(), "\n")) {
                 $tokens->offsetSet($argEnd + 2, new Token([T_WHITESPACE, $indent]));
             }
-
-            if (!$functions = $tokens->findGivenKind(T_FUNCTION, $argStart, $argEnd)) {
-                continue;
-            }
-
-            $funcStart = $tokens->getNextTokenOfKind($argStart, ['{']);
-
-            if (false === strpos($tokens[$funcStart + 1]->getContent(), "\n")) {
-                $tokens->insertAt($funcStart, new Token([T_WHITESPACE, $indent]));
-            }
-
-            $funcEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, (int) $funcStart);
-
-            if (false === strpos($tokens[$funcEnd + 1]->getContent(), "\n")) {
-                $tokens->insertAt($funcEnd + 1, new Token([T_WHITESPACE, $indent]));
-            }
         }
 
         $whitespaces = $tokens->findGivenKind(T_WHITESPACE, $start + 2, $end);
 
-        foreach ($whitespaces as $i => $whitespace) {
+        foreach ($whitespaces as $pos => $whitespace) {
             $content = $whitespace->getContent();
 
             if (false !== strpos($content, "\n")) {
-                $tokens->offsetSet($i, new Token([T_WHITESPACE, $content.'    ']));
+                $tokens->offsetSet($pos, new Token([T_WHITESPACE, $content.'    ']));
             }
         }
 
@@ -150,28 +150,15 @@ public function testFoo(): void
     {
         $whitespaces = $tokens->findGivenKind(T_WHITESPACE, $start, $end);
 
-        foreach ($whitespaces as $i => $whitespace) {
+        foreach ($whitespaces as $pos => $whitespace) {
             $content = $whitespace->getContent();
 
             if (false !== strpos($content, "\n")) {
-                $tokens->offsetSet($i, new Token([T_WHITESPACE, substr($content, 0, -4)]));
+                $tokens->offsetSet($pos, new Token([T_WHITESPACE, substr($content, 0, -4)]));
             }
         }
 
         $tokens->clearAt($start + 1);
         $tokens->clearAt($end - 1);
-    }
-
-    private function getIndent(Tokens $tokens, int $index): string
-    {
-        $whitespace = $index;
-
-        do {
-            if (!$whitespace = $tokens->getPrevTokenOfKind($whitespace, [[T_WHITESPACE]])) {
-                return '';
-            }
-        } while (false === strpos($tokens[$whitespace]->getContent(), "\n"));
-
-        return "\n".ltrim($tokens[$whitespace]->getContent(), "\n");
     }
 }

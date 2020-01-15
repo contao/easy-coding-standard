@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -10,6 +12,8 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class MockMethodChainingIndentationFixer extends AbstractFixer
 {
+    use IndentationFixerTrait;
+
     /**
      * @var array
      */
@@ -70,34 +74,39 @@ class SomeTest extends TestCase
 
             $nextMeaningful = $tokens->getNextMeaningfulToken($index);
 
-            // Not a PHPUnit method
-            if (!\in_array($tokens[$nextMeaningful]->getContent(), self::$methods, true)) {
+            if (
+                !$tokens[$nextMeaningful + 1]->equals('(')
+                || !\in_array($tokens[$nextMeaningful]->getContent(), self::$methods, true)
+            ) {
                 continue;
             }
 
-            // Not a method call
-            if (!$tokens[$nextMeaningful + 1]->equals('(')) {
+            $start = $tokens->getPrevTokenOfKind($index, [';', '{']);
+            $end = $tokens->getNextTokenOfKind($index, [';']);
+            $operators = $tokens->findGivenKind(T_OBJECT_OPERATOR, $start, $end);
+
+            // Single method call
+            if (1 === \count($operators)) {
                 continue;
             }
 
-            if ($this->isSingleMethodCall($tokens, $index)) {
-                continue;
+            $shift = 0;
+            $indent = $this->getIndent($tokens, $index);
+
+            foreach (array_keys($operators) as $pos) {
+                $key = $pos + $shift;
+
+                if (!\in_array($tokens[$key + 1]->getContent(), self::$methods, true)) {
+                    continue;
+                }
+
+                if (!$tokens[$key - 1]->isGivenKind(T_WHITESPACE)) {
+                    $tokens->insertAt($key, new Token([T_WHITESPACE, $indent.'    ']));
+                    ++$shift;
+                }
             }
 
-            // The method call is indented already
-            if ($tokens[$index - 1]->isGivenKind(T_WHITESPACE)) {
-                continue;
-            }
-
-            $tokens->insertAt($index, new Token([T_WHITESPACE, "\n"]));
+            $index = $end;
         }
-    }
-
-    private function isSingleMethodCall(Tokens $tokens, int $index): bool
-    {
-        $start = $tokens->getPrevTokenOfKind($index, [';', '{']);
-        $end = $tokens->getNextTokenOfKind($index, [';']);
-
-        return 1 === \count($tokens->findGivenKind(T_OBJECT_OPERATOR, $start, $end));
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -49,24 +51,24 @@ class SomeTest extends TestCase
 
             $nextMeaningful = $tokens->getNextMeaningfulToken($index);
 
-            if ('expects' !== $tokens[$nextMeaningful]->getContent()) {
-                continue;
-            }
-
-            // Not a method call
-            if (!$tokens[$nextMeaningful + 1]->equals('(')) {
+            if (
+                'expects' !== $tokens[$nextMeaningful]->getContent()
+                || !$tokens[$nextMeaningful + 1]->equals('(')
+            ) {
                 continue;
             }
 
             $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextMeaningful + 1);
 
-            if ('($this->any())' === $tokens->generatePartialCode($nextMeaningful + 1, $end)) {
-                if ($tokens[$end + 1]->isGivenKind(T_WHITESPACE)) {
-                    ++$end;
-                }
-
-                $tokens->clearRange($index, $end);
+            if ('($this->any())' !== $tokens->generatePartialCode($nextMeaningful + 1, $end)) {
+                return;
             }
+
+            if ($tokens[$end + 1]->isGivenKind(T_WHITESPACE)) {
+                ++$end;
+            }
+
+            $tokens->clearRange($index, $end);
         }
     }
 }

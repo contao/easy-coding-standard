@@ -46,7 +46,8 @@ if (
     && is_array($array["bar"])
 ) {
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -70,7 +71,8 @@ if (
     && is_array($array["bar"])
 ) {
 }
-EOT,
+EOT
+            ,
         ];
     }
 }

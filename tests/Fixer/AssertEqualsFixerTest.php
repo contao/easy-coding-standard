@@ -41,7 +41,8 @@ class FooTest
         $this->assertEquals([new Foo(), new Bar()], $foo->getObjects());
     }
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -57,7 +58,8 @@ class FooTest
         $this->assertEquals([new Foo(), new Bar()], $foo->getObjects());
     }
 }
-EOT,
+EOT
+            ,
         ];
     }
 }

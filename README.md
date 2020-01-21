@@ -1,5 +1,6 @@
 # EasyCodingStandard configurations for Contao
 
+[![](https://img.shields.io/github/workflow/status/contao/easy-coding-standard/CI/master.svg)](https://github.com/contao/easy-coding-standard/actions)
 [![](https://img.shields.io/packagist/v/contao/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/contao/easy-coding-standard)
 [![](https://img.shields.io/packagist/dt/contao/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/contao/easy-coding-standard)
 

@@ -41,7 +41,8 @@ $array = array_map(
     },
     $array
 );
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -60,7 +61,8 @@ $array = array_map(
     },
     $array
 );
-EOT,
+EOT
+            ,
         ];
 
         yield [
@@ -79,7 +81,8 @@ $array = array_walk(
         return $i;
     }
 );
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -98,7 +101,8 @@ $array = array_walk(
         return $i;
     }
 );
-EOT,
+EOT
+            ,
         ];
     }
 }

@@ -39,7 +39,8 @@ if (is_array($array['foo']) && !empty($array['foo'])) {
 
 if (\is_array($array['foo']) && !empty($array['foo'])) {
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -53,7 +54,8 @@ if (!empty($array['foo']) && is_array($array['foo'])) {
 
 if (!empty($array['foo']) && \is_array($array['foo'])) {
 }
-EOT,
+EOT
+            ,
         ];
     }
 }

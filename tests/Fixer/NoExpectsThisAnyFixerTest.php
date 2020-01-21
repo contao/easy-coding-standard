@@ -42,7 +42,8 @@ class FooTest
             ->willReturn(false);
     }
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -58,7 +59,8 @@ class FooTest
             ->willReturn(false);
     }
 }
-EOT,
+EOT
+            ,
         ];
     }
 }

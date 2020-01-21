@@ -46,7 +46,8 @@ class FooTest
         $foo->method('bar')->with('foo')->willReturnSelf();
     }
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -72,7 +73,8 @@ class FooTest
             ->willReturnSelf();
     }
 }
-EOT,
+EOT
+            ,
         ];
     }
 }

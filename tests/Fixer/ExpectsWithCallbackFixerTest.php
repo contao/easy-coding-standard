@@ -57,7 +57,8 @@ class FooTest
             );
     }
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -85,7 +86,8 @@ class FooTest
             ));
     }
 }
-EOT,
+EOT
+            ,
         ];
 
         yield [
@@ -115,7 +117,8 @@ class FooTest
             ));
     }
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -151,7 +154,8 @@ class FooTest
             );
     }
 }
-EOT,
+EOT
+            ,
         ];
 
         yield [
@@ -181,7 +185,8 @@ class FooTest
             ), $bar);
     }
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -220,7 +225,8 @@ class FooTest
             );
     }
 }
-EOT,
+EOT
+            ,
         ];
 
         yield [
@@ -256,7 +262,8 @@ class FooTest
             ));
     }
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -298,7 +305,8 @@ class FooTest
             );
     }
 }
-EOT,
+EOT
+            ,
         ];
     }
 }

@@ -53,7 +53,8 @@ class Bar
         return function (string $key, $value) { return $key.' '.$value; };
     }
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -74,7 +75,8 @@ class Bar
         return function (string $key, $value) { return $key.' '.$value; };
     }
 }
-EOT,
+EOT
+            ,
         ];
     }
 }

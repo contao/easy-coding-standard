@@ -52,7 +52,8 @@ class SomeCommand extends Command
             );
     }
 }
-EOT,
+EOT
+            ,
             <<<'EOT'
 <?php
 
@@ -70,7 +71,8 @@ class SomeCommand extends Command
             ->addOption('bar', null, InputOption::VALUE_NONE, 'The option');
     }
 }
-EOT,
+EOT
+            ,
         ];
     }
 }

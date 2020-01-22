@@ -9,6 +9,9 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class SetDefinitionCommandSniff implements Sniff
 {
+    /**
+     * @var bool
+     */
     private $isConfigure = false;
 
     public function register(): array

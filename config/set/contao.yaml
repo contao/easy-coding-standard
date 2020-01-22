@@ -140,4 +140,5 @@ services:
     Contao\EasyCodingStandard\Fixer\NoExpectsThisAnyFixer: ~
     Contao\EasyCodingStandard\Fixer\NoLineBreakBetweenMethodArgumentsFixer: ~
     Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer: ~
+    Contao\EasyCodingStandard\Sniffs\ContaoFrameworkClassAliasSniff: ~
     Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff: ~

@@ -49,6 +49,9 @@ services:
         include:
             - '@@compiler_optimized'
 
+    PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer:
+        strategy: new_line_for_chained_calls
+
     # We do not enforce blank lines before "break", "continue" and "yield"
     PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer:
         statements:
@@ -106,7 +109,6 @@ services:
     PhpCsFixer\Fixer\PhpUnit\PhpUnitNoExpectationAnnotationFixer: ~
     PhpCsFixer\Fixer\PhpUnit\PhpUnitOrderedCoversFixer: ~
     PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer: ~
-    PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer: ~
     PhpCsFixer\Fixer\StringNotation\EscapeImplicitBackslashesFixer: ~
     PhpCsFixer\Fixer\StringNotation\HeredocToNowdocFixer: ~
     PhpCsFixer\Fixer\StringNotation\NoBinaryStringFixer: ~

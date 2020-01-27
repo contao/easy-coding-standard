@@ -48,6 +48,11 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
             return false;
         }
 
+        // Skip fully qualified class names
+        if (T_NS_SEPARATOR === $tokens[$index - 1]['code'] && T_STRING === $tokens[$index - 2]['code']) {
+            return false;
+        }
+
         if (!class_exists('Contao\\'.$tokens[$index]['content'])) {
             return false;
         }

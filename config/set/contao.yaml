@@ -1,11 +1,11 @@
 imports:
-    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/php70.yaml' }
-    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/php71.yaml' }
-    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/common.yaml' }
-    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/clean-code.yaml' }
-    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/dead-code.yaml' }
-    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/symfony.yaml' }
-    - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/symfony-risky.yaml' }
+    - { resource: '../../../../symplify/easy-coding-standard/config/set/php70.yaml' }
+    - { resource: '../../../../symplify/easy-coding-standard/config/set/php71.yaml' }
+    - { resource: '../../../../symplify/easy-coding-standard/config/set/common.yaml' }
+    - { resource: '../../../../symplify/easy-coding-standard/config/set/clean-code.yaml' }
+    - { resource: '../../../../symplify/easy-coding-standard/config/set/dead-code.yaml' }
+    - { resource: '../../../../symplify/easy-coding-standard/config/set/symfony.yaml' }
+    - { resource: '../../../../symplify/easy-coding-standard/config/set/symfony-risky.yaml' }
 
 parameters:
     skip:

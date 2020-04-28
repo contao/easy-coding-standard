@@ -122,13 +122,9 @@ services:
     Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: ~
     Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer: ~
     Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer: ~
-    Symplify\CodingStandard\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer: ~
     Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff: ~
     Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: ~
     Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff: ~
-    Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff: ~
-    Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff: ~
-    Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff: ~
 
     # Add custom fixers
     Contao\EasyCodingStandard\Fixer\AssertEqualsFixer: ~

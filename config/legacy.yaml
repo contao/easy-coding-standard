@@ -34,9 +34,6 @@ parameters:
         SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff: ~
         SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff: ~
         SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff: ~
-        Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff: ~
-        Symplify\CodingStandard\Sniffs\Naming\InterfaceNameSniff: ~
-        Symplify\CodingStandard\Sniffs\Naming\TraitNameSniff: ~
 
     indentation: tab
     cache_directory: '%sys_get_temp_dir%/ecs_legacy_cache'

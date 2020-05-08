@@ -72,7 +72,6 @@ services:
         call_type: this
 
     # Add fixers from PHP-CS-Fixer
-    PhpCsFixer\Fixer\Alias\PowToExponentiationFixer: ~
     PhpCsFixer\Fixer\Alias\SetTypeToCastFixer: ~
     PhpCsFixer\Fixer\Casing\LowercaseStaticReferenceFixer: ~
     PhpCsFixer\Fixer\Casing\MagicMethodCasingFixer: ~
@@ -97,6 +96,7 @@ services:
     PhpCsFixer\Fixer\LanguageConstruct\NoUnsetOnPropertyFixer: ~
     PhpCsFixer\Fixer\Operator\LogicalOperatorsFixer: ~
     PhpCsFixer\Fixer\Phpdoc\AlignMultilineCommentFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer: ~
     PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer: ~
     PhpCsFixer\Fixer\Phpdoc\PhpdocVarAnnotationCorrectOrderFixer: ~
     PhpCsFixer\Fixer\PhpTag\LinebreakAfterOpeningTagFixer: ~
@@ -117,14 +117,6 @@ services:
 
     # Add sniffs from https://github.com/slevomat/coding-standard
     SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff: ~
-
-    # Add fixers and sniffs from https://github.com/Symplify/CodingStandard
-    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: ~
-    Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer: ~
-    Symplify\CodingStandard\Fixer\Commenting\RemoveSuperfluousDocBlockWhitespaceFixer: ~
-    Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenParentClassSniff: ~
-    Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff: ~
-    Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff: ~
 
     # Add custom fixers
     Contao\EasyCodingStandard\Fixer\AssertEqualsFixer: ~

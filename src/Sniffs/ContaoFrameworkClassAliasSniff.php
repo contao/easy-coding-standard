@@ -15,7 +15,7 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
         return [T_STRING];
     }
 
-    public function process(File $file, $index)
+    public function process(File $file, $index): void
     {
         $tokens = $file->getTokens();
 

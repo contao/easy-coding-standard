@@ -123,7 +123,7 @@ public function testFoo(): void
     {
         $indent = $this->getIndent($tokens, $start);
 
-        foreach ($argumentsIndexes as $argStart => $argEnd) {
+        foreach ($argumentsIndexes as $argEnd) {
             if ($tokens[$argEnd + 1]->equals(',') && false === strpos($tokens[$argEnd + 2]->getContent(), "\n")) {
                 $tokens->offsetSet($argEnd + 2, new Token([T_WHITESPACE, $indent]));
             }

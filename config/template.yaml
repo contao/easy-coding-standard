@@ -18,4 +18,7 @@ parameters:
         PhpCsFixer\Fixer\Strict\StrictComparisonFixer: ~
         PhpCsFixer\Fixer\Strict\StrictParamFixer: ~
 
+        # Do not require use statements in templates
+        SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff: ~
+
     cache_directory: '%sys_get_temp_dir%/ecs_template_cache'

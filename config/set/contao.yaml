@@ -49,6 +49,11 @@ services:
         include:
             - '@@compiler_optimized'
 
+    PhpCsFixer\Fixer\Import\GlobalNamespaceImportFixer:
+        import_classes: false
+        import_constants: false
+        import_functions: false
+
     PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer:
         strategy: new_line_for_chained_calls
 
@@ -116,6 +121,14 @@ services:
     PhpCsFixer\Fixer\StringNotation\StringLineEndingFixer: ~
 
     # Add sniffs from https://github.com/slevomat/coding-standard
+    SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
+        searchAnnotations: true
+        allowFullyQualifiedNameForCollidingClasses: true
+        allowFullyQualifiedGlobalClasses: true
+        allowFullyQualifiedGlobalFunctions: true
+        allowFullyQualifiedGlobalConstants: true
+        allowPartialUses: false
+
     SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff: ~
 
     # Add custom fixers

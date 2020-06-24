@@ -61,7 +61,7 @@ class SomeTest extends TestCase
             $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextMeaningful + 1);
 
             if ('($this->any())' !== $tokens->generatePartialCode($nextMeaningful + 1, $end)) {
-                return;
+                continue;
             }
 
             if ($tokens[$end + 1]->isGivenKind(T_WHITESPACE)) {

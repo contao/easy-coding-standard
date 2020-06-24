@@ -31,12 +31,8 @@ class NoLineBreaksBetweenMethodArgumentsFixerTest extends TestCase
 
 class Foo
 {
-    public function bar(
-        FooService $fooService,
-        BarService $barService,
-        array $options = [],
-        Logger $logger = null
-    ): Generator {
+    public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
+    {
         return function (
             string $key,
             $value
@@ -48,8 +44,12 @@ class Foo
 
 class Bar
 {
-    public function foo(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
-    {
+    public function foo(
+        FooService $fooService,
+        BarService $barService,
+        array $options = [],
+        Logger $logger = null
+    ): Generator {
         return function (string $key, $value) { return $key.' '.$value; };
     }
 }

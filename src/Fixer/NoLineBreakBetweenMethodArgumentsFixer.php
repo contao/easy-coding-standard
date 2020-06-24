@@ -78,7 +78,7 @@ class Foo
             $index = $end + 1;
 
             if ($isLambda) {
-                return;
+                continue;
             }
 
             $bodyStart = $tokens->getNextTokenOfKind($index, ['{', ';']);

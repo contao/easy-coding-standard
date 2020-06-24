@@ -37,6 +37,10 @@ class FooTest
         $foo->expects($this->any())->method('bar');
 
         $foo
+            ->expects($this->once())
+            ->method('bar');
+
+        $foo
             ->expects($this->any())
             ->method('bar')
             ->willReturn(false);
@@ -53,6 +57,10 @@ class FooTest
     {
         $foo = $this->createMock(Foo::class);
         $foo->method('bar');
+
+        $foo
+            ->expects($this->once())
+            ->method('bar');
 
         $foo
             ->method('bar')

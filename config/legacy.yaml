@@ -8,7 +8,12 @@ parameters:
         - '*/themes/*'
 
     skip:
+        Contao\EasyCodingStandard\Fixer\AssertEqualsFixer: ~
+        Contao\EasyCodingStandard\Fixer\ExpectsWithCallbackFixer: ~
+        Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer: ~
         Contao\EasyCodingStandard\Fixer\MultiLineLambdaFunctionArgumentsFixer: ~
+        Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer: ~
+        Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff: ~
         PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer: ~
         PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer: ~
         PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:  ~
@@ -23,6 +28,19 @@ parameters:
         PhpCsFixer\Fixer\Phpdoc\PhpdocSeparationFixer: ~
         PhpCsFixer\Fixer\Phpdoc\PhpdocSummaryFixer: ~
         PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitConstructFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertInternalTypeFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitExpectationFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitMockFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitMockShortWillReturnFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitNamespacedFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitNoExpectationAnnotationFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitSetUpTearDownVisibilityFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitTestAnnotationFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitTestCaseStaticMethodCallsFixer: ~
         PhpCsFixer\Fixer\ReturnNotation\ReturnAssignmentFixer: ~
         PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer: ~
         PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer: ~

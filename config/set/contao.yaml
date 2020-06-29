@@ -28,6 +28,9 @@ parameters:
         # We do not require null default values to be nullable (see php71.yaml)
         SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff: ~
 
+        # This fixer takes pretty long to execute, so disable it (see symfony-risky.yaml)
+        PhpCsFixer\Fixer\LanguageConstruct\SilencedDeprecationErrorFixer: ~
+
 services:
     PhpCsFixer\Fixer\Comment\HeaderCommentFixer:
         header: "This file is part of Contao.\n\n(c) Leo Feyer\n\n@license LGPL-3.0-or-later"
@@ -83,12 +86,10 @@ services:
     PhpCsFixer\Fixer\Casing\NativeFunctionTypeDeclarationCasingFixer: ~
     PhpCsFixer\Fixer\CastNotation\NoUnsetCastFixer: ~
     PhpCsFixer\Fixer\ClassNotation\NoNullPropertyInitializationFixer: ~
-    PhpCsFixer\Fixer\Comment\MultilineCommentOpeningClosingFixer: ~
     PhpCsFixer\Fixer\ControlStructure\IncludeFixer: ~
     PhpCsFixer\Fixer\ControlStructure\NoAlternativeSyntaxFixer: ~
     PhpCsFixer\Fixer\ControlStructure\NoSuperfluousElseifFixer: ~
     PhpCsFixer\Fixer\FunctionNotation\CombineNestedDirnameFixer: ~
-    PhpCsFixer\Fixer\FunctionNotation\FopenFlagOrderFixer: ~
     PhpCsFixer\Fixer\FunctionNotation\ImplodeCallFixer: ~
     PhpCsFixer\Fixer\FunctionNotation\NoUnreachableDefaultArgumentValueFixer: ~
     PhpCsFixer\Fixer\FunctionNotation\SingleLineThrowFixer: ~
@@ -97,7 +98,6 @@ services:
     PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer: ~
     PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveIssetsFixer: ~
     PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer: ~
-    PhpCsFixer\Fixer\LanguageConstruct\ErrorSuppressionFixer: ~
     PhpCsFixer\Fixer\LanguageConstruct\NoUnsetOnPropertyFixer: ~
     PhpCsFixer\Fixer\Operator\LogicalOperatorsFixer: ~
     PhpCsFixer\Fixer\Phpdoc\AlignMultilineCommentFixer: ~
@@ -112,12 +112,10 @@ services:
     PhpCsFixer\Fixer\PhpUnit\PhpUnitMockShortWillReturnFixer: ~
     PhpCsFixer\Fixer\PhpUnit\PhpUnitNamespacedFixer: ~
     PhpCsFixer\Fixer\PhpUnit\PhpUnitNoExpectationAnnotationFixer: ~
-    PhpCsFixer\Fixer\PhpUnit\PhpUnitOrderedCoversFixer: ~
     PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer: ~
     PhpCsFixer\Fixer\StringNotation\EscapeImplicitBackslashesFixer: ~
     PhpCsFixer\Fixer\StringNotation\HeredocToNowdocFixer: ~
     PhpCsFixer\Fixer\StringNotation\NoBinaryStringFixer: ~
-    PhpCsFixer\Fixer\StringNotation\SimpleToComplexStringVariableFixer: ~
     PhpCsFixer\Fixer\StringNotation\StringLineEndingFixer: ~
 
     # Add sniffs from https://github.com/slevomat/coding-standard

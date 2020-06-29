@@ -6,6 +6,14 @@ parameters:
         - html5
 
     skip:
+        Contao\EasyCodingStandard\Fixer\AssertEqualsFixer: ~
+        Contao\EasyCodingStandard\Fixer\ExpectsWithCallbackFixer: ~
+        Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer: ~
+        Contao\EasyCodingStandard\Fixer\MultiLineLambdaFunctionArgumentsFixer: ~
+        Contao\EasyCodingStandard\Fixer\NoExpectsThisAnyFixer: ~
+        Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer: ~
+        Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff: ~
+        PhpCsFixer\Fixer\Basic\Psr4Fixer: ~
         PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:  ~
         PhpCsFixer\Fixer\Comment\HeaderCommentFixer: ~
         PhpCsFixer\Fixer\ControlStructure\NoAlternativeSyntaxFixer: ~
@@ -13,12 +21,53 @@ parameters:
         PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\PhpTag\LinebreakAfterOpeningTagFixer: ~
         PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\AlignMultilineCommentFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocAnnotationWithoutDotFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocInlineTagFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocNoAccessFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocNoAliasTagFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocNoPackageFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocNoUselessInheritdocFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocScalarFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocSeparationFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocSingleLineVarSpacingFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocSummaryFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocTrimConsecutiveBlankLineSeparationFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocVarAnnotationCorrectOrderFixer: ~
+        PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitConstructFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertInternalTypeFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitExpectationFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitMockFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitMockShortWillReturnFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitNamespacedFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitNoExpectationAnnotationFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitSetUpTearDownVisibilityFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitTestAnnotationFixer: ~
+        PhpCsFixer\Fixer\PhpUnit\PhpUnitTestCaseStaticMethodCallsFixer: ~
         PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer: ~
         PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer: ~
         PhpCsFixer\Fixer\Strict\StrictComparisonFixer: ~
         PhpCsFixer\Fixer\Strict\StrictParamFixer: ~
-
-        # Do not require use statements in templates
+        SlevomatCodingStandard\Sniffs\Classes\TraitUseDeclarationSniff: ~
+        SlevomatCodingStandard\Sniffs\Classes\TraitUseSpacingSniff: ~
+        SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff: ~
         SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff: ~
+        SlevomatCodingStandard\Sniffs\Namespaces\UselessAliasSniff: ~
 
     cache_directory: '%sys_get_temp_dir%/ecs_template_cache'

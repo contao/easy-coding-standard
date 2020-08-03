@@ -127,6 +127,9 @@ services:
         allowFullyQualifiedGlobalConstants: true
         allowPartialUses: false
 
+    SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff:
+        searchAnnotations: true
+
     SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff: ~
 
     # Add custom fixers

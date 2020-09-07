@@ -121,6 +121,7 @@ services:
     # Add custom fixers
     Contao\EasyCodingStandard\Fixer\AssertEqualsFixer: ~
     Contao\EasyCodingStandard\Fixer\ExpectsWithCallbackFixer: ~
+    Contao\EasyCodingStandard\Fixer\InlinePhpdocCommentFixer: ~
     Contao\EasyCodingStandard\Fixer\IsArrayNotEmptyFixer: ~
     Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer: ~
     Contao\EasyCodingStandard\Fixer\MultiLineIfIndentationFixer: ~

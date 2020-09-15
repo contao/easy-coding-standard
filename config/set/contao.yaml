@@ -31,6 +31,8 @@ parameters:
         # This fixer takes pretty long to execute, so disable it (see symfony-risky.yaml)
         PhpCsFixer\Fixer\LanguageConstruct\SilencedDeprecationErrorFixer: ~
 
+    line_ending: "\n"
+
 services:
     PhpCsFixer\Fixer\Comment\HeaderCommentFixer:
         header: "This file is part of Contao.\n\n(c) Leo Feyer\n\n@license LGPL-3.0-or-later"

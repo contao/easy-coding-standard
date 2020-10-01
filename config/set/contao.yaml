@@ -28,6 +28,8 @@ parameters:
         # We do not require null default values to be nullable (see php71.yaml)
         SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff: ~
 
+    line_ending: "\n"
+
 services:
     PhpCsFixer\Fixer\Comment\HeaderCommentFixer:
         header: "This file is part of Contao.\n\n(c) Leo Feyer\n\n@license LGPL-3.0-or-later"

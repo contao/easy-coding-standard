@@ -13,6 +13,7 @@ use PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
+use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
@@ -28,6 +29,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         LinebreakAfterOpeningTagFixer::class => null,
         NoAlternativeSyntaxFixer::class => null,
         NoShortEchoTagFixer::class => null,
+        ReferenceUsedNamesOnlySniff::class => null,
         SemicolonAfterInstructionFixer::class => null,
         StrictComparisonFixer::class => null,
         StrictParamFixer::class => null,

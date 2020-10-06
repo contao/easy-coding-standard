@@ -1,8 +1,0 @@
-imports:
-    - { resource: set/contao.yaml }
-
-parameters:
-    skip:
-        PhpCsFixer\Fixer\Comment\HeaderCommentFixer: ~
-
-    cache_directory: '%sys_get_temp_dir%/ecs_self_cache'

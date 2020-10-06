@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": "^7.2",
-        "symplify/coding-standard": "^7.1",
-        "symplify/easy-coding-standard": "^7.1"
+        "symplify/coding-standard": "^8.3",
+        "symplify/easy-coding-standard": "^8.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.4"
@@ -26,5 +26,17 @@
         "psr-4": {
             "Contao\\EasyCodingStandard\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "all": [
+            "@unit-tests",
+            "@cs-fixer"
+        ],
+        "cs-fixer": [
+            "vendor/bin/ecs check config src tests --config config/self.php --fix --ansi"
+        ],
+        "unit-tests": [
+            "vendor/bin/phpunit --colors=always"
+        ]
     }
 }

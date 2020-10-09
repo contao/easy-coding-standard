@@ -17,7 +17,7 @@ composer require contao/easy-coding-standard
 ## Usage
 
 ```
-vendor/bin/ecs check *-bundle/src *-bundle/tests --config vendor/bin/contao/easy-coding-standard/config/default.yaml
+vendor/bin/ecs check src tests --config vendor/contao/easy-coding-standard/config/default.yaml
 ```
 
 ## License

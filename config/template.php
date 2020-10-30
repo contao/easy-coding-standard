@@ -6,6 +6,7 @@ use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoAlternativeSyntaxFixer;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
+use PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
 use PhpCsFixer\Fixer\PhpTag\LinebreakAfterOpeningTagFixer;
 use PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer;
@@ -35,6 +36,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         StrictParamFixer::class => null,
         VisibilityRequiredFixer::class => null,
         VoidReturnFixer::class => null,
+
+        // Temporarily disable the fixer until https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/5225 has been merged
+        TernaryOperatorSpacesFixer::class => null,
     ]);
 
     $parameters->set(Option::FILE_EXTENSIONS, ['html5']);

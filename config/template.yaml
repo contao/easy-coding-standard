@@ -70,4 +70,7 @@ parameters:
         SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff: ~
         SlevomatCodingStandard\Sniffs\Namespaces\UselessAliasSniff: ~
 
+        # Temporarily disable the fixer until https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/5225 has been merged
+        PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer: ~
+
     cache_directory: '%sys_get_temp_dir%/ecs_template_cache'

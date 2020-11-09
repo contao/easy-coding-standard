@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterSingleEchoInstructionFixer;
+use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterShortEchoTagFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoAlternativeSyntaxFixer;
@@ -47,5 +47,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services = $containerConfigurator->services();
 
-    $services->set(NoSemicolonAfterSingleEchoInstructionFixer::class);
+    $services->set(NoSemicolonAfterShortEchoTagFixer::class);
 };

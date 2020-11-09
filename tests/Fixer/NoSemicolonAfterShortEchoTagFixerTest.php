@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Contao\EasyCodingStandard\Tests\Fixer;
 
-use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterSingleEchoInstructionFixer;
+use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterShortEchoTagFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 
-class NoSemicolonAfterSingleEchoInstructionFixerTest extends TestCase
+class NoSemicolonAfterShortEchoTagFixerTest extends TestCase
 {
     /**
      * @dataProvider getCodeSamples
@@ -17,7 +17,7 @@ class NoSemicolonAfterSingleEchoInstructionFixerTest extends TestCase
     {
         $tokens = Tokens::fromCode($code);
 
-        $fixer = new NoSemicolonAfterSingleEchoInstructionFixer();
+        $fixer = new NoSemicolonAfterShortEchoTagFixer();
         $fixer->fix($this->createMock('SplFileInfo'), $tokens);
 
         $this->assertSame($expected, $tokens->generateCode());
@@ -55,7 +55,7 @@ EOT
             <<<'EOT'
 <?= $this->a ?>
 <?= $this->b ?>
-<?php echo $c ?>
+<?php echo $c; ?>
 <?php echo $d ?>
 
 <?php $foo = 'bar'; ?>

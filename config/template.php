@@ -46,6 +46,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir().'/ecs_template_cache');
 
     $services = $containerConfigurator->services();
-
     $services->set(NoSemicolonAfterShortEchoTagFixer::class);
 };

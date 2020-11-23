@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterShortEchoTagFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoAlternativeSyntaxFixer;
@@ -43,4 +44,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::FILE_EXTENSIONS, ['html5']);
     $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir().'/ecs_template_cache');
+
+    $services = $containerConfigurator->services();
+    $services->set(NoSemicolonAfterShortEchoTagFixer::class);
 };

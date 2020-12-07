@@ -12,6 +12,7 @@ parameters:
         PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer: ~
         PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer: ~
         PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:  ~
+        PhpCsFixer\Fixer\ControlStructure\NoBreakCommentFixer: ~
         PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer: ~
         PhpCsFixer\Fixer\FunctionNotation\NoSpacesAfterFunctionNameFixer: ~
         PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer: ~

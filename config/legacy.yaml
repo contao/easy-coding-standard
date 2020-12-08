@@ -8,6 +8,9 @@ parameters:
         - '*/themes/*'
 
     skip:
+        PhpCsFixer\Fixer\Basic\Psr4Fixer:
+            - '*/dca/*'
+
         Contao\EasyCodingStandard\Fixer\MultiLineLambdaFunctionArgumentsFixer: ~
         PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer: ~
         PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer: ~

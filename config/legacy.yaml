@@ -8,6 +8,9 @@ parameters:
         - '*/themes/*'
 
     skip:
+        PhpCsFixer\Fixer\Basic\Psr4Fixer:
+            - '*/dca/*'
+
         Contao\EasyCodingStandard\Fixer\AssertEqualsFixer: ~
         Contao\EasyCodingStandard\Fixer\ExpectsWithCallbackFixer: ~
         Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer: ~

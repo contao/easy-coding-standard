@@ -42,6 +42,7 @@ use PhpCsFixer\Fixer\Phpdoc\AlignMultilineCommentFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocVarAnnotationCorrectOrderFixer;
 use PhpCsFixer\Fixer\PhpTag\LinebreakAfterOpeningTagFixer;
 use PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer;
@@ -136,6 +137,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set(MultilineWhitespaceBeforeSemicolonsFixer::class)
         ->call('configure', [[
             'strategy' => 'new_line_for_chained_calls',
+        ]])
+    ;
+
+    $services
+        ->set(PhpdocTypesFixer::class)
+        ->call('configure', [[
+            'groups' => ['simple', 'meta'],
         ]])
     ;
 

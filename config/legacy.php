@@ -46,7 +46,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::SKIP, [
         Psr4Fixer::class => [
-            '*/dca/*'
+            '*/dca/*',
         ],
         BinaryOperatorSpacesFixer::class => null,
         DeclareStrictTypesFixer::class => null,

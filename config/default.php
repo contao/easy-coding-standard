@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
+use SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
@@ -16,6 +17,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/Fixtures/system/*',
         MethodChainingIndentationFixer::class => [
             '*/DependencyInjection/Configuration.php',
+        ],
+        UnusedVariableSniff::class => [
+            'core-bundle/tests/Session/Attribute/ArrayAttributeBagTest.php',
         ],
     ]);
 

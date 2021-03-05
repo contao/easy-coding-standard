@@ -31,6 +31,11 @@ use PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer;
+use SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff;
+use SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff;
+use SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff;
+use SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff;
+use SlevomatCodingStandard\Sniffs\Whitespaces\DuplicateSpacesSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
@@ -48,6 +53,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
         BinaryOperatorSpacesFixer::class => null,
         DeclareStrictTypesFixer::class => null,
+        DisallowArrayTypeHintSyntaxSniff::class => null,
+        DuplicateSpacesSniff::class => null,
         IncrementStyleFixer::class => null,
         MethodChainingIndentationFixer::class => null,
         MultiLineLambdaFunctionArgumentsFixer::class => null,
@@ -65,6 +72,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         StrictComparisonFixer::class => null,
         StrictParamFixer::class => null,
         TrailingCommaInMultilineArrayFixer::class => null,
+        UnusedVariableSniff::class => null,
+        UselessParenthesesSniff::class => null,
+        UselessVariableSniff::class => null,
         VisibilityRequiredFixer::class => null,
         VoidReturnFixer::class => null,
         YodaStyleFixer::class => null,

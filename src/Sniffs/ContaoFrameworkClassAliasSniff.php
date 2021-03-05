@@ -6,7 +6,6 @@ namespace Contao\EasyCodingStandard\Sniffs;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use SlevomatCodingStandard\Helpers\TokenHelper;
 
 final class ContaoFrameworkClassAliasSniff implements Sniff
 {
@@ -15,27 +14,27 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
         return [T_STRING];
     }
 
-    public function process(File $file, $index): void
+    public function process(File $phpcsFile, $stackPtr): void
     {
-        $tokens = $file->getTokens();
+        $tokens = $phpcsFile->getTokens();
 
-        if (T_STRING !== $tokens[$index]['code'] || !$this->isContaoClass($tokens, $index)) {
+        if (T_STRING !== $tokens[$stackPtr]['code'] || !$this->isContaoClass($tokens, $stackPtr)) {
             return;
         }
 
-        if (T_NS_SEPARATOR !== $tokens[$index - 1]['code'] && $this->isNamespaced($file)) {
+        if (T_NS_SEPARATOR !== $tokens[$stackPtr - 1]['code'] && $this->isNamespaced($phpcsFile)) {
             return;
         }
 
-        if (T_NS_SEPARATOR === $tokens[$index - 1]['code'] && 'Contao' === $tokens[$index - 2]['content']) {
+        if (T_NS_SEPARATOR === $tokens[$stackPtr - 1]['code'] && 'Contao' === $tokens[$stackPtr - 2]['content']) {
             return;
         }
 
-        if ($this->hasUse($file, 'Contao\\'.$tokens[$index]['content'])) {
+        if ($this->hasUse($phpcsFile, 'Contao\\'.$tokens[$stackPtr]['content'])) {
             return;
         }
 
-        $file->addError(sprintf('Using the aliased class "%1$s" is deprecated. Use the original class "Contao\%1$s" instead.', $tokens[$index]['content']), $index, self::class);
+        $phpcsFile->addError(sprintf('Using the aliased class "%1$s" is deprecated. Use the original class "Contao\%1$s" instead.', $tokens[$stackPtr]['content']), $stackPtr, self::class);
     }
 
     private function isContaoClass(array $tokens, int $index): bool
@@ -62,19 +61,19 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
 
     private function isNamespaced(File $file): bool
     {
-        $end = TokenHelper::findNext($file, T_USE, 0);
+        $end = $this->findNext($file, T_USE, 0);
 
-        return (bool) TokenHelper::findNext($file, T_NAMESPACE, 0, $end);
+        return (bool) $this->findNext($file, T_NAMESPACE, 0, $end);
     }
 
     private function hasUse(File $file, string $class): bool
     {
-        $end = TokenHelper::findNext($file, [T_CLASS, T_INTERFACE, T_TRAIT], 0);
-        $uses = TokenHelper::findNextAll($file, T_USE, 0, $end);
+        $end = $this->findNext($file, [T_CLASS, T_INTERFACE, T_TRAIT], 0);
+        $uses = $this->findNextAll($file, T_USE, 0, $end);
 
         foreach ($uses as $use) {
-            $end = TokenHelper::findNext($file, T_SEMICOLON, $use + 2);
-            $fqcn = TokenHelper::getContent($file, $use + 2, $end - 1);
+            $end = $this->findNext($file, T_SEMICOLON, $use + 2);
+            $fqcn = $this->getContent($file, $use + 2, $end - 1);
 
             if ($fqcn === $class) {
                 return true;
@@ -82,5 +81,55 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
         }
 
         return false;
+    }
+
+    private function findNext(File $phpcsFile, $types, int $startPointer, ?int $endPointer = null): ?int
+    {
+        $token = $phpcsFile->findNext($types, $startPointer, $endPointer, false);
+
+        return false === $token ? null : $token;
+    }
+
+    private function findNextAll(File $phpcsFile, $types, int $startPointer, ?int $endPointer = null): array
+    {
+        $pointers = [];
+        $actualStartPointer = $startPointer;
+
+        while (true) {
+            $pointer = $this->findNext($phpcsFile, $types, $actualStartPointer, $endPointer);
+
+            if (null === $pointer) {
+                break;
+            }
+
+            $pointers[] = $pointer;
+            $actualStartPointer = $pointer + 1;
+        }
+
+        return $pointers;
+    }
+
+    private function getContent(File $phpcsFile, int $startPointer, ?int $endPointer = null): string
+    {
+        $tokens = $phpcsFile->getTokens();
+        $endPointer = $endPointer ?? $this->getLastTokenPointer($phpcsFile);
+        $content = '';
+
+        for ($i = $startPointer; $i <= $endPointer; ++$i) {
+            $content .= $tokens[$i]['content'];
+        }
+
+        return $content;
+    }
+
+    private function getLastTokenPointer(File $phpcsFile): int
+    {
+        $tokenCount = \count($phpcsFile->getTokens());
+
+        if (0 === $tokenCount) {
+            throw new \LogicException('Empty file: '.$phpcsFile->getFilename());
+        }
+
+        return $tokenCount - 1;
     }
 }

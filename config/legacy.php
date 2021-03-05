@@ -31,11 +31,6 @@ use PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer;
-use SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff;
-use SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff;
-use SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff;
-use SlevomatCodingStandard\Sniffs\Whitespaces\DuplicateSpacesSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
@@ -45,13 +40,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::SKIP, [
+        '*/languages/*',
+        '*/templates/*',
+        '*/themes/*',
         Psr4Fixer::class => [
             '*/dca/*',
         ],
         BinaryOperatorSpacesFixer::class => null,
         DeclareStrictTypesFixer::class => null,
-        DisallowArrayTypeHintSyntaxSniff::class => null,
-        DuplicateSpacesSniff::class => null,
         IncrementStyleFixer::class => null,
         MethodChainingIndentationFixer::class => null,
         MultiLineLambdaFunctionArgumentsFixer::class => null,
@@ -69,9 +65,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         StrictComparisonFixer::class => null,
         StrictParamFixer::class => null,
         TrailingCommaInMultilineArrayFixer::class => null,
-        UnusedVariableSniff::class => null,
-        UselessParenthesesSniff::class => null,
-        UselessVariableSniff::class => null,
         VisibilityRequiredFixer::class => null,
         VoidReturnFixer::class => null,
         YodaStyleFixer::class => null,
@@ -79,7 +72,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::INDENTATION, 'tab');
     $parameters->set(Option::LINE_ENDING, "\n");
-    $parameters->set(Option::EXCLUDE_PATHS, ['*/languages/*', '*/templates/*', '*/themes/*']);
     $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir().'/ecs_legacy_cache');
 
     $services = $containerConfigurator->services();

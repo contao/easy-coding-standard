@@ -37,22 +37,23 @@ use PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\NoUnsetOnPropertyFixer;
 use PhpCsFixer\Fixer\ListNotation\ListSyntaxFixer;
 use PhpCsFixer\Fixer\Operator\LogicalOperatorsFixer;
+use PhpCsFixer\Fixer\Operator\TernaryToElvisOperatorFixer;
 use PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer;
 use PhpCsFixer\Fixer\Phpdoc\AlignMultilineCommentFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocOrderByValueFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocVarAnnotationCorrectOrderFixer;
+use PhpCsFixer\Fixer\PhpTag\EchoTagSyntaxFixer;
 use PhpCsFixer\Fixer\PhpTag\LinebreakAfterOpeningTagFixer;
-use PhpCsFixer\Fixer\PhpTag\NoShortEchoTagFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertInternalTypeFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitExpectationFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitMockFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitNamespacedFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitNoExpectationAnnotationFixer;
-use PhpCsFixer\Fixer\PhpUnit\PhpUnitOrderedCoversFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitSetUpTearDownVisibilityFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestAnnotationFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestCaseStaticMethodCallsFixer;
@@ -71,23 +72,6 @@ use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Whitespace\CompactNullableTypehintFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
-use SlevomatCodingStandard\Sniffs\Classes\DisallowMultiConstantDefinitionSniff;
-use SlevomatCodingStandard\Sniffs\Classes\ModernClassNameReferenceSniff;
-use SlevomatCodingStandard\Sniffs\Classes\TraitUseDeclarationSniff;
-use SlevomatCodingStandard\Sniffs\Classes\TraitUseSpacingSniff;
-use SlevomatCodingStandard\Sniffs\Commenting\EmptyCommentSniff;
-use SlevomatCodingStandard\Sniffs\ControlStructures\RequireShortTernaryOperatorSniff;
-use SlevomatCodingStandard\Sniffs\Functions\UnusedInheritedVariablePassedToClosureSniff;
-use SlevomatCodingStandard\Sniffs\Namespaces\UselessAliasSniff;
-use SlevomatCodingStandard\Sniffs\Operators\RequireCombinedAssignmentOperatorSniff;
-use SlevomatCodingStandard\Sniffs\PHP\DisallowDirectMagicInvokeCallSniff;
-use SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff;
-use SlevomatCodingStandard\Sniffs\PHP\UselessSemicolonSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\NullTypeHintOnLastPositionSniff;
-use SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff;
-use SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff;
-use SlevomatCodingStandard\Sniffs\Whitespaces\DuplicateSpacesSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
@@ -113,8 +97,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ;
 
     $services
-        ->set(DuplicateSpacesSniff::class)
-        ->property('ignoreSpacesInAnnotation', true)
+        ->set(EchoTagSyntaxFixer::class)
+        ->call('configure', [[
+            'format' => 'short',
+        ]])
     ;
 
     $services
@@ -165,14 +151,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->property('ignoreBlankLines', false)
     ;
 
-    $services
-        ->set(TraitUseSpacingSniff::class)
-        ->property('linesCountAfterLastUse', 1)
-        ->property('linesCountAfterLastUseWhenLastInClass', 0)
-        ->property('linesCountBeforeFirstUse', 0)
-        ->property('linesCountBetweenUses', 0)
-    ;
-
     $services->set(AlignMultilineCommentFixer::class);
     $services->set(ArrayIndentationFixer::class);
     $services->set(BlankLineAfterStrictTypesFixer::class);
@@ -181,9 +159,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(CombineNestedDirnameFixer::class);
     $services->set(CompactNullableTypehintFixer::class);
     $services->set(DeclareStrictTypesFixer::class);
-    $services->set(DisallowDirectMagicInvokeCallSniff::class);
-    $services->set(DisallowMultiConstantDefinitionSniff::class);
-    $services->set(EmptyCommentSniff::class);
     $services->set(EscapeImplicitBackslashesFixer::class);
     $services->set(FullyQualifiedStrictTypesFixer::class);
     $services->set(GitMergeConflictSniff::class);
@@ -192,19 +167,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(LinebreakAfterOpeningTagFixer::class);
     $services->set(LogicalOperatorsFixer::class);
     $services->set(MethodChainingIndentationFixer::class);
-    $services->set(ModernClassNameReferenceSniff::class);
     $services->set(MultilineCommentOpeningClosingFixer::class);
     $services->set(NoAlternativeSyntaxFixer::class);
     $services->set(NoBinaryStringFixer::class);
     $services->set(NoNullPropertyInitializationFixer::class);
-    $services->set(NoShortEchoTagFixer::class);
     $services->set(NoSuperfluousElseifFixer::class);
     $services->set(NoUnreachableDefaultArgumentValueFixer::class);
     $services->set(NoUnsetCastFixer::class);
     $services->set(NoUnsetOnPropertyFixer::class);
     $services->set(NoUselessElseFixer::class);
     $services->set(NoUselessReturnFixer::class);
-    $services->set(NullTypeHintOnLastPositionSniff::class);
     $services->set(OrderedClassElementsFixer::class);
     $services->set(ParamReturnAndVarTagMalformsFixer::class);
     $services->set(PhpdocLineSpanFixer::class);
@@ -217,30 +189,19 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpUnitMockFixer::class);
     $services->set(PhpUnitNamespacedFixer::class);
     $services->set(PhpUnitNoExpectationAnnotationFixer::class);
-    $services->set(PhpUnitOrderedCoversFixer::class);
+    $services->set(PhpdocOrderByValueFixer::class);
     $services->set(PhpUnitSetUpTearDownVisibilityFixer::class);
     $services->set(PhpUnitTestAnnotationFixer::class);
     $services->set(ProtectedToPrivateFixer::class);
     $services->set(ReturnAssignmentFixer::class);
-    $services->set(RequireCombinedAssignmentOperatorSniff::class);
-    $services->set(RequireShortTernaryOperatorSniff::class);
     $services->set(SimpleToComplexStringVariableFixer::class);
     $services->set(StaticLambdaFixer::class);
     $services->set(StrictComparisonFixer::class);
     $services->set(StrictParamFixer::class);
     $services->set(StringLineEndingFixer::class);
+    $services->set(TernaryToElvisOperatorFixer::class);
     $services->set(TernaryToNullCoalescingFixer::class);
-    $services->set(TraitUseDeclarationSniff::class);
-    $services->set(UnusedInheritedVariablePassedToClosureSniff::class);
-    $services->set(UnusedVariableSniff::class);
-    $services->set(UselessAliasSniff::class);
-    $services->set(UselessParenthesesSniff::class);
-    $services->set(UselessSemicolonSniff::class);
-    $services->set(UselessVariableSniff::class);
     $services->set(VoidReturnFixer::class);
-
-    // Add sniffs from https://github.com/slevomat/coding-standard
-    $services->set(DisallowArrayTypeHintSyntaxSniff::class);
 
     // Add custom fixers
     $services->set(AssertEqualsFixer::class);

@@ -45,6 +45,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::SKIP, [
+        '*/languages/*',
+        '*/templates/*',
+        '*/themes/*',
         Psr4Fixer::class => [
             '*/dca/*',
         ],
@@ -79,7 +82,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::INDENTATION, 'tab');
     $parameters->set(Option::LINE_ENDING, "\n");
-    $parameters->set(Option::EXCLUDE_PATHS, ['*/languages/*', '*/templates/*', '*/themes/*']);
     $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir().'/ecs_legacy_cache');
 
     $services = $containerConfigurator->services();

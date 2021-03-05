@@ -13,6 +13,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::SKIP, [
+        '*/Resources/*',
+        '*/Fixtures/system/*',
         MethodChainingIndentationFixer::class => [
             '*/DependencyInjection/Configuration.php',
         ],
@@ -22,6 +24,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::LINE_ENDING, "\n");
-    $parameters->set(Option::EXCLUDE_PATHS, ['*/Resources/*', '*/Fixtures/system/*']);
     $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir().'/ecs_default_cache');
 };

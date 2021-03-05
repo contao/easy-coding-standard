@@ -15,27 +15,27 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
         return [T_STRING];
     }
 
-    public function process(File $file, $index): void
+    public function process(File $phpcsFile, $stackPtr): void
     {
-        $tokens = $file->getTokens();
+        $tokens = $phpcsFile->getTokens();
 
-        if (T_STRING !== $tokens[$index]['code'] || !$this->isContaoClass($tokens, $index)) {
+        if (T_STRING !== $tokens[$stackPtr]['code'] || !$this->isContaoClass($tokens, $stackPtr)) {
             return;
         }
 
-        if (T_NS_SEPARATOR !== $tokens[$index - 1]['code'] && $this->isNamespaced($file)) {
+        if (T_NS_SEPARATOR !== $tokens[$stackPtr - 1]['code'] && $this->isNamespaced($phpcsFile)) {
             return;
         }
 
-        if (T_NS_SEPARATOR === $tokens[$index - 1]['code'] && 'Contao' === $tokens[$index - 2]['content']) {
+        if (T_NS_SEPARATOR === $tokens[$stackPtr - 1]['code'] && 'Contao' === $tokens[$stackPtr - 2]['content']) {
             return;
         }
 
-        if ($this->hasUse($file, 'Contao\\'.$tokens[$index]['content'])) {
+        if ($this->hasUse($phpcsFile, 'Contao\\'.$tokens[$stackPtr]['content'])) {
             return;
         }
 
-        $file->addError(sprintf('Using the aliased class "%1$s" is deprecated. Use the original class "Contao\%1$s" instead.', $tokens[$index]['content']), $index, self::class);
+        $phpcsFile->addError(sprintf('Using the aliased class "%1$s" is deprecated. Use the original class "Contao\%1$s" instead.', $tokens[$stackPtr]['content']), $stackPtr, self::class);
     }
 
     private function isContaoClass(array $tokens, int $index): bool

@@ -214,7 +214,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpdocOrderFixer::class);
     $services->set(PhpdocVarAnnotationCorrectOrderFixer::class);
     $services->set(PhpUnitDedicateAssertInternalTypeFixer::class);
-    $services->set(PhpUnitExpectationFixer::class);
     $services->set(PhpUnitMethodCasingFixer::class);
     $services->set(PhpUnitMockFixer::class);
     $services->set(PhpUnitNamespacedFixer::class);
@@ -238,6 +237,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(UselessParenthesesSniff::class);
     $services->set(UselessVariableSniff::class);
     $services->set(VoidReturnFixer::class);
+
+    // Only enable for PHP>=8 (see https://github.com/symplify/symplify/issues/3130)
+    if (PHP_VERSION_ID >= 80000) {
+        $services->set(PhpUnitExpectationFixer::class);
+    }
 
     // Add sniffs from https://github.com/slevomat/coding-standard
     $services

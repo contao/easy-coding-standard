@@ -19,24 +19,24 @@ final class SetDefinitionCommandSniff implements Sniff
         return [T_CLASS, T_FUNCTION, T_OBJECT_OPERATOR];
     }
 
-    public function process(File $file, $index)
+    public function process(File $phpcsFile, $stackPtr)
     {
-        $tokens = $file->getTokens();
+        $tokens = $phpcsFile->getTokens();
 
         switch (true) {
-            case T_CLASS === $tokens[$index]['code']:
-                if ('Command' !== substr($tokens[$index + 2]['content'], -7)) {
+            case T_CLASS === $tokens[$stackPtr]['code']:
+                if ('Command' !== substr($tokens[$stackPtr + 2]['content'], -7)) {
                     return \count($tokens) + 1;
                 }
                 break;
 
-            case T_FUNCTION === $tokens[$index]['code']:
-                $this->isConfigure = 'configure' === $tokens[$index + 2]['content'];
+            case T_FUNCTION === $tokens[$stackPtr]['code']:
+                $this->isConfigure = 'configure' === $tokens[$stackPtr + 2]['content'];
                 break;
 
-            case T_OBJECT_OPERATOR === $tokens[$index]['code']:
-                if ($this->isConfigure && 'setDefinition' === $tokens[$index + 1]['content']) {
-                    $file->addError('Do not use the setDefinition() method to configure commands. Use addArgument() and addOption() instead.', $index, self::class);
+            case T_OBJECT_OPERATOR === $tokens[$stackPtr]['code']:
+                if ($this->isConfigure && 'setDefinition' === $tokens[$stackPtr + 1]['content']) {
+                    $phpcsFile->addError('Do not use the setDefinition() method to configure commands. Use addArgument() and addOption() instead.', $stackPtr, self::class);
                 }
                 break;
         }

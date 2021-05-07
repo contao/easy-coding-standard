@@ -7,6 +7,7 @@ namespace Contao\EasyCodingStandard\Fixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -15,7 +16,7 @@ final class MultiLineLambdaFunctionArgumentsFixer extends AbstractFixer
 {
     use IndentationFixerTrait;
 
-    public function getDefinition(): FixerDefinition
+    public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             'Multi-line lambda function arguments must be on their own line.',

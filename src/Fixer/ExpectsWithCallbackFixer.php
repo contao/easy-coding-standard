@@ -7,6 +7,7 @@ namespace Contao\EasyCodingStandard\Fixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -15,7 +16,7 @@ final class ExpectsWithCallbackFixer extends AbstractFixer
 {
     use IndentationFixerTrait;
 
-    public function getDefinition(): FixerDefinition
+    public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             'Unless there are several $this->callback() calls, there must not be a line break before the call.',

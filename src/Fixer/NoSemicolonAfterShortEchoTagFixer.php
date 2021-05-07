@@ -7,11 +7,12 @@ namespace Contao\EasyCodingStandard\Fixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
+use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class NoSemicolonAfterShortEchoTagFixer extends AbstractFixer
 {
-    public function getDefinition()
+    public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
             'Remove the semicolon after a short echo tag `<?= $this->foo; ?>` instruction.',

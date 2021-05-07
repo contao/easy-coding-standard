@@ -19,6 +19,7 @@ use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSn
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff;
 use PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer;
 use PhpCsFixer\Fixer\CastNotation\NoUnsetCastFixer;
+use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\NoNullPropertyInitializationFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer;
@@ -110,6 +111,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]])
     ;
 
+    $services->set(ClassAttributesSeparationFixer::class)
+        ->call('configure', [[
+            'elements' => ['method' => 'one'],
+        ]])
+    ;
+
     $services
         ->set(DuplicateSpacesSniff::class)
         ->property('ignoreSpacesInAnnotation', true)
@@ -160,8 +167,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services
         ->set(RandomApiMigrationFixer::class)
         ->call('configure', [[
-            'mt_rand' => 'random_int',
-            'rand' => 'random_int',
+            'replacements' => [
+                'mt_rand' => 'random_int',
+                'rand' => 'random_int',
+            ],
         ]])
     ;
 

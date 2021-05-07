@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 use Contao\EasyCodingStandard\Fixer\MultiLineLambdaFunctionArgumentsFixer;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
-use PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer;
+use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
-use PhpCsFixer\Fixer\Basic\Psr4Fixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
@@ -48,9 +47,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/languages/*',
         '*/templates/*',
         '*/themes/*',
-        Psr4Fixer::class => [
-            '*/dca/*',
-        ],
         BinaryOperatorSpacesFixer::class => null,
         DeclareStrictTypesFixer::class => null,
         DisallowArrayTypeHintSyntaxSniff::class => null,
@@ -71,7 +67,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SingleQuoteFixer::class => null,
         StrictComparisonFixer::class => null,
         StrictParamFixer::class => null,
-        TrailingCommaInMultilineArrayFixer::class => null,
+        TrailingCommaInMultilineFixer::class => null,
         UnusedVariableSniff::class => null,
         UselessParenthesesSniff::class => null,
         UselessVariableSniff::class => null,

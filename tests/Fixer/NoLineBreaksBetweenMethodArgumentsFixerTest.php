@@ -27,56 +27,54 @@ class NoLineBreaksBetweenMethodArgumentsFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-class Foo
-{
-    public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
-    {
-        return function (
-            string $key,
-            $value
-        ) {
-            return $key.' '.$value;
-        };
-    }
-}
+                class Foo
+                {
+                    public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
+                    {
+                        return function (
+                            string $key,
+                            $value
+                        ) {
+                            return $key.' '.$value;
+                        };
+                    }
+                }
 
-class Bar
-{
-    public function foo(
-        FooService $fooService,
-        BarService $barService,
-        array $options = [],
-        Logger $logger = null
-    ): Generator {
-        return function (string $key, $value) { return $key.' '.$value; };
-    }
-}
-EOT
-            ,
+                class Bar
+                {
+                    public function foo(
+                        FooService $fooService,
+                        BarService $barService,
+                        array $options = [],
+                        Logger $logger = null
+                    ): Generator {
+                        return function (string $key, $value) { return $key.' '.$value; };
+                    }
+                }
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-class Foo
-{
-    public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
-    {
-        return function (string $key, $value) {
-            return $key.' '.$value;
-        };
-    }
-}
+                class Foo
+                {
+                    public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
+                    {
+                        return function (string $key, $value) {
+                            return $key.' '.$value;
+                        };
+                    }
+                }
 
-class Bar
-{
-    public function foo(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
-    {
-        return function (string $key, $value) { return $key.' '.$value; };
-    }
-}
-EOT
-            ,
+                class Bar
+                {
+                    public function foo(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
+                    {
+                        return function (string $key, $value) { return $key.' '.$value; };
+                    }
+                }
+                EOT,
         ];
     }
 }

@@ -27,286 +27,278 @@ class ExpectsWithCallbackFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo = $this->createMock(Foo::class);
-        $foo
-            ->method('bar')
-            ->with($this->callback(function ($a) { return $a; }));
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo = $this->createMock(Foo::class);
+                        $foo
+                            ->method('bar')
+                            ->with($this->callback(function ($a) { return $a; }));
 
-        $foo
-            ->method('bar')
-            ->with(
-                $this->callback(function ($b) {
-                    return $b;
-                })
-            );
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $this->callback(function ($b) {
+                                    return $b;
+                                })
+                            );
 
-        $foo
-            ->method('bar')
-            ->with(
-                $this->callback(
-                    function ($c) {
-                        return $c;
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $this->callback(
+                                    function ($c) {
+                                        return $c;
+                                    }
+                                )
+                            );
                     }
-                )
-            );
-    }
-}
-EOT
-            ,
-            <<<'EOT'
-<?php
-
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo = $this->createMock(Foo::class);
-        $foo
-            ->method('bar')
-            ->with($this->callback(function ($a) { return $a; }));
-
-        $foo
-            ->method('bar')
-            ->with($this->callback(function ($b) {
-                return $b;
-            }));
-
-        $foo
-            ->method('bar')
-            ->with($this->callback(
-                function ($c) {
-                    return $c;
                 }
-            ));
-    }
-}
-EOT
-            ,
+                EOT,
+            <<<'EOT'
+                <?php
+
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo = $this->createMock(Foo::class);
+                        $foo
+                            ->method('bar')
+                            ->with($this->callback(function ($a) { return $a; }));
+
+                        $foo
+                            ->method('bar')
+                            ->with($this->callback(function ($b) {
+                                return $b;
+                            }));
+
+                        $foo
+                            ->method('bar')
+                            ->with($this->callback(
+                                function ($c) {
+                                    return $c;
+                                }
+                            ));
+                    }
+                }
+                EOT,
         ];
 
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo
-            ->method('bar')
-            ->with($bar, $this->callback(function ($a) { return $a; }));
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo
+                            ->method('bar')
+                            ->with($bar, $this->callback(function ($a) { return $a; }));
 
-        $foo
-            ->method('bar')
-            ->with($bar, $this->callback(function ($b) {
-                return $b;
-            }));
+                        $foo
+                            ->method('bar')
+                            ->with($bar, $this->callback(function ($b) {
+                                return $b;
+                            }));
 
-        $foo
-            ->method('bar')
-            ->with($bar, $this->callback(
-                function ($c) {
-                    return $c;
-                }
-            ));
-    }
-}
-EOT
-            ,
-            <<<'EOT'
-<?php
-
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo
-            ->method('bar')
-            ->with(
-                $bar,
-                $this->callback(function ($a) { return $a; })
-            );
-
-        $foo
-            ->method('bar')
-            ->with(
-                $bar,
-                $this->callback(function ($b) {
-                    return $b;
-                })
-            );
-
-        $foo
-            ->method('bar')
-            ->with(
-                $bar,
-                $this->callback(
-                    function ($c) {
-                        return $c;
+                        $foo
+                            ->method('bar')
+                            ->with($bar, $this->callback(
+                                function ($c) {
+                                    return $c;
+                                }
+                            ));
                     }
-                )
-            );
-    }
-}
-EOT
-            ,
+                }
+                EOT,
+            <<<'EOT'
+                <?php
+
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $bar,
+                                $this->callback(function ($a) { return $a; })
+                            );
+
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $bar,
+                                $this->callback(function ($b) {
+                                    return $b;
+                                })
+                            );
+
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $bar,
+                                $this->callback(
+                                    function ($c) {
+                                        return $c;
+                                    }
+                                )
+                            );
+                    }
+                }
+                EOT,
         ];
 
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo
-            ->method('bar')
-            ->with($foo, $this->callback(function ($a) { return $a; }), $bar);
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo
+                            ->method('bar')
+                            ->with($foo, $this->callback(function ($a) { return $a; }), $bar);
 
-        $foo
-            ->method('bar')
-            ->with($foo, $this->callback(function ($b) {
-                return $b;
-            }), $bar);
+                        $foo
+                            ->method('bar')
+                            ->with($foo, $this->callback(function ($b) {
+                                return $b;
+                            }), $bar);
 
-        $foo
-            ->method('bar')
-            ->with($foo, $this->callback(
-                function ($c) {
-                    return $c;
-                }
-            ), $bar);
-    }
-}
-EOT
-            ,
-            <<<'EOT'
-<?php
-
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo
-            ->method('bar')
-            ->with(
-                $foo,
-                $this->callback(function ($a) { return $a; }),
-                $bar
-            );
-
-        $foo
-            ->method('bar')
-            ->with(
-                $foo,
-                $this->callback(function ($b) {
-                    return $b;
-                }),
-                $bar
-            );
-
-        $foo
-            ->method('bar')
-            ->with(
-                $foo,
-                $this->callback(
-                    function ($c) {
-                        return $c;
+                        $foo
+                            ->method('bar')
+                            ->with($foo, $this->callback(
+                                function ($c) {
+                                    return $c;
+                                }
+                            ), $bar);
                     }
-                ),
-                $bar
-            );
-    }
-}
-EOT
-            ,
+                }
+                EOT,
+            <<<'EOT'
+                <?php
+
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $foo,
+                                $this->callback(function ($a) { return $a; }),
+                                $bar
+                            );
+
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $foo,
+                                $this->callback(function ($b) {
+                                    return $b;
+                                }),
+                                $bar
+                            );
+
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $foo,
+                                $this->callback(
+                                    function ($c) {
+                                        return $c;
+                                    }
+                                ),
+                                $bar
+                            );
+                    }
+                }
+                EOT,
         ];
 
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo
-            ->method('bar')
-            ->with($this->callback(function ($a) { return $a; }), $this->callback(function ($b) { return $b; }));
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo
+                            ->method('bar')
+                            ->with($this->callback(function ($a) { return $a; }), $this->callback(function ($b) { return $b; }));
 
-        $foo
-            ->method('bar')
-            ->with($this->callback(function ($c) {
-                return $c;
-            }), $this->callback(function ($d) {
-                return $d;
-            }));
+                        $foo
+                            ->method('bar')
+                            ->with($this->callback(function ($c) {
+                                return $c;
+                            }), $this->callback(function ($d) {
+                                return $d;
+                            }));
 
-        $foo
-            ->method('bar')
-            ->with($this->callback(
-                function ($e) {
-                    return $e;
+                        $foo
+                            ->method('bar')
+                            ->with($this->callback(
+                                function ($e) {
+                                    return $e;
+                                }
+                            ), $this->callback(
+                                function ($f) {
+                                    return $f;
+                                }
+                            ));
+                    }
                 }
-            ), $this->callback(
-                function ($f) {
-                    return $f;
-                }
-            ));
-    }
-}
-EOT
-            ,
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo
-            ->method('bar')
-            ->with(
-                $this->callback(function ($a) { return $a; }),
-                $this->callback(function ($b) { return $b; })
-            );
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $this->callback(function ($a) { return $a; }),
+                                $this->callback(function ($b) { return $b; })
+                            );
 
-        $foo
-            ->method('bar')
-            ->with(
-                $this->callback(function ($c) {
-                    return $c;
-                }),
-                $this->callback(function ($d) {
-                    return $d;
-                })
-            );
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $this->callback(function ($c) {
+                                    return $c;
+                                }),
+                                $this->callback(function ($d) {
+                                    return $d;
+                                })
+                            );
 
-        $foo
-            ->method('bar')
-            ->with(
-                $this->callback(
-                    function ($e) {
-                        return $e;
+                        $foo
+                            ->method('bar')
+                            ->with(
+                                $this->callback(
+                                    function ($e) {
+                                        return $e;
+                                    }
+                                ),
+                                $this->callback(
+                                    function ($f) {
+                                        return $f;
+                                    }
+                                )
+                            );
                     }
-                ),
-                $this->callback(
-                    function ($f) {
-                        return $f;
-                    }
-                )
-            );
-    }
-}
-EOT
-            ,
+                }
+                EOT,
         ];
     }
 }

@@ -27,52 +27,50 @@ class MultilineIfIndentationFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-if (isset($array["bar"]) && is_array($array["bar"])) {
-}
+                if (isset($array["bar"]) && is_array($array["bar"])) {
+                }
 
-if (isset($array["bar"])
-    && is_array($array["bar"])) {
-}
+                if (isset($array["bar"])
+                    && is_array($array["bar"])) {
+                }
 
-if (isset($array["bar"])
-    && is_array($array["bar"])
-) {
-}
+                if (isset($array["bar"])
+                    && is_array($array["bar"])
+                ) {
+                }
 
-if (
-    isset($array["bar"])
-    && is_array($array["bar"])
-) {
-}
-EOT
-            ,
+                if (
+                    isset($array["bar"])
+                    && is_array($array["bar"])
+                ) {
+                }
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-if (isset($array["bar"]) && is_array($array["bar"])) {
-}
+                if (isset($array["bar"]) && is_array($array["bar"])) {
+                }
 
-if (
-    isset($array["bar"])
-    && is_array($array["bar"])
-) {
-}
+                if (
+                    isset($array["bar"])
+                    && is_array($array["bar"])
+                ) {
+                }
 
-if (
-    isset($array["bar"])
-    && is_array($array["bar"])
-) {
-}
+                if (
+                    isset($array["bar"])
+                    && is_array($array["bar"])
+                ) {
+                }
 
-if (
-    isset($array["bar"])
-    && is_array($array["bar"])
-) {
-}
-EOT
-            ,
+                if (
+                    isset($array["bar"])
+                    && is_array($array["bar"])
+                ) {
+                }
+                EOT,
         ];
     }
 }

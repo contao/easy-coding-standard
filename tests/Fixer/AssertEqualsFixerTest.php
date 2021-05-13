@@ -27,39 +27,37 @@ class AssertEqualsFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo = new Foo();
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo = new Foo();
 
-        $this->assertEquals(42, $foo->getId());
-        $this->assertEquals('foo', $foo->getName());
-        $this->assertEquals(new Foo(), $foo);
-        $this->assertEquals([new Foo(), new Bar()], $foo->getObjects());
-    }
-}
-EOT
-            ,
+                        $this->assertEquals(42, $foo->getId());
+                        $this->assertEquals('foo', $foo->getName());
+                        $this->assertEquals(new Foo(), $foo);
+                        $this->assertEquals([new Foo(), new Bar()], $foo->getObjects());
+                    }
+                }
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo = new Foo();
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo = new Foo();
 
-        $this->assertSame(42, $foo->getId());
-        $this->assertSame('foo', $foo->getName());
-        $this->assertEquals(new Foo(), $foo);
-        $this->assertEquals([new Foo(), new Bar()], $foo->getObjects());
-    }
-}
-EOT
-            ,
+                        $this->assertSame(42, $foo->getId());
+                        $this->assertSame('foo', $foo->getName());
+                        $this->assertEquals(new Foo(), $foo);
+                        $this->assertEquals([new Foo(), new Bar()], $foo->getObjects());
+                    }
+                }
+                EOT,
         ];
     }
 }

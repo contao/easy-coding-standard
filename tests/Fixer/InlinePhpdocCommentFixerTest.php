@@ -27,33 +27,31 @@ class InlinePhpdocCommentFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-/* This is just an inline comment */
+                /* This is just an inline comment */
 
-/* @var string $foo */
+                /* @var string $foo */
 
-/* Not a phpDoc @var string $foo */
+                /* Not a phpDoc @var string $foo */
 
-/*
- * Multi-line comments should be ignored, too
- */
-EOT
-            ,
+                /*
+                 * Multi-line comments should be ignored, too
+                 */
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-/* This is just an inline comment */
+                /* This is just an inline comment */
 
-/** @var string $foo */
+                /** @var string $foo */
 
-/* Not a phpDoc @var string $foo */
+                /* Not a phpDoc @var string $foo */
 
-/*
- * Multi-line comments should be ignored, too
- */
-EOT
-            ,
+                /*
+                 * Multi-line comments should be ignored, too
+                 */
+                EOT,
         ];
     }
 }

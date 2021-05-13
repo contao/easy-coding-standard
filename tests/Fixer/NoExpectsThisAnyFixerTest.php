@@ -27,48 +27,46 @@ class NoExpectsThisAnyFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo = $this->createMock(Foo::class);
-        $foo->expects($this->any())->method('bar');
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo = $this->createMock(Foo::class);
+                        $foo->expects($this->any())->method('bar');
 
-        $foo
-            ->expects($this->once())
-            ->method('bar');
+                        $foo
+                            ->expects($this->once())
+                            ->method('bar');
 
-        $foo
-            ->expects($this->any())
-            ->method('bar')
-            ->willReturn(false);
-    }
-}
-EOT
-            ,
+                        $foo
+                            ->expects($this->any())
+                            ->method('bar')
+                            ->willReturn(false);
+                    }
+                }
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo = $this->createMock(Foo::class);
-        $foo->method('bar');
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo = $this->createMock(Foo::class);
+                        $foo->method('bar');
 
-        $foo
-            ->expects($this->once())
-            ->method('bar');
+                        $foo
+                            ->expects($this->once())
+                            ->method('bar');
 
-        $foo
-            ->method('bar')
-            ->willReturn(false);
-    }
-}
-EOT
-            ,
+                        $foo
+                            ->method('bar')
+                            ->willReturn(false);
+                    }
+                }
+                EOT,
         ];
     }
 }

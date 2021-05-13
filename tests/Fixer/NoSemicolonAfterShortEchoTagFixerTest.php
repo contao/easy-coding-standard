@@ -27,57 +27,55 @@ class NoSemicolonAfterShortEchoTagFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?= $this->a; ?>
-<?= $this->b ?>
-<?php echo $c; ?>
-<?php echo $d ?>
+                <?= $this->a; ?>
+                <?= $this->b ?>
+                <?php echo $c; ?>
+                <?php echo $d ?>
 
-<?php $foo = 'bar'; ?>
+                <?php $foo = 'bar'; ?>
 
-<?php
-    if ($e) {
-        echo $e;
-    }
-?>
+                <?php
+                    if ($e) {
+                        echo $e;
+                    }
+                ?>
 
-<?php
-    someFunction($f);
-    echo $g;
-?>
+                <?php
+                    someFunction($f);
+                    echo $g;
+                ?>
 
-<?= $this->z; ?>
+                <?= $this->z; ?>
 
-<?php
-    echo $h;
-    echo $i;
-EOT
-            ,
+                <?php
+                    echo $h;
+                    echo $i;
+                EOT,
             <<<'EOT'
-<?= $this->a ?>
-<?= $this->b ?>
-<?php echo $c; ?>
-<?php echo $d ?>
+                <?= $this->a ?>
+                <?= $this->b ?>
+                <?php echo $c; ?>
+                <?php echo $d ?>
 
-<?php $foo = 'bar'; ?>
+                <?php $foo = 'bar'; ?>
 
-<?php
-    if ($e) {
-        echo $e;
-    }
-?>
+                <?php
+                    if ($e) {
+                        echo $e;
+                    }
+                ?>
 
-<?php
-    someFunction($f);
-    echo $g;
-?>
+                <?php
+                    someFunction($f);
+                    echo $g;
+                ?>
 
-<?= $this->z ?>
+                <?= $this->z ?>
 
-<?php
-    echo $h;
-    echo $i;
-EOT
-            ,
+                <?php
+                    echo $h;
+                    echo $i;
+                EOT,
         ];
     }
 }

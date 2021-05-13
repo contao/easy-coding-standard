@@ -27,54 +27,52 @@ class MockMethodChainingIndentationFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo = $this->createMock(Foo::class);
-        $foo->method('bar');
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo = $this->createMock(Foo::class);
+                        $foo->method('bar');
 
-        $foo->method('bar')->willReturn(false);
+                        $foo->method('bar')->willReturn(false);
 
-        $foo
-            ->expects($this->once())
-            ->method('bar')
-            ->willReturn(false);
+                        $foo
+                            ->expects($this->once())
+                            ->method('bar')
+                            ->willReturn(false);
 
-        $foo->method('bar')->with('foo')->willReturnSelf();
-    }
-}
-EOT
-            ,
+                        $foo->method('bar')->with('foo')->willReturnSelf();
+                    }
+                }
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-class FooTest
-{
-    public function testFoo(): void
-    {
-        $foo = $this->createMock(Foo::class);
-        $foo->method('bar');
+                class FooTest
+                {
+                    public function testFoo(): void
+                    {
+                        $foo = $this->createMock(Foo::class);
+                        $foo->method('bar');
 
-        $foo
-            ->method('bar')
-            ->willReturn(false);
+                        $foo
+                            ->method('bar')
+                            ->willReturn(false);
 
-        $foo
-            ->expects($this->once())
-            ->method('bar')
-            ->willReturn(false);
+                        $foo
+                            ->expects($this->once())
+                            ->method('bar')
+                            ->willReturn(false);
 
-        $foo
-            ->method('bar')
-            ->with('foo')
-            ->willReturnSelf();
-    }
-}
-EOT
-            ,
+                        $foo
+                            ->method('bar')
+                            ->with('foo')
+                            ->willReturnSelf();
+                    }
+                }
+                EOT,
         ];
     }
 }

@@ -27,35 +27,33 @@ class IsArrayNotEmptyFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-$array = [];
+                $array = [];
 
-if (is_array($array['foo']) && isset($array['foo'])) {
-}
+                if (is_array($array['foo']) && isset($array['foo'])) {
+                }
 
-if (is_array($array['foo']) && !empty($array['foo'])) {
-}
+                if (is_array($array['foo']) && !empty($array['foo'])) {
+                }
 
-if (\is_array($array['foo']) && !empty($array['foo'])) {
-}
-EOT
-            ,
+                if (\is_array($array['foo']) && !empty($array['foo'])) {
+                }
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-$array = [];
+                $array = [];
 
-if (isset($array['foo']) && is_array($array['foo'])) {
-}
+                if (isset($array['foo']) && is_array($array['foo'])) {
+                }
 
-if (!empty($array['foo']) && is_array($array['foo'])) {
-}
+                if (!empty($array['foo']) && is_array($array['foo'])) {
+                }
 
-if (!empty($array['foo']) && \is_array($array['foo'])) {
-}
-EOT
-            ,
+                if (!empty($array['foo']) && \is_array($array['foo'])) {
+                }
+                EOT,
         ];
     }
 }

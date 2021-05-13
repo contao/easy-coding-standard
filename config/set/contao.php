@@ -72,6 +72,7 @@ use PhpCsFixer\Fixer\StringNotation\StringLineEndingFixer;
 use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Whitespace\CompactNullableTypehintFixer;
+use PhpCsFixer\Fixer\Whitespace\HeredocIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use SlevomatCodingStandard\Sniffs\Classes\ModernClassNameReferenceSniff;
 use SlevomatCodingStandard\Sniffs\Classes\TraitUseSpacingSniff;
@@ -199,6 +200,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(EscapeImplicitBackslashesFixer::class);
     $services->set(FullyQualifiedStrictTypesFixer::class);
     $services->set(GitMergeConflictSniff::class);
+    $services->set(HeredocIndentationFixer::class);
     $services->set(HeredocToNowdocFixer::class);
     $services->set(LanguageConstructSpacingSniff::class);
     $services->set(LinebreakAfterOpeningTagFixer::class);

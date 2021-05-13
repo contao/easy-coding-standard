@@ -27,82 +27,78 @@ class MultiLineLambdaFunctionArgumentsFixerTest extends TestCase
     {
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-$array = array_map(static function ($i) { return $i; }, $array);
+                $array = array_map(static function ($i) { return $i; }, $array);
 
-$array = array_map(static function ($i) {
-    return $i;
-}, $array);
+                $array = array_map(static function ($i) {
+                    return $i;
+                }, $array);
 
-$array = array_map(
-    static function ($i) {
-        return $i;
-    },
-    $array
-);
-EOT
-            ,
+                $array = array_map(
+                    static function ($i) {
+                        return $i;
+                    },
+                    $array
+                );
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-$array = array_map(static function ($i) { return $i; }, $array);
+                $array = array_map(static function ($i) { return $i; }, $array);
 
-$array = array_map(
-    static function ($i) {
-        return $i;
-    },
-    $array
-);
+                $array = array_map(
+                    static function ($i) {
+                        return $i;
+                    },
+                    $array
+                );
 
-$array = array_map(
-    static function ($i) {
-        return $i;
-    },
-    $array
-);
-EOT
-            ,
+                $array = array_map(
+                    static function ($i) {
+                        return $i;
+                    },
+                    $array
+                );
+                EOT,
         ];
 
         yield [
             <<<'EOT'
-<?php
+                <?php
 
-$array = array_walk($array, static function ($i) { return $i; });
+                $array = array_walk($array, static function ($i) { return $i; });
 
-$array = array_walk($array, static function ($i) {
-    return $i;
-});
+                $array = array_walk($array, static function ($i) {
+                    return $i;
+                });
 
-$array = array_walk(
-    $array,
-    static function ($i) {
-        return $i;
-    }
-);
-EOT
-            ,
+                $array = array_walk(
+                    $array,
+                    static function ($i) {
+                        return $i;
+                    }
+                );
+                EOT,
             <<<'EOT'
-<?php
+                <?php
 
-$array = array_walk($array, static function ($i) { return $i; });
+                $array = array_walk($array, static function ($i) { return $i; });
 
-$array = array_walk(
-    $array,
-    static function ($i) {
-        return $i;
-    }
-);
+                $array = array_walk(
+                    $array,
+                    static function ($i) {
+                        return $i;
+                    }
+                );
 
-$array = array_walk(
-    $array,
-    static function ($i) {
-        return $i;
-    }
-);
-EOT
-            ,
+                $array = array_walk(
+                    $array,
+                    static function ($i) {
+                        return $i;
+                    }
+                );
+                EOT,
         ];
     }
 }

@@ -44,6 +44,10 @@ class MockMethodChainingIndentationFixerTest extends TestCase
                             ->willReturn(false);
 
                         $foo->method('bar')->with('foo')->willReturnSelf();
+
+                        $this->foo->method('bar');
+
+                        $this->foo->method('bar')->with('foo')->willReturnSelf();
                     }
                 }
                 EOT,
@@ -67,6 +71,13 @@ class MockMethodChainingIndentationFixerTest extends TestCase
                             ->willReturn(false);
 
                         $foo
+                            ->method('bar')
+                            ->with('foo')
+                            ->willReturnSelf();
+
+                        $this->foo->method('bar');
+
+                        $this->foo
                             ->method('bar')
                             ->with('foo')
                             ->willReturnSelf();

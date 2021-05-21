@@ -85,9 +85,19 @@ class SomeTest extends TestCase
             $start = $tokens->getPrevTokenOfKind($index, [';', '{']);
             $end = $tokens->getNextTokenOfKind($index, [';']);
             $operators = $tokens->findGivenKind(T_OBJECT_OPERATOR, $start, $end);
+            $operatorsCount = \count($operators);
+
+            /** @var array<Token> $variables */
+            $variables = $tokens->findGivenKind(T_VARIABLE, $start, $end);
+
+            foreach ($variables as $variableToken) {
+                if ('$this' === $variableToken->getContent()) {
+                    --$operatorsCount;
+                }
+            }
 
             // Single method call
-            if (1 === \count($operators)) {
+            if (1 === $operatorsCount) {
                 continue;
             }
 

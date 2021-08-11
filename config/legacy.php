@@ -7,6 +7,7 @@ use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
+use PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer;
 use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NoSpacesAfterFunctionNameFixer;
@@ -55,6 +56,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         MethodChainingIndentationFixer::class => null,
         MultiLineLambdaFunctionArgumentsFixer::class => null,
         MultilineWhitespaceBeforeSemicolonsFixer::class => null,
+        // TODO: remove again once PHP 8 attributes are supported
+        NativeConstantInvocationFixer::class,
         NoSpacesAfterFunctionNameFixer::class => null,
         NoSuperfluousPhpdocTagsFixer::class => null,
         OrderedClassElementsFixer::class => null,

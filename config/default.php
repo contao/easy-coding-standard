@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -18,6 +19,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         MethodChainingIndentationFixer::class => [
             '*/DependencyInjection/Configuration.php',
         ],
+        // TODO: remove again once PHP 8 attributes are supported
+        NativeConstantInvocationFixer::class,
         UnusedVariableSniff::class => [
             'core-bundle/tests/Session/Attribute/ArrayAttributeBagTest.php',
         ],

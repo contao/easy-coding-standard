@@ -104,7 +104,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import($vendorDir.'/symplify/easy-coding-standard/config/set/symfony-risky.php');
 
     $services = $containerConfigurator->services();
-
     $services
         ->set(BlankLineBeforeStatementFixer::class)
         ->call('configure', [[
@@ -127,7 +126,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services
         ->set(EchoTagSyntaxFixer::class)
         ->call('configure', [[
-            'format' => 'short',
+            'format' => EchoTagSyntaxFixer::FORMAT_SHORT,
         ]])
     ;
 
@@ -148,7 +147,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services
         ->set(MultilineWhitespaceBeforeSemicolonsFixer::class)
         ->call('configure', [[
-            'strategy' => 'new_line_for_chained_calls',
+            'strategy' => MultilineWhitespaceBeforeSemicolonsFixer::STRATEGY_NEW_LINE_FOR_CHAINED_CALLS,
         ]])
     ;
 
@@ -177,6 +176,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ;
 
     $services
+        ->set(ReferenceUsedNamesOnlySniff::class)
+        ->property('searchAnnotations', true)
+        ->property('allowFullyQualifiedNameForCollidingClasses', true)
+        ->property('allowFullyQualifiedGlobalClasses', true)
+        ->property('allowFullyQualifiedGlobalFunctions', true)
+        ->property('allowFullyQualifiedGlobalConstants', true)
+        ->property('allowPartialUses', false)
+    ;
+
+    $services
         ->set(SuperfluousWhitespaceSniff::class)
         ->property('ignoreBlankLines', false)
     ;
@@ -189,6 +198,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->property('linesCountBetweenUses', 0)
     ;
 
+    $services
+        ->set(UnusedUsesSniff::class)
+        ->property('searchAnnotations', true)
+    ;
+
     $services->set(AlignMultilineCommentFixer::class);
     $services->set(ArrayIndentationFixer::class);
     $services->set(BlankLineAfterStrictTypesFixer::class);
@@ -197,6 +211,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(CombineNestedDirnameFixer::class);
     $services->set(CompactNullableTypehintFixer::class);
     $services->set(DeclareStrictTypesFixer::class);
+    $services->set(DisallowArrayTypeHintSyntaxSniff::class);
     $services->set(DisallowDirectMagicInvokeCallSniff::class);
     $services->set(EscapeImplicitBackslashesFixer::class);
     $services->set(FullyQualifiedStrictTypesFixer::class);
@@ -255,24 +270,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     if (PHP_VERSION_ID >= 80000) {
         $services->set(PhpUnitExpectationFixer::class);
     }
-
-    // Add sniffs from https://github.com/slevomat/coding-standard
-    $services
-        ->set(ReferenceUsedNamesOnlySniff::class)
-        ->property('searchAnnotations', true)
-        ->property('allowFullyQualifiedNameForCollidingClasses', true)
-        ->property('allowFullyQualifiedGlobalClasses', true)
-        ->property('allowFullyQualifiedGlobalFunctions', true)
-        ->property('allowFullyQualifiedGlobalConstants', true)
-        ->property('allowPartialUses', false)
-    ;
-
-    $services
-        ->set(UnusedUsesSniff::class)
-        ->property('searchAnnotations', true)
-    ;
-
-    $services->set(DisallowArrayTypeHintSyntaxSniff::class);
 
     // Add custom fixers
     $services->set(AssertEqualsFixer::class);

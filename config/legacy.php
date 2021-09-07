@@ -43,7 +43,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__.'/set/contao.php');
 
     $parameters = $containerConfigurator->parameters();
-
     $parameters->set(Option::SKIP, [
         '*/languages/*',
         '*/templates/*',
@@ -84,7 +83,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir().'/ecs_legacy_cache');
 
     $services = $containerConfigurator->services();
-
     $services
         ->set(ArraySyntaxFixer::class)
         ->call('configure', [[
@@ -104,8 +102,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set(BracesFixer::class)
         ->call('configure', [[
             'allow_single_line_closure' => true,
-            'position_after_anonymous_constructs' => 'next',
-            'position_after_control_structures' => 'next',
+            'position_after_anonymous_constructs' => BracesFixer::LINE_NEXT,
+            'position_after_control_structures' => BracesFixer::LINE_NEXT,
         ]])
     ;
 

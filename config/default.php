@@ -12,7 +12,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__.'/set/contao.php');
 
     $parameters = $containerConfigurator->parameters();
-
     $parameters->set(Option::SKIP, [
         '*/Resources/*',
         '*/Fixtures/system/*',

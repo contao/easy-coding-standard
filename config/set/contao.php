@@ -31,9 +31,13 @@ use PhpCsFixer\Fixer\ControlStructure\NoSuperfluousElseifFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer;
 use PhpCsFixer\Fixer\FunctionNotation\CombineNestedDirnameFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NoUnreachableDefaultArgumentValueFixer;
+use PhpCsFixer\Fixer\FunctionNotation\NullableTypeDeclarationForDefaultNullValueFixer;
+use PhpCsFixer\Fixer\FunctionNotation\RegularCallableCallFixer;
 use PhpCsFixer\Fixer\FunctionNotation\StaticLambdaFixer;
+use PhpCsFixer\Fixer\FunctionNotation\UseArrowFunctionsFixer;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\Fixer\Import\FullyQualifiedStrictTypesFixer;
+use PhpCsFixer\Fixer\Import\GlobalNamespaceImportFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveIssetsFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\CombineConsecutiveUnsetsFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\NoUnsetOnPropertyFixer;
@@ -131,6 +135,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ;
 
     $services
+        ->set(GlobalNamespaceImportFixer::class)
+        ->call('configure', [[
+            'import_classes' => false,
+            'import_constants' => false,
+            'import_functions' => false,
+        ]])
+    ;
+
+    $services
         ->set(HeaderCommentFixer::class)
         ->call('configure', [[
             'header' => "This file is part of Contao.\n\n(c) Leo Feyer\n\n@license LGPL-3.0-or-later",
@@ -148,6 +161,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set(MultilineWhitespaceBeforeSemicolonsFixer::class)
         ->call('configure', [[
             'strategy' => MultilineWhitespaceBeforeSemicolonsFixer::STRATEGY_NEW_LINE_FOR_CHAINED_CALLS,
+        ]])
+    ;
+
+    $services
+        ->set(NullableTypeDeclarationForDefaultNullValueFixer::class)
+        ->call('configure', [[
+            'use_nullable_type_declaration' => false,
         ]])
     ;
 
@@ -248,6 +268,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpUnitSetUpTearDownVisibilityFixer::class);
     $services->set(PhpUnitTestAnnotationFixer::class);
     $services->set(ProtectedToPrivateFixer::class);
+    $services->set(RegularCallableCallFixer::class);
     $services->set(ReturnAssignmentFixer::class);
     $services->set(RequireCombinedAssignmentOperatorSniff::class);
     $services->set(SelfStaticAccessorFixer::class);
@@ -260,6 +281,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(TernaryToNullCoalescingFixer::class);
     $services->set(UnusedInheritedVariablePassedToClosureSniff::class);
     $services->set(UnusedVariableSniff::class);
+    $services->set(UseArrowFunctionsFixer::class);
     $services->set(UselessAliasSniff::class);
     $services->set(UselessConstantTypeHintSniff::class);
     $services->set(UselessParenthesesSniff::class);

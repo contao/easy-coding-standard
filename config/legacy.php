@@ -11,6 +11,7 @@ use PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer;
 use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NoSpacesAfterFunctionNameFixer;
+use PhpCsFixer\Fixer\FunctionNotation\UseArrowFunctionsFixer;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\Fixer\ListNotation\ListSyntaxFixer;
 use PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer;
@@ -71,6 +72,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         StrictParamFixer::class => null,
         TrailingCommaInMultilineFixer::class => null,
         UnusedVariableSniff::class => null,
+        UseArrowFunctionsFixer::class => null,
         UselessParenthesesSniff::class => null,
         UselessVariableSniff::class => null,
         VisibilityRequiredFixer::class => null,

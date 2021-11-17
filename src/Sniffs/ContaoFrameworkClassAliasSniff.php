@@ -31,7 +31,7 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
             return;
         }
 
-        if ($this->hasUse($phpcsFile, 'Contao\\'.$tokens[$stackPtr]['content'])) {
+        if ($this->hasUse($phpcsFile, $tokens[$stackPtr]['content'])) {
             return;
         }
 
@@ -76,7 +76,7 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
             $end = TokenHelper::findNext($file, T_SEMICOLON, $use + 2);
             $fqcn = TokenHelper::getContent($file, $use + 2, $end - 1);
 
-            if ($fqcn === $class) {
+            if (preg_match('/\\\\'.preg_quote($class, '/').'$/', $fqcn)) {
                 return true;
             }
         }

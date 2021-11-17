@@ -22,6 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
         UnusedVariableSniff::class => [
             'core-bundle/tests/Session/Attribute/ArrayAttributeBagTest.php',
+            'manager-bundle/src/Resources/skeleton/*.php',
         ],
     ]);
 

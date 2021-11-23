@@ -98,10 +98,10 @@ use Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $vendorDir = __DIR__.'/../../vendor';
+    $vendorDir = __DIR__.'/../vendor';
 
     if (!is_dir($vendorDir)) {
-        $vendorDir = __DIR__.'/../../../..';
+        $vendorDir = __DIR__.'/../../..';
     }
 
     $containerConfigurator->import($vendorDir.'/symplify/easy-coding-standard/config/set/symfony.php');

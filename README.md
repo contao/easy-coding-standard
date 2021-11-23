@@ -28,22 +28,13 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__.'/vendor/contao/easy-coding-standard/config/set/contao.php');
+    $containerConfigurator->import(__DIR__.'/vendor/contao/easy-coding-standard/config/contao.php');
 
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::LINE_ENDING, "\n");
-
-    $services = $containerConfigurator->services();
-    $services
-        ->set(HeaderCommentFixer::class)
-        ->call('configure', [[
-            'header' => "This file is part of contao.org.\n\n(c) Leo Feyer\n\n@license proprietary",
-        ]])
-    ;
+    // Adjust the configuration according to your needs.
 };
 ```
 
-Adjust the header comment to your needs and then run the script like this:
+Then run the script like this:
 
 ```
 vendor/bin/ecs check src tests

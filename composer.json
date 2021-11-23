@@ -32,7 +32,7 @@
             "@unit-tests",
             "@cs-fixer"
         ],
-        "cs-fixer": "vendor/bin/ecs check config src tests --config config/self.php --fix --ansi",
+        "cs-fixer": "vendor/bin/ecs check config src tests --fix --ansi",
         "unit-tests": "vendor/bin/phpunit --colors=always"
     }
 }

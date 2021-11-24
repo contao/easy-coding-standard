@@ -111,7 +111,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services
         ->set(BlankLineBeforeStatementFixer::class)
         ->call('configure', [[
-            //  Enforce blank lines everywhere except befor "break", "continue" and "yield"
+            //  Enforce blank lines everywhere except before "break", "continue" and "yield"
             'statements' => ['case', 'declare', 'default', 'do', 'for', 'foreach', 'if', 'return', 'switch', 'throw', 'try', 'while'],
         ]])
     ;

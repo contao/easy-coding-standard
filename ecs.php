@@ -12,5 +12,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::PARALLEL, true);
     $parameters->set(Option::SKIP, [HeaderCommentFixer::class => null]);
-    $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir().'/ecs_self_cache');
+    $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir().'/ecs_cache');
 };

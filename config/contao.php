@@ -257,6 +257,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ParamReturnAndVarTagMalformsFixer::class);
     $services->set(PhpdocLineSpanFixer::class);
     $services->set(PhpdocNoEmptyReturnFixer::class);
+    $services->set(PhpdocOrderByValueFixer::class);
     $services->set(PhpdocOrderFixer::class);
     $services->set(PhpdocVarAnnotationCorrectOrderFixer::class);
     $services->set(PhpUnitDedicateAssertInternalTypeFixer::class);
@@ -264,7 +265,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpUnitMockFixer::class);
     $services->set(PhpUnitNamespacedFixer::class);
     $services->set(PhpUnitNoExpectationAnnotationFixer::class);
-    $services->set(PhpdocOrderByValueFixer::class);
     $services->set(PhpUnitSetUpTearDownVisibilityFixer::class);
     $services->set(PhpUnitTestAnnotationFixer::class);
     $services->set(ProtectedToPrivateFixer::class);

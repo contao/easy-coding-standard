@@ -104,8 +104,6 @@ public function testFoo(): void
             } elseif (!$needsLineBreak && $hasLineBreak) {
                 $this->removeLineBreak($tokens, $start, $end);
             }
-
-            $index = $end;
         }
     }
 

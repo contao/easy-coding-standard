@@ -14,6 +14,7 @@ use Contao\EasyCodingStandard\Fixer\NoLineBreakBetweenMethodArgumentsFixer;
 use Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer;
 use Contao\EasyCodingStandard\Sniffs\ContaoFrameworkClassAliasSniff;
 use Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff;
+use Contao\EasyCodingStandard\Sniffs\UseSprintfInExceptionsSniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\VersionControl\GitMergeConflictSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff;
@@ -295,6 +296,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Add custom fixers
     $services->set(AssertEqualsFixer::class);
+    $services->set(ContaoFrameworkClassAliasSniff::class);
     $services->set(ExpectsWithCallbackFixer::class);
     $services->set(InlinePhpdocCommentFixer::class);
     $services->set(IsArrayNotEmptyFixer::class);
@@ -304,6 +306,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NoExpectsThisAnyFixer::class);
     $services->set(NoLineBreakBetweenMethodArgumentsFixer::class);
     $services->set(SingleLineConfigureCommandFixer::class);
-    $services->set(ContaoFrameworkClassAliasSniff::class);
     $services->set(SetDefinitionCommandSniff::class);
+    $services->set(UseSprintfInExceptionsSniff::class);
 };

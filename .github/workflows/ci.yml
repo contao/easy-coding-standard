@@ -22,7 +22,6 @@ jobs:
               with:
                   php-version: ${{ matrix.php }}
                   extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo_mysql, zlib
-                  tools: prestissimo
                   coverage: none
 
             - name: Checkout
@@ -43,7 +42,6 @@ jobs:
               with:
                   php-version: 7.4
                   extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo_mysql, zlib
-                  tools: prestissimo
                   coverage: none
 
             - name: Checkout
@@ -65,7 +63,6 @@ jobs:
                   php-version: 8.0
                   extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo_mysql, zlib
                   ini-values: memory_limit=1G
-                  tools: prestissimo
                   coverage: none
 
             - name: Adjust the Git autocrlf setting

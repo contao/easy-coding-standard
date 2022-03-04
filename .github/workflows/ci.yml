@@ -4,10 +4,9 @@ on:
     pull_request: ~
     push:
         branches:
-            - master
-            - '[0-9]+.[0-9]+'
+            - 1.x
         tags:
-            - '*'
+            - 1.*
 
 jobs:
     tests:
@@ -19,11 +18,10 @@ jobs:
                 php: [7.3, 7.4, 8.0]
         steps:
             - name: Setup PHP
-              uses: shivammathur/setup-php@v1
+              uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
                   extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo_mysql, zlib
-                  tools: prestissimo
                   coverage: none
 
             - name: Checkout
@@ -40,11 +38,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Setup PHP
-              uses: shivammathur/setup-php@v1
+              uses: shivammathur/setup-php@v2
               with:
                   php-version: 7.3
                   extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo_mysql, zlib
-                  tools: prestissimo
                   coverage: none
 
             - name: Checkout
@@ -61,12 +58,11 @@ jobs:
         runs-on: windows-latest
         steps:
             - name: Setup PHP
-              uses: shivammathur/setup-php@v1
+              uses: shivammathur/setup-php@v2
               with:
                   php-version: 7.3
                   extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo_mysql, zlib
                   ini-values: memory_limit=1G
-                  tools: prestissimo
                   coverage: none
 
             - name: Adjust the Git autocrlf setting

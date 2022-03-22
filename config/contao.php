@@ -47,6 +47,7 @@ use PhpCsFixer\Fixer\Operator\LogicalOperatorsFixer;
 use PhpCsFixer\Fixer\Operator\TernaryToElvisOperatorFixer;
 use PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer;
 use PhpCsFixer\Fixer\Phpdoc\AlignMultilineCommentFixer;
+use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocOrderByValueFixer;
@@ -132,6 +133,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set(EchoTagSyntaxFixer::class)
         ->call('configure', [[
             'format' => EchoTagSyntaxFixer::FORMAT_SHORT,
+        ]])
+    ;
+
+    $services
+        ->set(GeneralPhpdocAnnotationRemoveFixer::class)
+        ->call('configure', [[
+            'annotations' => ['author'],
         ]])
     ;
 

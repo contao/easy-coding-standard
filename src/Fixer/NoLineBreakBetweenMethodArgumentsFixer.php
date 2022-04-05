@@ -16,6 +16,12 @@ final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
 {
     use IndentationFixerTrait;
 
+    private static array $cppKinds = [
+        CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PUBLIC,
+        CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PROTECTED,
+        CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PRIVATE,
+    ];
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -55,12 +61,29 @@ class Foo
             }
 
             $isLambda = !$tokens[$nextMeaningful]->isGivenKind(T_STRING);
+            $isConstructor = '__construct' === $tokens[$nextMeaningful]->getContent();
 
             if (!$isLambda) {
                 $nextMeaningful = $tokens->getNextMeaningfulToken($nextMeaningful);
             }
 
             if (!$end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextMeaningful)) {
+                continue;
+            }
+
+            $isPropertyPromotion = false;
+
+            if ($isConstructor) {
+                for ($i = $nextMeaningful; $i < $end; ++$i) {
+                    if ($tokens[$i]->isGivenKind(self::$cppKinds)) {
+                        $isPropertyPromotion = true;
+                        break;
+                    }
+                }
+            }
+
+            if ($isPropertyPromotion) {
+                $index = $end + 1;
                 continue;
             }
 

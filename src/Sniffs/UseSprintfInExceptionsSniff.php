@@ -59,8 +59,7 @@ final class UseSprintfInExceptionsSniff implements Sniff
     {
         do {
             ++$index;
-        }
-        while (T_WHITESPACE === $tokens[$index]['code']);
+        } while (T_WHITESPACE === $tokens[$index]['code']);
 
         return $index;
     }

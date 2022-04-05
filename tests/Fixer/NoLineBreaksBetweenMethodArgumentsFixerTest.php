@@ -31,6 +31,12 @@ class NoLineBreaksBetweenMethodArgumentsFixerTest extends TestCase
 
                 class Foo
                 {
+                    public function __construct(
+                        FooService $fooService,
+                        BarService $barService
+                    ) {
+                    }
+
                     public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
                     {
                         return function (
@@ -44,6 +50,12 @@ class NoLineBreaksBetweenMethodArgumentsFixerTest extends TestCase
 
                 class Bar
                 {
+                    public function __construct(
+                        private readonly FooService $fooService,
+                        private readonly BarService $barService
+                    ) {
+                    }
+
                     public function foo(
                         FooService $fooService,
                         BarService $barService,
@@ -59,6 +71,10 @@ class NoLineBreaksBetweenMethodArgumentsFixerTest extends TestCase
 
                 class Foo
                 {
+                    public function __construct(FooService $fooService, BarService $barService)
+                    {
+                    }
+
                     public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
                     {
                         return function (string $key, $value) {
@@ -69,6 +85,12 @@ class NoLineBreaksBetweenMethodArgumentsFixerTest extends TestCase
 
                 class Bar
                 {
+                    public function __construct(
+                        private readonly FooService $fooService,
+                        private readonly BarService $barService
+                    ) {
+                    }
+
                     public function foo(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): Generator
                     {
                         return function (string $key, $value) { return $key.' '.$value; };

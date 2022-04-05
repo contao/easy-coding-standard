@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.1",
         "slevomat/coding-standard": "^7.0",
         "symplify/easy-coding-standard": "^10.0"
     },

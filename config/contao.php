@@ -12,6 +12,7 @@ use Contao\EasyCodingStandard\Fixer\MultiLineLambdaFunctionArgumentsFixer;
 use Contao\EasyCodingStandard\Fixer\NoExpectsThisAnyFixer;
 use Contao\EasyCodingStandard\Fixer\NoLineBreakBetweenMethodArgumentsFixer;
 use Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer;
+use Contao\EasyCodingStandard\Fixer\TypeHintOrderFixer;
 use Contao\EasyCodingStandard\Sniffs\ContaoFrameworkClassAliasSniff;
 use Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff;
 use Contao\EasyCodingStandard\Sniffs\UseSprintfInExceptionsSniff;
@@ -270,6 +271,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpdocOrderFixer::class);
     $services->set(PhpdocVarAnnotationCorrectOrderFixer::class);
     $services->set(PhpUnitDedicateAssertInternalTypeFixer::class);
+    $services->set(PhpUnitExpectationFixer::class);
     $services->set(PhpUnitMethodCasingFixer::class);
     $services->set(PhpUnitMockFixer::class);
     $services->set(PhpUnitNamespacedFixer::class);
@@ -297,11 +299,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(UselessVariableSniff::class);
     $services->set(VoidReturnFixer::class);
 
-    // Only enable for PHP>=8 (see https://github.com/symplify/symplify/issues/3130)
-    if (PHP_VERSION_ID >= 80000) {
-        $services->set(PhpUnitExpectationFixer::class);
-    }
-
     // Add custom fixers
     $services->set(AssertEqualsFixer::class);
     $services->set(ContaoFrameworkClassAliasSniff::class);
@@ -315,5 +312,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NoLineBreakBetweenMethodArgumentsFixer::class);
     $services->set(SingleLineConfigureCommandFixer::class);
     $services->set(SetDefinitionCommandSniff::class);
+    $services->set(TypeHintOrderFixer::class);
     $services->set(UseSprintfInExceptionsSniff::class);
 };

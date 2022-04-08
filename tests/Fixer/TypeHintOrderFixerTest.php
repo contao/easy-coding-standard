@@ -29,7 +29,12 @@ class TypeHintOrderFixerTest extends TestCase
             <<<'EOT'
                 <?php
 
-                class Foo
+                interface FooInterface
+                {
+                    public function bar(object|FooService|BarService $service, iterable|int $count): null|string|int;
+                }
+
+                class Foo implements FooInterface
                 {
                     public function __construct(
                         private null|FooService $fooService = null,
@@ -45,7 +50,12 @@ class TypeHintOrderFixerTest extends TestCase
             <<<'EOT'
                 <?php
 
-                class Foo
+                interface FooInterface
+                {
+                    public function bar(BarService|FooService|object $service, int|iterable $count): int|string|null;
+                }
+
+                class Foo implements FooInterface
                 {
                     public function __construct(
                         private FooService|null $fooService = null,

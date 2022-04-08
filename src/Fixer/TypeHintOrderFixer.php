@@ -125,12 +125,12 @@ class Foo
         }
 
         // Return type
-        $vars = $tokens->findGivenKind(CT::T_TYPE_COLON, $argsEnd, $end);
+        $vars = $tokens->findGivenKind(CT::T_TYPE_COLON, $argsEnd, $end - 1);
 
         if (\count($vars)) {
             $start = $stop = array_key_first($vars) + 2;
 
-            while ($start < $end && !$tokens[$stop + 1]->isGivenKind(T_WHITESPACE)) {
+            while ($stop < $end - 1 && !$tokens[$stop + 1]->isGivenKind(T_WHITESPACE)) {
                 ++$stop;
             }
 

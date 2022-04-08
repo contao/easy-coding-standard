@@ -18,7 +18,7 @@ class AssertEqualsFixerTest extends TestCase
         $tokens = Tokens::fromCode($code);
 
         $fixer = new AssertEqualsFixer();
-        $fixer->fix($this->createMock('SplFileInfo'), $tokens);
+        $fixer->fix($this->createMock(\SplFileInfo::class), $tokens);
 
         $this->assertSame($expected, $tokens->generateCode());
     }

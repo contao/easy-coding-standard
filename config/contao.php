@@ -31,6 +31,7 @@ use PhpCsFixer\Fixer\Comment\MultilineCommentOpeningClosingFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoAlternativeSyntaxFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoSuperfluousElseifFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer;
+use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\FunctionNotation\CombineNestedDirnameFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NoUnreachableDefaultArgumentValueFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NullableTypeDeclarationForDefaultNullValueFixer;
@@ -218,6 +219,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services
         ->set(SuperfluousWhitespaceSniff::class)
         ->property('ignoreBlankLines', false)
+    ;
+
+    $services
+        ->set(TrailingCommaInMultilineFixer::class)
+        ->call('configure', [[
+            'elements' => [
+                TrailingCommaInMultilineFixer::ELEMENTS_ARRAYS,
+                TrailingCommaInMultilineFixer::ELEMENTS_PARAMETERS,
+            ],
+            'after_heredoc' => true,
+        ]])
     ;
 
     $services

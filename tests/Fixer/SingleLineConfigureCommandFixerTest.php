@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of Contao.
+ *
+ * (c) Leo Feyer
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Contao\EasyCodingStandard\Tests\Fixer;
 
 use Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer;

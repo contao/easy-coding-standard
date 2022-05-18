@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of Contao.
+ *
+ * (c) Leo Feyer
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Contao\EasyCodingStandard\Sniffs;
 
 use PHP_CodeSniffer\Files\File;
@@ -33,7 +41,7 @@ final class UseSprintfInExceptionsSniff implements Sniff
         $next = TokenHelper::findNext($phpcsFile, T_STRING, $next);
 
         // We are not dealing with an exception class
-        if ('Exception' !== substr($tokens[$next]['content'], -9)) {
+        if (!str_ends_with($tokens[$next]['content'], 'Exception')) {
             return;
         }
 

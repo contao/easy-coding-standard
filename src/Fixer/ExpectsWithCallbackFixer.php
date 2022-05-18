@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of Contao.
+ *
+ * (c) Leo Feyer
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -123,7 +131,7 @@ public function testFoo(): void
         $indent = $this->getIndent($tokens, $start);
 
         foreach ($argumentsIndexes as $argEnd) {
-            if ($tokens[$argEnd + 1]->equals(',') && false === strpos($tokens[$argEnd + 2]->getContent(), "\n")) {
+            if ($tokens[$argEnd + 1]->equals(',') && !str_contains($tokens[$argEnd + 2]->getContent(), "\n")) {
                 $tokens->offsetSet($argEnd + 2, new Token([T_WHITESPACE, $indent]));
             }
         }
@@ -133,7 +141,7 @@ public function testFoo(): void
         foreach ($whitespaces as $pos => $whitespace) {
             $content = $whitespace->getContent();
 
-            if (false !== strpos($content, "\n")) {
+            if (str_contains($content, "\n")) {
                 $tokens->offsetSet($pos, new Token([T_WHITESPACE, $content.'    ']));
             }
         }
@@ -152,7 +160,7 @@ public function testFoo(): void
         foreach ($whitespaces as $pos => $whitespace) {
             $content = $whitespace->getContent();
 
-            if (false !== strpos($content, "\n")) {
+            if (str_contains($content, "\n")) {
                 $tokens->offsetSet($pos, new Token([T_WHITESPACE, substr($content, 0, -4)]));
             }
         }

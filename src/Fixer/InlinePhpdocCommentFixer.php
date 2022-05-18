@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of Contao.
+ *
+ * (c) Leo Feyer
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -52,7 +60,7 @@ public function testFoo(): void
 
             $content = $tokens[$index]->getContent();
 
-            if (0 !== strncmp($content, '/* @', 4) || false !== strpos($content, "\n")) {
+            if (0 !== strncmp($content, '/* @', 4) || str_contains($content, "\n")) {
                 continue;
             }
 

@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of Contao.
+ *
+ * (c) Leo Feyer
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -53,7 +61,7 @@ class SomeCommand extends Command
                     $nextMeaningful = $tokens->getNextMeaningfulToken($index);
 
                     // Return if the class is not a command
-                    if ('Command' !== substr($tokens[$nextMeaningful]->getContent(), -7)) {
+                    if (!str_ends_with($tokens[$nextMeaningful]->getContent(), 'Command')) {
                         return;
                     }
                     break;

@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of Contao.
+ *
+ * (c) Leo Feyer
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Contao\EasyCodingStandard\Fixer;
 
 use PhpCsFixer\AbstractFixer;
@@ -93,8 +101,7 @@ $array = array_map(
 
     private function hasNewline(Tokens $tokens, int $index): bool
     {
-        return $tokens[$index]->isGivenKind(T_WHITESPACE)
-            && false !== strpos($tokens[$index]->getContent(), "\n");
+        return $tokens[$index]->isGivenKind(T_WHITESPACE) && str_contains($tokens[$index]->getContent(), "\n");
     }
 
     private function fixIndentation(Tokens $tokens, int $start, int &$end, string $indent): void
@@ -146,7 +153,7 @@ $array = array_map(
         foreach ($whitespaces as $pos => $whitespace) {
             $ws = $whitespace->getContent();
 
-            if (false === strpos($ws, "\n")) {
+            if (!str_contains($ws, "\n")) {
                 continue;
             }
 

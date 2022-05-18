@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of Contao.
+ *
+ * (c) Leo Feyer
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Contao\EasyCodingStandard\Sniffs;
 
 use PHP_CodeSniffer\Files\File;
@@ -9,10 +17,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class SetDefinitionCommandSniff implements Sniff
 {
-    /**
-     * @var bool
-     */
-    private $isConfigure = false;
+    private bool $isConfigure = false;
 
     public function register(): array
     {
@@ -25,7 +30,7 @@ final class SetDefinitionCommandSniff implements Sniff
 
         switch (true) {
             case T_CLASS === $tokens[$stackPtr]['code']:
-                if ('Command' !== substr($tokens[$stackPtr + 2]['content'], -7)) {
+                if (!str_ends_with($tokens[$stackPtr + 2]['content'], 'Command')) {
                     return \count($tokens) + 1;
                 }
                 break;

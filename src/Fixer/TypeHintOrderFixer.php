@@ -79,7 +79,7 @@ class Foo
                 $nextMeaningful = $tokens->getNextMeaningfulToken($nextMeaningful);
             }
 
-            if ($tokens[$nextMeaningful]->isGivenKind(T_READONLY)) {
+            if (\defined('T_READONLY') && $tokens[$nextMeaningful]->isGivenKind(T_READONLY)) {
                 $nextMeaningful = $tokens->getNextMeaningfulToken($nextMeaningful);
             }
 
@@ -158,7 +158,7 @@ class Foo
         return $end;
     }
 
-    private function orderTypeHint(string $typehint): Tokens|null
+    private function orderTypeHint(string $typehint): ?Tokens
     {
         if (!str_contains($typehint, '|') && !str_contains($typehint, '?')) {
             return null;

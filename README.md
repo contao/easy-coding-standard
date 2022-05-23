@@ -4,7 +4,7 @@
 [![](https://img.shields.io/packagist/v/contao/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/contao/easy-coding-standard)
 [![](https://img.shields.io/packagist/dt/contao/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/contao/easy-coding-standard)
 
-This package includes the [EasyCodingStandard][1] configurations for [Contao][2].
+This package includes the [EasyCodingStandard][1] configuration for [Contao][2].
 
 ## Installation
 
@@ -23,12 +23,10 @@ Create a file named `ecs.php` in the root directory of your project.
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__.'/vendor/contao/easy-coding-standard/config/contao.php');
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->sets([__DIR__.'/vendor/contao/easy-coding-standard/config/contao.php']);
 
     // Adjust the configuration according to your needs.
 };

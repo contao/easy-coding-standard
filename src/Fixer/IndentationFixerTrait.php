@@ -16,7 +16,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 trait IndentationFixerTrait
 {
-    protected function getIndent(Tokens $tokens, int $index): string
+    protected function getIndent(Tokens $tokens, int $index, bool $normalize = true): string
     {
         do {
             if (!$index = (int) $tokens->getPrevTokenOfKind($index, [[T_WHITESPACE]])) {
@@ -24,7 +24,13 @@ trait IndentationFixerTrait
             }
         } while (!str_contains($tokens[$index]->getContent(), "\n"));
 
-        return "\n".ltrim($tokens[$index]->getContent(), "\n");
+        $content = $tokens[$index]->getContent();
+
+        if ($normalize) {
+            $content = "\n".ltrim($content, "\n");
+        }
+
+        return $content;
     }
 
     protected function isMultiLineStatement(Tokens $tokens, int $start, int $end): bool

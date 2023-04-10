@@ -19,6 +19,11 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
+/**
+ * This is a temporary work-around until #6490 has been fixed.
+ *
+ * @see https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/pull/6490
+ */
 final class CaseCommentIndentationFixer extends AbstractFixer
 {
     use IndentationFixerTrait;

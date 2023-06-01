@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
+        "kubawerlos/php-cs-fixer-custom-fixers": "^3.14",
         "slevomat/coding-standard": "^7.0 || ^8.0",
         "symplify/easy-coding-standard": "^11.0"
     },

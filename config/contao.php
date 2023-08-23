@@ -235,6 +235,8 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->ruleWithConfiguration(\PhpCsFixer\Fixer\ListNotation\ListSyntaxFixer::class, ['syntax' => 'short']);
     $ecsConfig->rule(\PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer::class);
     $ecsConfig->rule(\PhpCsFixer\Fixer\Comment\MultilineCommentOpeningClosingFixer::class);
+    // TODO: Remove the next line once https://github.com/easy-coding-standard/easy-coding-standard/pull/110 has been released
+    $ecsConfig->rule(\PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::class);
     $ecsConfig->ruleWithConfiguration(\PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::class, ['minimum_number_of_parameters' => 2]);
     $ecsConfig->ruleWithConfiguration(\PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer::class, ['strategy' => 'new_line_for_chained_calls']);
     $ecsConfig->ruleWithConfiguration(\PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer::class, ['fix_built_in' => false, 'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'], 'scope' => 'namespaced']);

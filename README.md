@@ -1,8 +1,10 @@
 # EasyCodingStandard configurations for Contao
 
-[![](https://img.shields.io/github/workflow/status/contao/easy-coding-standard/CI/master.svg)](https://github.com/contao/easy-coding-standard/actions)
-[![](https://img.shields.io/packagist/v/contao/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/contao/easy-coding-standard)
-[![](https://img.shields.io/packagist/dt/contao/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/contao/easy-coding-standard)
+<p>
+<a href="https://github.com/contao/easy-coding-standard/actions"><img src="https://github.com/contao/easy-coding-standard/actions/workflows/ci.yml/badge.svg?branch=main" alt></a>
+<a href="https://packagist.org/packages/contao/easy-coding-standard"><img src="https://img.shields.io/packagist/v/contao/easy-coding-standard.svg" alt></a>
+<a href="https://packagist.org/packages/contao/easy-coding-standard"><img src="https://img.shields.io/packagist/dt/contao/easy-coding-standard.svg" alt></a>
+</p>
 
 This package includes the [EasyCodingStandard][1] configuration for [Contao][2].
 

@@ -42,9 +42,9 @@ public function testFoo(): void
     $this->assertSame("foo", $obj->getName());
     $this->assertEquals(new Foo(), $obj);
 }
-'
+',
                 ),
-            ]
+            ],
         );
     }
 

@@ -40,9 +40,9 @@ class SomeTest extends TestCase
             ->method("isBar")
             ->willReturn(false);
 }
-'
+',
                 ),
-            ]
+            ],
         );
     }
 

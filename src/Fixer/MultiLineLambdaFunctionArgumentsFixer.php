@@ -38,9 +38,9 @@ $array = array_map(
     },
     $array
 );
-'
+',
                 ),
-            ]
+            ],
         );
     }
 

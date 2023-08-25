@@ -42,7 +42,7 @@ public function testFoo(): void
             }
         ));
 }
-'
+',
                 ),
                 new CodeSample(
                     '<?php
@@ -63,9 +63,9 @@ public function testFoo(): void
             )
         );
 }
-'
+',
                 ),
-            ]
+            ],
         );
     }
 

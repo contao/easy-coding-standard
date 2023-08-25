@@ -30,16 +30,16 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
 
 if (!empty($array) && is_array($array)) {
 }
-'
+',
                 ),
                 new CodeSample(
                     '<?php
 
 if (isset($array) && is_array($array)) {
 }
-'
+',
                 ),
-            ]
+            ],
         );
     }
 

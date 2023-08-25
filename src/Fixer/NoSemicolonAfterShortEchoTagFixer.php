@@ -24,7 +24,7 @@ final class NoSemicolonAfterShortEchoTagFixer extends AbstractFixer
     {
         return new FixerDefinition(
             'Remove the semicolon after a short echo tag `<?= $this->foo; ?>` instruction.',
-            [new CodeSample('<?= $this->foo; ?>\n')]
+            [new CodeSample('<?= $this->foo; ?>\n')],
         );
     }
 

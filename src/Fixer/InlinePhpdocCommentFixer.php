@@ -34,9 +34,9 @@ public function testFoo(): void
     /** @var string $str */
     $str = (new Foo())->get();
 }
-'
+',
                 ),
-            ]
+            ],
         );
     }
 

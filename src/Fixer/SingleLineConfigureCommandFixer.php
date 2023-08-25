@@ -42,9 +42,9 @@ class SomeCommand extends Command
             ->addOption("bar", null, InputOption::VALUE_NONE, "The option");
     }
 }
-'
+',
                 ),
-            ]
+            ],
         );
     }
 

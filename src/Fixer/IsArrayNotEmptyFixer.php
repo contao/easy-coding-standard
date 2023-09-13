@@ -26,18 +26,18 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
             'When checking isset() and is_array() or is_array() and !empty(), the is_array() check should be last.',
             [
                 new CodeSample(
-                    '<?php
-
-if (!empty($array) && is_array($array)) {
-}
-',
+                    <<<'EOT'
+                        <?php
+                        if (!empty($array) && is_array($array)) {
+                        }
+                        EOT,
                 ),
                 new CodeSample(
-                    '<?php
-
-if (isset($array) && is_array($array)) {
-}
-',
+                    <<<'EOT'
+                        <?php
+                        if (isset($array) && is_array($array)) {
+                        }
+                        EOT,
                 ),
             ],
         );

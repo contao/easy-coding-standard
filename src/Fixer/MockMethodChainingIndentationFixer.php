@@ -47,20 +47,20 @@ final class MockMethodChainingIndentationFixer extends AbstractFixer
             'Chained mock methods must be properly indented.',
             [
                 new CodeSample(
-                    '<?php
+                    <<<'EOT'
+                        <?php
+                        use PHPUnit\Framework\TestCase;
 
-use PHPUnit\Framework\TestCase;
-
-class SomeTest extends TestCase
-{
-    public function testFoo(): void
-    {
-        $mock = $this->createMock(Foo::class);
-        $mock
-            ->method("isBar")
-            ->willReturn(false);
-}
-',
+                        class SomeTest extends TestCase
+                        {
+                            public function testFoo(): void
+                            {
+                                $mock = $this->createMock(Foo::class);
+                                $mock
+                                    ->method("isBar")
+                                    ->willReturn(false);
+                        }
+                        EOT,
                 ),
             ],
         );

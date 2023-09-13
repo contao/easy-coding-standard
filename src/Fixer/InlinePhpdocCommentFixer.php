@@ -27,14 +27,14 @@ final class InlinePhpdocCommentFixer extends AbstractFixer
             'Inline phpDoc comments should not be converted to regular comments.',
             [
                 new CodeSample(
-                    '<?php
-
-public function testFoo(): void
-{
-    /** @var string $str */
-    $str = (new Foo())->get();
-}
-',
+                    <<<'EOT'
+                        <?php
+                        public function testFoo(): void
+                        {
+                            /** @var string $str */
+                            $str = (new Foo())->get();
+                        }
+                        EOT,
                 ),
             ],
         );
@@ -45,9 +45,11 @@ public function testFoo(): void
         return $tokens->isTokenKindFound(T_COMMENT);
     }
 
+    /**
+     * Must run after PhpdocToCommentFixer.
+     */
     public function getPriority(): int
     {
-        // must be run after PhpdocToCommentFixer
         return 24;
     }
 

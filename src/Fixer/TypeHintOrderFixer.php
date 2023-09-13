@@ -41,18 +41,18 @@ final class TypeHintOrderFixer extends AbstractFixer
             'Type hints must be ordered and grouped by non-native types and native types.',
             [
                 new CodeSample(
-                    '<?php
-
-class Foo
-{
-    public function __construct(
-        private readonly FooService|null $fooService,
-        private int|iterable $count,
-        private readonly Logger|null $logger = null
-    ) {
-    }
-}
-',
+                    <<<'EOT'
+                        <?php
+                        class Foo
+                        {
+                            public function __construct(
+                                private readonly FooService|null $fooService,
+                                private int|iterable $count,
+                                private readonly Logger|null $logger = null
+                            ) {
+                            }
+                        }
+                        EOT,
                 ),
             ],
         );
@@ -63,9 +63,11 @@ class Foo
         return $tokens->isAnyTokenKindsFound([T_PUBLIC, T_PROTECTED, T_PRIVATE]);
     }
 
+    /**
+     * Must run after NoUselessReturnFixer.
+     */
     public function getPriority(): int
     {
-        // must be run after NoUselessReturnFixer
         return -20;
     }
 

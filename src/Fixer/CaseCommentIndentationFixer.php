@@ -20,8 +20,6 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 /**
- * This is a temporary work-around until #6490 has been fixed.
- *
  * @see https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/pull/6490
  */
 final class CaseCommentIndentationFixer extends AbstractFixer
@@ -34,18 +32,18 @@ final class CaseCommentIndentationFixer extends AbstractFixer
             'Comments before a "case" statement must be properly indented.',
             [
                 new CodeSample(
-                    '<?php
+                    <<<'EOT'
+                        <?php
+                        switch {
+                            // First case
+                            case 1:
+                                break;
 
-switch {
-    // First case
-    case 1:
-        break;
-
-    // Second case
-    case 2:
-        break;
-}
-',
+                            // Second case
+                            case 2:
+                                break;
+                        }
+                        EOT,
                 ),
             ],
         );

@@ -29,21 +29,21 @@ final class MultiLineIfIndentationFixer extends AbstractFixer
             'A multi-line if statement must be properly indented.',
             [
                 new CodeSample(
-                    '<?php
-
-class Foo
-{
-    public function bar(array $array): void
-    {
-        if (
-            isset($array["bar"])
-            && is_array($array["bar"])
-        ) {
-            // do something
-        }
-    }
-}
-',
+                    <<<'EOT'
+                        <?php
+                        class Foo
+                        {
+                            public function bar(array $array): void
+                            {
+                                if (
+                                    isset($array["bar"])
+                                    && is_array($array["bar"])
+                                ) {
+                                    // do something
+                                }
+                            }
+                        }
+                        EOT,
                 ),
             ],
         );

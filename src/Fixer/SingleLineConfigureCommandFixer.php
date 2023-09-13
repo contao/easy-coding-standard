@@ -27,22 +27,22 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
             'Defining command arguments and options must be done in a single line.',
             [
                 new CodeSample(
-                    '<?php
+                    <<<'EOT'
+                        <?php
+                        use Symfony\Component\Console\Command\Command;
+                        use Symfony\Component\Console\Input\InputArgument;
+                        use Symfony\Component\Console\Input\InputOption;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-
-class SomeCommand extends Command
-{
-    protected function configure(): void
-    {
-        $this
-            ->addArgument("foo", InputArgument::REQUIRED, "The argument")
-            ->addOption("bar", null, InputOption::VALUE_NONE, "The option");
-    }
-}
-',
+                        class SomeCommand extends Command
+                        {
+                            protected function configure(): void
+                            {
+                                $this
+                                    ->addArgument("foo", InputArgument::REQUIRED, "The argument")
+                                    ->addOption("bar", null, InputOption::VALUE_NONE, "The option");
+                            }
+                        }
+                        EOT,
                 ),
             ],
         );

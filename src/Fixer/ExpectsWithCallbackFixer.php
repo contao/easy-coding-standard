@@ -30,40 +30,40 @@ final class ExpectsWithCallbackFixer extends AbstractFixer
             'Unless there are several $this->callback() calls, there must not be a line break before the call.',
             [
                 new CodeSample(
-                    '<?php
-
-public function testFoo(): void
-{
-    $foo = $this->createMock(Foo::class);
-    $foo
-        ->method("bar")
-        ->with($this->callback(
-            function () {
-            }
-        ));
-}
-',
+                    <<<'EOT'
+                        <?php
+                        public function testFoo(): void
+                        {
+                            $foo = $this->createMock(Foo::class);
+                            $foo
+                                ->method("bar")
+                                ->with($this->callback(
+                                    function () {
+                                    }
+                                ));
+                        }
+                        EOT,
                 ),
                 new CodeSample(
-                    '<?php
-
-public function testFoo(): void
-{
-    $foo = $this->createMock(Foo::class);
-    $foo
-        ->method("bar")
-        ->with(
-            $this->callback(
-                function () {
-                }
-            ),
-            $this->callback(
-                function () {
-                }
-            )
-        );
-}
-',
+                    <<<'EOT'
+                        <?php
+                        public function testFoo(): void
+                        {
+                            $foo = $this->createMock(Foo::class);
+                            $foo
+                                ->method("bar")
+                                ->with(
+                                    $this->callback(
+                                        function () {
+                                        }
+                                    ),
+                                    $this->callback(
+                                        function () {
+                                        }
+                                    )
+                                );
+                        }
+                        EOT,
                 ),
             ],
         );
@@ -74,9 +74,11 @@ public function testFoo(): void
         return $tokens->isTokenKindFound(T_STRING);
     }
 
+    /**
+     * Must run after MultiLineLambdaFunctionArgumentsFixer, MultilineWhitespaceBeforeSemicolonsFixer.
+     */
     public function getPriority(): int
     {
-        // must be run after MultiLineLambdaFunctionArgumentsFixer and MultilineWhitespaceBeforeSemicolonsFixer
         return 1;
     }
 

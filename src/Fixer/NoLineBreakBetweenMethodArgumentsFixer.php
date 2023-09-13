@@ -36,15 +36,15 @@ final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
             'Method declarations must be done in a single line.',
             [
                 new CodeSample(
-                    '<?php
-
-class Foo
-{
-    public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): void
-    {
-    }
-}
-',
+                    <<<'EOT'
+                        <?php
+                        class Foo
+                        {
+                            public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): void
+                            {
+                            }
+                        }
+                        EOT,
                 ),
             ],
         );

@@ -33,16 +33,16 @@ final class AssertEqualsFixer extends AbstractFixer
             'Unless comparing objects, assertSame() should be used instead of asserEquals().',
             [
                 new CodeSample(
-                    '<?php
+                    <<<'EOT'
+                        <?php
+                        public function testFoo(): void
+                        {
+                            $obj = new Foo();
 
-public function testFoo(): void
-{
-    $obj = new Foo();
-
-    $this->assertSame("foo", $obj->getName());
-    $this->assertEquals(new Foo(), $obj);
-}
-',
+                            $this->assertSame("foo", $obj->getName());
+                            $this->assertEquals(new Foo(), $obj);
+                        }
+                        EOT,
                 ),
             ],
         );

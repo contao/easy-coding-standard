@@ -30,15 +30,15 @@ final class MultiLineLambdaFunctionArgumentsFixer extends AbstractFixer
             'Multi-line lambda function arguments must be on their own line.',
             [
                 new CodeSample(
-                    '<?php
-
-$array = array_map(
-    static function ($i) {
-        return $i;
-    },
-    $array
-);
-',
+                    <<<'EOT'
+                        <?php
+                        $array = array_map(
+                            static function ($i) {
+                                return $i;
+                            },
+                            $array
+                        );
+                        EOT,
                 ),
             ],
         );
@@ -49,9 +49,11 @@ $array = array_map(
         return $tokens->isTokenKindFound(T_FUNCTION);
     }
 
+    /**
+     * Must run after MethodArgumentSpaceFixer.
+     */
     public function getPriority(): int
     {
-        // must be run after MethodArgumentSpaceFixer
         return -3;
     }
 

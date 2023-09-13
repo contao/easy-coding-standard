@@ -26,21 +26,21 @@ final class NoExpectsThisAnyFixer extends AbstractFixer
             'The ->expects($this->any()) assertion is the default and can be removed.',
             [
                 new CodeSample(
-                    '<?php
+                    <<<'EOT'
+                        <?php
+                        use PHPUnit\Framework\TestCase;
 
-use PHPUnit\Framework\TestCase;
-
-class SomeTest extends TestCase
-{
-    public function testFoo(): void
-    {
-        $mock = $this->createMock(Foo::class);
-        $mock
-            ->expects($this->any())
-            ->method("isBar")
-            ->willReturn(false);
-}
-',
+                        class SomeTest extends TestCase
+                        {
+                            public function testFoo(): void
+                            {
+                                $mock = $this->createMock(Foo::class);
+                                $mock
+                                    ->expects($this->any())
+                                    ->method("isBar")
+                                    ->willReturn(false);
+                        }
+                        EOT,
                 ),
             ],
         );

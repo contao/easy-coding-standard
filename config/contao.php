@@ -291,6 +291,7 @@ return static function (ECSConfig $ecsConfig): void {
     // Custom fixers
     $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\AssertEqualsFixer::class);
     $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\CaseCommentIndentationFixer::class);
+    $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\ChainedMethodBlockFixer::class);
     $ecsConfig->rule(\Contao\EasyCodingStandard\Sniffs\ContaoFrameworkClassAliasSniff::class);
     $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\ExpectsWithCallbackFixer::class);
     $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\FunctionCallWithMultilineArrayFixer::class);

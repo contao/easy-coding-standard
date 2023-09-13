@@ -29,6 +29,7 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         use Symfony\Component\Console\Command\Command;
                         use Symfony\Component\Console\Input\InputArgument;
                         use Symfony\Component\Console\Input\InputOption;

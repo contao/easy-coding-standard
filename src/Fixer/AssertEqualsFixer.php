@@ -35,6 +35,7 @@ final class AssertEqualsFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         public function testFoo(): void
                         {
                             $obj = new Foo();

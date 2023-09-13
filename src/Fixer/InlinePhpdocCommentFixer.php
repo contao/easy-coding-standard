@@ -29,6 +29,7 @@ final class InlinePhpdocCommentFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         public function testFoo(): void
                         {
                             /** @var string $str */

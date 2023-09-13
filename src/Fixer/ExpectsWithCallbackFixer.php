@@ -32,6 +32,7 @@ final class ExpectsWithCallbackFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         public function testFoo(): void
                         {
                             $foo = $this->createMock(Foo::class);
@@ -47,6 +48,7 @@ final class ExpectsWithCallbackFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         public function testFoo(): void
                         {
                             $foo = $this->createMock(Foo::class);

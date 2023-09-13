@@ -38,6 +38,7 @@ final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         class Foo
                         {
                             public function bar(FooService $fooService, BarService $barService, array $options = [], Logger $logger = null): void

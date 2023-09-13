@@ -28,6 +28,7 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         if (!empty($array) && is_array($array)) {
                         }
                         EOT,
@@ -35,6 +36,7 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         if (isset($array) && is_array($array)) {
                         }
                         EOT,

@@ -28,6 +28,7 @@ final class NoExpectsThisAnyFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         use PHPUnit\Framework\TestCase;
 
                         class SomeTest extends TestCase

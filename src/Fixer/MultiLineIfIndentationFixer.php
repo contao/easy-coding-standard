@@ -31,6 +31,7 @@ final class MultiLineIfIndentationFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         class Foo
                         {
                             public function bar(array $array): void

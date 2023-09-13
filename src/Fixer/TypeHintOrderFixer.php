@@ -43,6 +43,7 @@ final class TypeHintOrderFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         class Foo
                         {
                             public function __construct(

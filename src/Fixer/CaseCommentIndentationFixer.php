@@ -34,6 +34,7 @@ final class CaseCommentIndentationFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         switch {
                             // First case
                             case 1:

@@ -32,6 +32,7 @@ final class MultiLineLambdaFunctionArgumentsFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         $array = array_map(
                             static function ($i) {
                                 return $i;

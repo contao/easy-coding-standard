@@ -39,6 +39,7 @@ final class FunctionCallWithMultilineArrayFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         myFunction([
                             "foo" => "Foo",
                             "bar" => "Bar",
@@ -48,6 +49,7 @@ final class FunctionCallWithMultilineArrayFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         myFunction($foo, [
                             "foo" => "Foo",
                             "bar" => "Bar",
@@ -57,6 +59,7 @@ final class FunctionCallWithMultilineArrayFixer extends AbstractFixer
                 new CodeSample(
                     <<<'EOT'
                         <?php
+
                         myFunction(
                             $foo,
                             [

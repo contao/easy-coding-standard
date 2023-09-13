@@ -293,6 +293,7 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\CaseCommentIndentationFixer::class);
     $ecsConfig->rule(\Contao\EasyCodingStandard\Sniffs\ContaoFrameworkClassAliasSniff::class);
     $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\ExpectsWithCallbackFixer::class);
+    $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\FunctionCallWithMultilineArrayFixer::class);
     $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\InlinePhpdocCommentFixer::class);
     $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\IsArrayNotEmptyFixer::class);
     $ecsConfig->rule(\Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer::class);

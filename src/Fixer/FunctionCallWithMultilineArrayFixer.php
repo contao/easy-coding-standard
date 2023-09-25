@@ -31,6 +31,10 @@ final class FunctionCallWithMultilineArrayFixer extends AbstractFixer
         'withAnyParameters',
     ];
 
+    private static array $ignoredMethods = [
+        'ArrayUtil::arrayInsert',
+    ];
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -119,7 +123,18 @@ final class FunctionCallWithMultilineArrayFixer extends AbstractFixer
                 continue;
             }
 
-            if ($this->shouldRemoveLineBreaks($tokens, $argumentsIndexes, $tokens[$index]->getContent())) {
+            $method = $tokens[$index]->getContent();
+
+            if ($tokens[$index - 1]->isGivenKind(T_PAAMAYIM_NEKUDOTAYIM)) {
+                $method = $tokens->generatePartialCode($index - 2, $index);
+            }
+
+            if (\in_array($method, self::$ignoredMethods, true)) {
+                $index = $end + 1;
+                continue;
+            }
+
+            if ($this->shouldRemoveLineBreaks($tokens, $argumentsIndexes, $method)) {
                 $this->removeLineBreaks($tokens, $argumentsIndexes, $end);
             } else {
                 $this->addLineBreaks($tokens, $argumentsIndexes, $start, $end);

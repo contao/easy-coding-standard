@@ -118,7 +118,7 @@ final class ChainedMethodBlockFixer extends AbstractFixer
 
             $nextMeaningful = $tokens->getNextMeaningfulToken($end);
 
-            if ($tokens[$nextMeaningful]->equals('}')) {
+            if (null === $nextMeaningful || $tokens[$nextMeaningful]->equals('}')) {
                 $index = $end;
                 continue;
             }

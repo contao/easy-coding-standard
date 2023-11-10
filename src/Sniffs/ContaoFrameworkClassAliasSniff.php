@@ -52,7 +52,7 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
             return false;
         }
 
-        if (!preg_match('/^[A-Z]/', $tokens[$index]['content'])) {
+        if (!preg_match('/^[A-Z]/', (string) $tokens[$index]['content'])) {
             return false;
         }
 
@@ -61,11 +61,7 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
             return false;
         }
 
-        if (!class_exists('Contao\\'.$tokens[$index]['content'])) {
-            return false;
-        }
-
-        return true;
+        return class_exists('Contao\\'.$tokens[$index]['content']);
     }
 
     private function isNamespaced(File $file): bool

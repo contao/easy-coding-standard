@@ -41,7 +41,7 @@ final class UseSprintfInExceptionsSniff implements Sniff
         $next = TokenHelper::findNext($phpcsFile, T_STRING, $next);
 
         // We are not dealing with an exception class
-        if (!str_ends_with($tokens[$next]['content'], 'Exception')) {
+        if (!str_ends_with((string) $tokens[$next]['content'], 'Exception')) {
             return;
         }
 

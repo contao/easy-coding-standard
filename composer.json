@@ -16,6 +16,7 @@
         "symplify/easy-coding-standard": "^12.0.7"
     },
     "require-dev": {
+        "contao/rector": "^1.0",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
@@ -35,10 +36,12 @@
     },
     "scripts": {
         "all": [
+            "@rector",
             "@cs-fixer",
             "@unit-tests"
         ],
         "cs-fixer": "vendor/bin/ecs check config src tests --fix --ansi",
+        "rector": "vendor/bin/rector --ansi",
         "unit-tests": "vendor/bin/phpunit --colors=always"
     }
 }

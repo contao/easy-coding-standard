@@ -63,7 +63,7 @@ final class InlinePhpdocCommentFixer extends AbstractFixer
 
             $content = $tokens[$index]->getContent();
 
-            if (0 !== strncmp($content, '/* @', 4) || str_contains($content, "\n")) {
+            if (!str_starts_with($content, '/* @') || str_contains($content, "\n")) {
                 continue;
             }
 

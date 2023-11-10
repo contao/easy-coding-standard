@@ -116,7 +116,7 @@ final class TypeHintOrderFixer extends AbstractFixer
         $argsEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $argsStart);
         $vars = $tokens->findGivenKind(T_VARIABLE, $argsStart, $argsEnd);
 
-        if (\count($vars)) {
+        if ([] !== $vars) {
             foreach (array_keys($vars) as $pos) {
                 $prevMeaningful = $tokens->getPrevMeaningfulToken($pos);
 
@@ -138,7 +138,7 @@ final class TypeHintOrderFixer extends AbstractFixer
         // Return type
         $vars = $tokens->findGivenKind(CT::T_TYPE_COLON, $argsEnd, $end - 1);
 
-        if (\count($vars)) {
+        if ([] !== $vars) {
             $start = $stop = array_key_first($vars) + 2;
 
             while ($stop < $end - 1 && !$tokens[$stop + 1]->isGivenKind(T_WHITESPACE)) {
@@ -169,7 +169,7 @@ final class TypeHintOrderFixer extends AbstractFixer
         return $end;
     }
 
-    private function orderTypeHint(string $typehint): ?Tokens
+    private function orderTypeHint(string $typehint): Tokens|null
     {
         if (!str_contains($typehint, '|') && !str_contains($typehint, '?')) {
             return null;

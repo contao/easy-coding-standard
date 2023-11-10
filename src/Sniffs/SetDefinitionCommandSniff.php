@@ -30,7 +30,7 @@ final class SetDefinitionCommandSniff implements Sniff
 
         switch (true) {
             case T_CLASS === $tokens[$stackPtr]['code']:
-                if (!str_ends_with($tokens[$stackPtr + 2]['content'], 'Command')) {
+                if (!str_ends_with((string) $tokens[$stackPtr + 2]['content'], 'Command')) {
                     return \count($tokens) + 1;
                 }
                 break;

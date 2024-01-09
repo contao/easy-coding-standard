@@ -8,7 +8,6 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->sets([__DIR__.'/config/contao.php']);
-    $ecsConfig->parallel();
 
     $ecsConfig->skip([
         ReferenceUsedNamesOnlySniff::class => [
@@ -20,5 +19,6 @@ return static function (ECSConfig $ecsConfig): void {
         'header' => "This file is part of Contao.\n\n(c) Leo Feyer\n\n@license LGPL-3.0-or-later",
     ]);
 
+    $ecsConfig->parallel();
     $ecsConfig->cacheDirectory(sys_get_temp_dir().'/ecs_ecs_cache');
 };

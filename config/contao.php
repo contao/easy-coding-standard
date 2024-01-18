@@ -246,6 +246,7 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->rule(PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer::class);
     $ecsConfig->rule(PhpCsFixerCustomFixers\Fixer\NoUselessParenthesisFixer::class);
     $ecsConfig->rule(PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer::class);
+    $ecsConfig->ruleWithConfiguration(PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer::class, ['after_heredoc' => true]);
     $ecsConfig->ruleWithConfiguration(PhpCsFixer\Fixer\FunctionNotation\NullableTypeDeclarationForDefaultNullValueFixer::class, ['use_nullable_type_declaration' => true]);
     $ecsConfig->rule(SlevomatCodingStandard\Sniffs\TypeHints\NullTypeHintOnLastPositionSniff::class);
     $ecsConfig->rule(PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer::class);

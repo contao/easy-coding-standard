@@ -61,7 +61,7 @@ final class TypeHintOrderFixer extends AbstractFixer
 
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([T_PUBLIC, T_PROTECTED, T_PRIVATE]);
+        return $tokens->isAnyTokenKindsFound([T_PUBLIC, T_PROTECTED, T_PRIVATE, T_FUNCTION, T_FN]);
     }
 
     /**
@@ -75,7 +75,13 @@ final class TypeHintOrderFixer extends AbstractFixer
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = 1, $count = \count($tokens); $index < $count; ++$index) {
-            if (!$tokens[$index]->isGivenKind([T_PUBLIC, T_PROTECTED, T_PRIVATE])) {
+            if (!$tokens[$index]->isGivenKind([T_PUBLIC, T_PROTECTED, T_PRIVATE, T_FUNCTION, T_FN])) {
+                continue;
+            }
+
+            // Anonymous functions
+            if ($tokens[$index]->isGivenKind([T_FUNCTION, T_FN])) {
+                $index = $this->handleFunction($tokens, $index);
                 continue;
             }
 

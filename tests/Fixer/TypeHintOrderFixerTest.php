@@ -52,6 +52,13 @@ class TypeHintOrderFixerTest extends TestCase
 
                     public function bar(object|FooService|BarService $service, iterable|int $count): null|string|int
                     {
+                        $foo = function (string|int $id): ?FooService {
+                        };
+
+                        $foo = function (string|int $id) use ($count): ?FooService {
+                        };
+
+                        $bar = fn (string|int $id): ?FooService => null;
                     }
                 }
                 EOT,
@@ -73,6 +80,13 @@ class TypeHintOrderFixerTest extends TestCase
 
                     public function bar(BarService|FooService|object $service, int|iterable $count): int|string|null
                     {
+                        $foo = function (int|string $id): FooService|null {
+                        };
+
+                        $foo = function (int|string $id) use ($count): FooService|null {
+                        };
+
+                        $bar = fn (int|string $id): FooService|null => null;
                     }
                 }
                 EOT,

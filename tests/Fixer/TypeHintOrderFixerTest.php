@@ -39,7 +39,7 @@ class TypeHintOrderFixerTest extends TestCase
 
                 interface FooInterface
                 {
-                    public function bar(object|FooService|BarService $service, iterable|int $count): null|string|int;
+                    public function bar(object|FooService|BarService $service, iterable|int $count): ?string;
                 }
 
                 class Foo implements FooInterface
@@ -67,7 +67,7 @@ class TypeHintOrderFixerTest extends TestCase
 
                 interface FooInterface
                 {
-                    public function bar(BarService|FooService|object $service, int|iterable $count): int|string|null;
+                    public function bar(BarService|FooService|object $service, int|iterable $count): string|null;
                 }
 
                 class Foo implements FooInterface

@@ -54,8 +54,8 @@ final class UseSprintfInExceptionsSniff implements Sniff
 
         $next = $this->getNextNonWhitespaceToken($tokens, $next);
 
-        // A non-interpolated string will have the T_CONSTANT_ENCAPSED_STRING
-        // code, so it is enough to check for T_DOUBLE_QUOTED_STRING here
+        // A non-interpolated string will have the T_CONSTANT_ENCAPSED_STRING code, so it
+        // is enough to check for T_DOUBLE_QUOTED_STRING here
         if (T_DOUBLE_QUOTED_STRING !== $tokens[$next]['code']) {
             return;
         }

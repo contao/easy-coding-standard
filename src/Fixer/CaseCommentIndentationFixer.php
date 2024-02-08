@@ -74,8 +74,8 @@ final class CaseCommentIndentationFixer extends AbstractFixer
                 continue;
             }
 
-            // If there is more than one line break between the comment and the
-            // "case" statement, the two do not belong to each other.
+            // If there is more than one line break between the comment and the "case"
+            // statement, the two do not belong to each other.
             if (substr_count($tokens->generatePartialCode($prevMeaningful, $index), "\n") > 1) {
                 continue;
             }

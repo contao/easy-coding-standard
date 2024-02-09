@@ -102,32 +102,104 @@ final class ChainedMethodBlockFixer extends AbstractFixer
                 continue;
             }
 
-            $chainedCalls = 0;
-            $operators = $tokens->findGivenKind(T_OBJECT_OPERATOR, $start, $end);
-
-            foreach (array_keys($operators) as $pos) {
-                if ($tokens[$pos - 1]->isWhitespace()) {
-                    ++$chainedCalls;
-                }
-            }
+            $chainedCalls = $this->getChainedCalls($tokens, $start, $end);
 
             if ($chainedCalls < 1) {
                 $index = $end;
                 continue;
             }
 
-            $nextMeaningful = $tokens->getNextMeaningfulToken($end);
-
-            if (null === $nextMeaningful || $tokens[$nextMeaningful]->equals('}')) {
-                $index = $end;
-                continue;
-            }
-
-            if (substr_count($tokens[$end + 1]->getContent(), "\n") < 2) {
-                $tokens->insertAt($end + 1, new Token([T_WHITESPACE, "\n"]));
-            }
+            $this->fixLeadingWhitespace($tokens, $start);
 
             $index = $end;
         }
+    }
+
+    private function getChainedCalls(Tokens $tokens, int $start, int $end): int
+    {
+        $chainedCalls = 0;
+        $operators = $tokens->findGivenKind(T_OBJECT_OPERATOR, $start, $end);
+
+        foreach (array_keys($operators) as $pos) {
+            if ($tokens[$pos - 1]->isWhitespace()) {
+                ++$chainedCalls;
+            }
+        }
+
+        return $chainedCalls;
+    }
+
+    private function fixLeadingWhitespace(Tokens $tokens, int $start): void
+    {
+        $prevStart = $tokens->getPrevTokenOfKind($start, [';', '{']);
+
+        if (null === $prevStart) {
+            return;
+        }
+
+        $prevIndex = $prevStart;
+        $prevVar = $this->getBlockVariable($tokens, $prevStart, $prevIndex);
+
+        if (null === $prevVar) {
+            return;
+        }
+
+        $addNewLine = false;
+        $removeNewLine = false;
+
+        if ($this->isMultiline($tokens, $prevIndex, $start)) {
+            $addNewLine = true;
+        } else {
+            $var = $this->getBlockVariable($tokens, $start);
+            $prevVar = $this->getBlockVariable($tokens, $prevStart);
+
+            if ($var === $prevVar) {
+                $removeNewLine = true;
+            } elseif (str_starts_with($prevVar, "$var->")) {
+                $addNewLine = true;
+            }
+        }
+
+        $content = $tokens[$start + 1]->getContent();
+
+        if ($addNewLine && !$tokens[$start + 2]->isGivenKind(T_WHITESPACE)) {
+            if (substr_count($content, "\n") < 2) {
+                $tokens->offsetSet($start + 1, new Token([T_WHITESPACE, str_replace("\n", "\n\n", $content)]));
+            }
+        } elseif ($removeNewLine && substr_count($content, "\n") > 1) {
+            $tokens->offsetSet($start + 1, new Token([T_WHITESPACE, str_replace("\n\n", "\n", $content)]));
+        }
+    }
+
+    private function isMultiline(Tokens $tokens, int $start, int $end): bool
+    {
+        $lineBreaks = 0;
+        $operators = $tokens->findGivenKind(T_WHITESPACE, $start, $end);
+
+        foreach (array_keys($operators) as $pos) {
+            if ($tokens[$pos]->isWhitespace() && str_contains($tokens[$pos]->getContent(), "\n")) {
+                ++$lineBreaks;
+            }
+        }
+
+        return $lineBreaks > 1;
+    }
+
+    private function getBlockVariable(Tokens $tokens, int $start, int &$prevIndex = 0): string|null
+    {
+        $index = $tokens->getNextMeaningfulToken($start);
+
+        if (!$tokens[$index]->isGivenKind(T_VARIABLE)) {
+            return null;
+        }
+
+        $prevIndex = $index;
+        $var = $tokens[$index]->getContent();
+
+        if ($tokens[$index + 1]->isObjectOperator()) {
+            $var = $tokens->generatePartialCode($index, $index + 2);
+        }
+
+        return $var;
     }
 }

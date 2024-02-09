@@ -79,6 +79,50 @@ class ChainedMethodBlockFixerTest extends TestCase
                             )
                         ;
                     }
+
+                    public function testBar(): void
+                    {
+                        /*
+                         * Comment
+                         */
+
+                        $this->mock = $this->createMock(Bar::class);
+
+                        $this->mock
+                            ->method("isFoo")
+                            ->willReturn(false)
+                        ;
+
+                        $this->mock
+                            ->method("isBar")
+                            ->willReturn(true)
+                        ;
+                    }
+
+                    public function testBaz(): void
+                    {
+                        $mock = $this->mockClassWithProperties(Baz::class);
+                        $mock->id = 42;
+                        $mock
+                            ->method("isFoo")
+                            ->willReturn(false)
+                        ;
+                        $mock
+                            ->method("isBaz")
+                            ->willReturn(true)
+                        ;
+                    }
+
+                    public function testBat(): void
+                    {
+                        $mock = $this->mockClassWithProperties(Bat::class, [
+                            'id' => 42,
+                        ]);
+                        $mock
+                            ->method("isBat")
+                            ->willReturn(true)
+                        ;
+                    }
                 }
                 EOT,
             <<<'EOT'
@@ -126,6 +170,52 @@ class ChainedMethodBlockFixerTest extends TestCase
                                     ;
                                 }
                             )
+                        ;
+                    }
+
+                    public function testBar(): void
+                    {
+                        /*
+                         * Comment
+                         */
+
+                        $this->mock = $this->createMock(Bar::class);
+                        $this->mock
+                            ->method("isFoo")
+                            ->willReturn(false)
+                        ;
+
+                        $this->mock
+                            ->method("isBar")
+                            ->willReturn(true)
+                        ;
+                    }
+
+                    public function testBaz(): void
+                    {
+                        $mock = $this->mockClassWithProperties(Baz::class);
+                        $mock->id = 42;
+
+                        $mock
+                            ->method("isFoo")
+                            ->willReturn(false)
+                        ;
+
+                        $mock
+                            ->method("isBaz")
+                            ->willReturn(true)
+                        ;
+                    }
+
+                    public function testBat(): void
+                    {
+                        $mock = $this->mockClassWithProperties(Bat::class, [
+                            'id' => 42,
+                        ]);
+
+                        $mock
+                            ->method("isBat")
+                            ->willReturn(true)
                         ;
                     }
                 }

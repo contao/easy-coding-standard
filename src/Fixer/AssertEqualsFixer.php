@@ -63,11 +63,7 @@ final class AssertEqualsFixer extends AbstractFixer
 
             $name = $tokens[$index]->getContent();
 
-            if (
-                !isset($this->mapper[$name])
-                || !$tokens[$index - 1]->isGivenKind(T_OBJECT_OPERATOR)
-                || !$tokens[$index + 1]->equals('(')
-            ) {
+            if (!isset($this->mapper[$name]) || !$this->isMethodCall($index, $tokens)) {
                 continue;
             }
 
@@ -86,5 +82,10 @@ final class AssertEqualsFixer extends AbstractFixer
 
             $tokens->offsetSet($index, new Token([T_STRING, $this->mapper[$name]]));
         }
+    }
+
+    private function isMethodCall(int $index, Tokens $tokens): bool
+    {
+        return $tokens[$index - 1]->isGivenKind([T_OBJECT_OPERATOR, T_PAAMAYIM_NEKUDOTAYIM]) && $tokens[$index + 1]->equals('(');
     }
 }

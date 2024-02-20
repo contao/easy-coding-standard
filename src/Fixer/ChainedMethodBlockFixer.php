@@ -155,7 +155,7 @@ final class ChainedMethodBlockFixer extends AbstractFixer
 
             if ($var === $prevVar) {
                 $removeNewLine = true;
-            } elseif (str_starts_with($prevVar, "$var->")) {
+            } elseif ($prevVar && str_starts_with($prevVar, "$var->")) {
                 $addNewLine = true;
             }
         }

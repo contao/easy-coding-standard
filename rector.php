@@ -12,17 +12,15 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->sets([__DIR__.'/vendor/contao/rector/config/contao.php']);
-
-    $rectorConfig->paths([
+return RectorConfig::configure()
+    ->withSets([__DIR__.'/vendor/contao/rector/config/contao.php'])
+    ->withPaths([
         __DIR__.'/config',
         __DIR__.'/src',
         __DIR__.'/tests',
         __DIR__.'/ecs.php',
         __DIR__.'/rector.php',
-    ]);
-
-    $rectorConfig->parallel();
-    $rectorConfig->cacheDirectory(sys_get_temp_dir().'/ecs_rector_cache');
-};
+    ])
+    ->withParallel()
+    ->withCache(sys_get_temp_dir().'/ecs_rector_cache')
+;

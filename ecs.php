@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Contao\EasyCodingStandard\Fixer\CommentLengthFixer;
+use Contao\EasyCodingStandard\Fixer\FindByPkFixer;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
@@ -12,6 +13,9 @@ return ECSConfig::configure()
     ->withSkip([
         CommentLengthFixer::class => [
             'config/contao.php',
+        ],
+        FindByPkFixer::class => [
+            'src/Fixer/FindByPkFixer.php',
         ],
         ReferenceUsedNamesOnlySniff::class => [
             'config/contao.php',

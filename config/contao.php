@@ -15,6 +15,7 @@ use Contao\EasyCodingStandard\Fixer\CaseCommentIndentationFixer;
 use Contao\EasyCodingStandard\Fixer\ChainedMethodBlockFixer;
 use Contao\EasyCodingStandard\Fixer\CommentLengthFixer;
 use Contao\EasyCodingStandard\Fixer\ExpectsWithCallbackFixer;
+use Contao\EasyCodingStandard\Fixer\FindByPkFixer;
 use Contao\EasyCodingStandard\Fixer\FunctionCallWithMultilineArrayFixer;
 use Contao\EasyCodingStandard\Fixer\InlinePhpdocCommentFixer;
 use Contao\EasyCodingStandard\Fixer\IsArrayNotEmptyFixer;
@@ -120,6 +121,7 @@ return ECSConfig::configure()
         DisallowArrayTypeHintSyntaxSniff::class,
         DisallowDirectMagicInvokeCallSniff::class,
         ExpectsWithCallbackFixer::class,
+        FindByPkFixer::class,
         FunctionCallWithMultilineArrayFixer::class,
         GitMergeConflictSniff::class,
         HeredocIndentationFixer::class,

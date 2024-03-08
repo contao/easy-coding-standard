@@ -72,8 +72,8 @@ use PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
-use PhpCsFixer\Fixer\StringNotation\EscapeImplicitBackslashesFixer;
 use PhpCsFixer\Fixer\StringNotation\HeredocToNowdocFixer;
+use PhpCsFixer\Fixer\StringNotation\StringImplicitBackslashesFixer;
 use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Whitespace\HeredocIndentationFixer;
@@ -119,7 +119,6 @@ return ECSConfig::configure()
         DeclareStrictTypesFixer::class,
         DisallowArrayTypeHintSyntaxSniff::class,
         DisallowDirectMagicInvokeCallSniff::class,
-        EscapeImplicitBackslashesFixer::class,
         ExpectsWithCallbackFixer::class,
         FunctionCallWithMultilineArrayFixer::class,
         GitMergeConflictSniff::class,
@@ -191,6 +190,7 @@ return ECSConfig::configure()
     ->withConfiguredRule(PhpUnitTestCaseStaticMethodCallsFixer::class, ['call_type' => 'this'])
     ->withConfiguredRule(RandomApiMigrationFixer::class, ['replacements' => ['mt_rand' => 'random_int', 'rand' => 'random_int']])
     ->withConfiguredRule(ReferenceUsedNamesOnlySniff::class, ['searchAnnotations' => true, 'allowFullyQualifiedNameForCollidingClasses' => true, 'allowFullyQualifiedGlobalClasses' => true, 'allowFullyQualifiedGlobalFunctions' => true, 'allowFullyQualifiedGlobalConstants' => true, 'allowPartialUses' => false])
+    ->withConfiguredRule(StringImplicitBackslashesFixer::class, ['single_quoted' => 'ignore', 'double_quoted' => 'escape', 'heredoc' => 'escape'])
     ->withConfiguredRule(SuperfluousWhitespaceSniff::class, ['ignoreBlankLines' => false])
     ->withConfiguredRule(TrailingCommaInMultilineFixer::class, ['elements' => ['arrays', 'arguments', 'match', 'parameters'], 'after_heredoc' => true])
     ->withConfiguredRule(TraitUseSpacingSniff::class, ['linesCountAfterLastUse' => 1, 'linesCountAfterLastUseWhenLastInClass' => 0, 'linesCountBeforeFirstUse' => 0, 'linesCountBetweenUses' => 0])

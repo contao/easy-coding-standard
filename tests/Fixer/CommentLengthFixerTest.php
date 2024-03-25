@@ -45,6 +45,19 @@ class CommentLengthFixerTest extends TestCase
                 // This comment is shorter than 80 characters. It should be on one line.
                 if (true) {
                 }
+
+                /**
+                 * This comment is shorter than 80 characters.
+                 * It should be on one line.
+                 */
+                function foo() {
+                }
+
+                /**
+                 * This comment is shorter than 80 characters. It should be on one line.
+                 */
+                function foo() {
+                }
                 EOT,
             <<<'EOT'
                 <?php
@@ -55,6 +68,18 @@ class CommentLengthFixerTest extends TestCase
 
                 // This comment is shorter than 80 characters. It should be on one line.
                 if (true) {
+                }
+
+                /**
+                 * This comment is shorter than 80 characters. It should be on one line.
+                 */
+                function foo() {
+                }
+
+                /**
+                 * This comment is shorter than 80 characters. It should be on one line.
+                 */
+                function foo() {
                 }
                 EOT,
         ];
@@ -66,6 +91,12 @@ class CommentLengthFixerTest extends TestCase
                 // This comment exceeds the maximum line length of 80 characters. It should be distributed accross two lines.
                 if (true) {
                 }
+
+                /**
+                 * This comment exceeds the maximum line length of 80 characters. It should be distributed accross two lines.
+                 */
+                function foo() {
+                }
                 EOT,
             <<<'EOT'
                 <?php
@@ -73,6 +104,13 @@ class CommentLengthFixerTest extends TestCase
                 // This comment exceeds the maximum line length of 80 characters. It should be
                 // distributed accross two lines.
                 if (true) {
+                }
+
+                /**
+                 * This comment exceeds the maximum line length of 80 characters. It should be
+                 * distributed accross two lines.
+                 */
+                function foo() {
                 }
                 EOT,
         ];
@@ -88,6 +126,18 @@ class CommentLengthFixerTest extends TestCase
                 // This comment is exactly 90 characters long. It should be distributed accross two lines.
                 if (true) {
                 }
+
+                /**
+                 * This comment is 86 characters long. It should not be distributed accross two lines.
+                 */
+                function foo() {
+                }
+
+                /**
+                 * This comment is exactly 90 characters long. It should be distributed accross two lines.
+                 */
+                function foo() {
+                }
                 EOT,
             <<<'EOT'
                 <?php
@@ -100,6 +150,19 @@ class CommentLengthFixerTest extends TestCase
                 // two lines.
                 if (true) {
                 }
+
+                /**
+                 * This comment is 86 characters long. It should not be distributed accross two lines.
+                 */
+                function foo() {
+                }
+
+                /**
+                 * This comment is exactly 90 characters long. It should be distributed accross
+                 * two lines.
+                 */
+                function foo() {
+                }
                 EOT,
         ];
 
@@ -111,6 +174,13 @@ class CommentLengthFixerTest extends TestCase
                 // https://contao.org
                 if (true) {
                 }
+
+                /**
+                 * Keep URLs on their own line.
+                 * https://contao.org
+                 */
+                function foo() {
+                }
                 EOT,
             <<<'EOT'
                 <?php
@@ -118,6 +188,80 @@ class CommentLengthFixerTest extends TestCase
                 // Keep URLs on their own line.
                 // https://contao.org
                 if (true) {
+                }
+
+                /**
+                 * Keep URLs on their own line.
+                 * https://contao.org
+                 */
+                function foo() {
+                }
+                EOT,
+        ];
+
+        yield [
+            <<<'EOT'
+                <?php
+
+                /**
+                 * Preserve unordered lists:
+                 *
+                 * - Foo
+                 * - Bar
+                 *
+                 * Preserve ordered lists:
+                 *
+                 * 1. Foo
+                 * 2. Bar
+                 *
+                 * Preserve code examples:
+                 *
+                 *     [
+                 *         'foo',
+                 *         'bar',
+                 *     ]
+                 *
+                 * And anything that is indented:
+                 *
+                 *     framework:
+                 *         mailer:
+                 *             dsn: '%env(MAILER_DSN)%'
+                 *
+                 * That's it.
+                 */
+                function foo() {
+                }
+                EOT,
+            <<<'EOT'
+                <?php
+
+                /**
+                 * Preserve unordered lists:
+                 *
+                 * - Foo
+                 * - Bar
+                 *
+                 * Preserve ordered lists:
+                 *
+                 * 1. Foo
+                 * 2. Bar
+                 *
+                 * Preserve code examples:
+                 *
+                 *     [
+                 *         'foo',
+                 *         'bar',
+                 *     ]
+                 *
+                 * And anything that is indented:
+                 *
+                 *     framework:
+                 *         mailer:
+                 *             dsn: '%env(MAILER_DSN)%'
+                 *
+                 * That's it.
+                 */
+                function foo() {
                 }
                 EOT,
         ];

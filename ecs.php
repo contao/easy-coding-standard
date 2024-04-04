@@ -2,14 +2,30 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of Contao.
+ *
+ * (c) Leo Feyer
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 use Contao\EasyCodingStandard\Fixer\CommentLengthFixer;
 use Contao\EasyCodingStandard\Fixer\FindByPkFixer;
+use Contao\EasyCodingStandard\Set\SetList;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return ECSConfig::configure()
-    ->withSets([__DIR__.'/config/contao.php'])
+    ->withSets([SetList::CONTAO])
+    ->withPaths([
+        __DIR__.'/config',
+        __DIR__.'/src',
+        __DIR__.'/tests',
+        __DIR__.'/ecs.php',
+        __DIR__.'/rector.php',
+    ])
     ->withSkip([
         CommentLengthFixer::class => [
             'config/contao.php',

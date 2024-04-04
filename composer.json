@@ -16,7 +16,7 @@
         "symplify/easy-coding-standard": "^12.1"
     },
     "require-dev": {
-        "contao/rector": "^1.0",
+        "contao/rector": "^1.2",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
@@ -37,11 +37,11 @@
     "scripts": {
         "all": [
             "@rector",
-            "@cs-fixer",
+            "@ecs",
             "@unit-tests"
         ],
-        "cs-fixer": "vendor/bin/ecs check config src tests --fix --ansi",
-        "rector": "vendor/bin/rector --ansi",
-        "unit-tests": "vendor/bin/phpunit --colors=always"
+        "ecs": "vendor/bin/ecs check --fix",
+        "rector": "vendor/bin/rector",
+        "unit-tests": "vendor/bin/phpunit"
     }
 }

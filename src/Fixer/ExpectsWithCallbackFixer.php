@@ -77,7 +77,8 @@ final class ExpectsWithCallbackFixer extends AbstractFixer
     }
 
     /**
-     * Must run after MultiLineLambdaFunctionArgumentsFixer, MultilineWhitespaceBeforeSemicolonsFixer.
+     * Must run after MultiLineLambdaFunctionArgumentsFixer,
+     * MultilineWhitespaceBeforeSemicolonsFixer.
      */
     public function getPriority(): int
     {

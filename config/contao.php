@@ -29,9 +29,6 @@ use Contao\EasyCodingStandard\Fixer\TypeHintOrderFixer;
 use Contao\EasyCodingStandard\Sniffs\ContaoFrameworkClassAliasSniff;
 use Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff;
 use Contao\EasyCodingStandard\Sniffs\UseSprintfInExceptionsSniff;
-use PHP_CodeSniffer\Standards\Generic\Sniffs\VersionControl\GitMergeConflictSniff;
-use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff;
-use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff;
 use PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
@@ -80,10 +77,8 @@ use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Whitespace\HeredocIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer;
-use PhpCsFixerCustomFixers\Fixer\NoUselessParenthesisFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocTypesCommaSpacesFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpUnitAssertArgumentsOrderFixer;
-use SlevomatCodingStandard\Sniffs\Classes\TraitUseSpacingSniff;
 use SlevomatCodingStandard\Sniffs\Functions\UnusedInheritedVariablePassedToClosureSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff;
@@ -123,12 +118,10 @@ return ECSConfig::configure()
         ExpectsWithCallbackFixer::class,
         FindByPkFixer::class,
         FunctionCallWithMultilineArrayFixer::class,
-        GitMergeConflictSniff::class,
         HeredocIndentationFixer::class,
         HeredocToNowdocFixer::class,
         InlinePhpdocCommentFixer::class,
         IsArrayNotEmptyFixer::class,
-        LanguageConstructSpacingSniff::class,
         MethodChainingIndentationFixer::class,
         MockMethodChainingIndentationFixer::class,
         MultilineCommentOpeningClosingFixer::class,
@@ -139,7 +132,6 @@ return ECSConfig::configure()
         NoSuperfluousElseifFixer::class,
         NoUnsetOnPropertyFixer::class,
         NoUselessElseFixer::class,
-        NoUselessParenthesisFixer::class,
         NoUselessReturnFixer::class,
         NullTypeHintOnLastPositionSniff::class,
         OrderedClassElementsFixer::class,
@@ -193,8 +185,6 @@ return ECSConfig::configure()
     ->withConfiguredRule(RandomApiMigrationFixer::class, ['replacements' => ['mt_rand' => 'random_int', 'rand' => 'random_int']])
     ->withConfiguredRule(ReferenceUsedNamesOnlySniff::class, ['searchAnnotations' => true, 'allowFullyQualifiedNameForCollidingClasses' => true, 'allowFullyQualifiedGlobalClasses' => true, 'allowFullyQualifiedGlobalFunctions' => true, 'allowFullyQualifiedGlobalConstants' => true, 'allowPartialUses' => false])
     ->withConfiguredRule(StringImplicitBackslashesFixer::class, ['single_quoted' => 'ignore', 'double_quoted' => 'escape', 'heredoc' => 'escape'])
-    ->withConfiguredRule(SuperfluousWhitespaceSniff::class, ['ignoreBlankLines' => false])
     ->withConfiguredRule(TrailingCommaInMultilineFixer::class, ['elements' => ['arrays', 'arguments', 'match', 'parameters'], 'after_heredoc' => true])
-    ->withConfiguredRule(TraitUseSpacingSniff::class, ['linesCountAfterLastUse' => 1, 'linesCountAfterLastUseWhenLastInClass' => 0, 'linesCountBeforeFirstUse' => 0, 'linesCountBetweenUses' => 0])
     ->withConfiguredRule(UnusedUsesSniff::class, ['searchAnnotations' => true])
 ;

@@ -58,6 +58,8 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocVarAnnotationCorrectOrderFixer;
 use PhpCsFixer\Fixer\PhpTag\EchoTagSyntaxFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitDataProviderReturnTypeFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitDataProviderStaticFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertInternalTypeFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitExpectationFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitMockFixer;
@@ -142,6 +144,8 @@ return ECSConfig::configure()
         PhpdocTypesCommaSpacesFixer::class,
         PhpdocVarAnnotationCorrectOrderFixer::class,
         PhpUnitAssertArgumentsOrderFixer::class,
+        PhpUnitDataProviderReturnTypeFixer::class,
+        PhpUnitDataProviderStaticFixer::class,
         PhpUnitDedicateAssertInternalTypeFixer::class,
         PhpUnitExpectationFixer::class,
         PhpUnitMockFixer::class,

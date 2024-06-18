@@ -31,7 +31,7 @@ class TypeHintOrderFixerTest extends TestCase
         $this->assertSame($expected, $tokens->generateCode());
     }
 
-    public function getCodeSamples(): \Generator
+    public static function getCodeSamples(): iterable
     {
         yield [
             <<<'EOT'

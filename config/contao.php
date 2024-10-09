@@ -163,7 +163,6 @@ return ECSConfig::configure()
         TernaryToNullCoalescingFixer::class,
         TypeHintOrderFixer::class,
         UnusedInheritedVariablePassedToClosureSniff::class,
-        UnusedVariableSniff::class,
         UseArrowFunctionsFixer::class,
         UselessAliasSniff::class,
         UselessConstantTypeHintSniff::class,
@@ -191,4 +190,5 @@ return ECSConfig::configure()
     ->withConfiguredRule(StringImplicitBackslashesFixer::class, ['single_quoted' => 'ignore', 'double_quoted' => 'escape', 'heredoc' => 'escape'])
     ->withConfiguredRule(TrailingCommaInMultilineFixer::class, ['elements' => ['arrays', 'arguments', 'match', 'parameters'], 'after_heredoc' => true])
     ->withConfiguredRule(UnusedUsesSniff::class, ['searchAnnotations' => true])
+    ->withConfiguredRule(UnusedVariableSniff::class, ['ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach' => true])
 ;

@@ -43,7 +43,7 @@ final class ContaoFrameworkClassAliasSniff implements Sniff
             return;
         }
 
-        $phpcsFile->addError(sprintf('Using the aliased class "%1$s" is deprecated. Use the original class "Contao\%1$s" instead.', $tokens[$stackPtr]['content']), $stackPtr, self::class);
+        $phpcsFile->addError(\sprintf('Using the aliased class "%1$s" is deprecated. Use the original class "Contao\%1$s" instead.', $tokens[$stackPtr]['content']), $stackPtr, self::class);
     }
 
     private function isContaoClass(array $tokens, int $index): bool

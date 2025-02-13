@@ -181,6 +181,11 @@ class CommentLengthFixerTest extends TestCase
                  */
                 function foo() {
                 }
+
+                // Also keep TODOs on their own line.
+                // TODO: do something.
+                if (true) {
+                }
                 EOT,
             <<<'EOT'
                 <?php
@@ -195,6 +200,11 @@ class CommentLengthFixerTest extends TestCase
                  * https://contao.org
                  */
                 function foo() {
+                }
+
+                // Also keep TODOs on their own line.
+                // TODO: do something.
+                if (true) {
                 }
                 EOT,
         ];

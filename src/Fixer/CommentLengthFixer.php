@@ -92,8 +92,8 @@ final class CommentLengthFixer extends AbstractFixer
 
             $content = $tokens[$next]->getContent();
 
-            // Preserve lines that contain URLs or lists
-            if (preg_match('#^// (https:|- |\d+\. )#', $content)) {
+            // Preserve lines that contain URLs, TODOs or lists
+            if (preg_match('#^// (https:|TODO:|- |\d+\. )#', $content)) {
                 return $next + 1;
             }
 

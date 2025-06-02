@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd" colors="true" bootstrap="vendor/autoload.php">
-  <php>
-    <ini name="error_reporting" value="-1" />
-  </php>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/11.5/phpunit.xsd"
+        colors="true"
+        bootstrap="vendor/autoload.php"
+        cacheDirectory=".phpunit.cache"
+>
   <testsuites>
     <testsuite name="contao/easy-coding-standard">
       <directory>./tests</directory>

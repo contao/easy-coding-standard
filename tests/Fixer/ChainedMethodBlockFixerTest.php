@@ -113,14 +113,25 @@ class ChainedMethodBlockFixerTest extends TestCase
                         ;
                     }
 
-                    public function testBat(): void
+                    public function testQux(): void
                     {
-                        $mock = $this->mockClassWithProperties(Bat::class, [
+                        $mock = $this->mockClassWithProperties(Qux::class, [
                             'id' => 42,
                         ]);
                         $mock
-                            ->method("isBat")
+                            ->method("isQux")
                             ->willReturn(true)
+                        ;
+                    }
+
+                    public function testQuux(): void
+                    {
+                        /** @phpstan-ignore class.notFound */
+                        $this->mock = $this->createMock(Quux::class);
+                        /** @phpstan-ignore class.notFound */
+                        $this->mock
+                            ->method("isQuux")
+                            ->willReturn(false)
                         ;
                     }
                 }
@@ -207,15 +218,27 @@ class ChainedMethodBlockFixerTest extends TestCase
                         ;
                     }
 
-                    public function testBat(): void
+                    public function testQux(): void
                     {
-                        $mock = $this->mockClassWithProperties(Bat::class, [
+                        $mock = $this->mockClassWithProperties(Qux::class, [
                             'id' => 42,
                         ]);
 
                         $mock
-                            ->method("isBat")
+                            ->method("isQux")
                             ->willReturn(true)
+                        ;
+                    }
+
+                    public function testQuux(): void
+                    {
+                        /** @phpstan-ignore class.notFound */
+                        $this->mock = $this->createMock(Quux::class);
+
+                        /** @phpstan-ignore class.notFound */
+                        $this->mock
+                            ->method("isQuux")
+                            ->willReturn(false)
                         ;
                     }
                 }

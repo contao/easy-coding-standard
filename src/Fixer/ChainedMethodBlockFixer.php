@@ -152,8 +152,11 @@ final class ChainedMethodBlockFixer extends AbstractFixer
         } else {
             $var = $this->getBlockVariable($tokens, $start);
             $prevVar = $this->getBlockVariable($tokens, $prevStart);
+            $next = $tokens->getNextNonWhitespace($start);
 
-            if ($var === $prevVar) {
+            if ($tokens[$next]->isGivenKind([T_COMMENT, T_DOC_COMMENT])) {
+                $addNewLine = true;
+            } elseif ($var === $prevVar) {
                 $removeNewLine = true;
             } elseif ($prevVar && str_starts_with($prevVar, "$var->")) {
                 $addNewLine = true;

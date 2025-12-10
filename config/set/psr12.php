@@ -15,9 +15,9 @@ use PhpCsFixer\Fixer\Casing\LowercaseStaticReferenceFixer;
 use PhpCsFixer\Fixer\CastNotation\LowercaseCastFixer;
 use PhpCsFixer\Fixer\CastNotation\ShortScalarCastFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer;
+use PhpCsFixer\Fixer\ClassNotation\ModifierKeywordsFixer;
 use PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer;
 use PhpCsFixer\Fixer\ClassNotation\SingleTraitInsertPerStatementFixer;
-use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NoUnreachableDefaultArgumentValueFixer;
 use PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer;
 use PhpCsFixer\Fixer\Import\NoLeadingImportSlashFixer;
@@ -49,6 +49,7 @@ return ECSConfig::configure()
         DeclareEqualNormalizeFixer::class,
         LowercaseCastFixer::class,
         LowercaseStaticReferenceFixer::class,
+        ModifierKeywordsFixer::class,
         NewWithParenthesesFixer::class,
         NoBlankLinesAfterClassOpeningFixer::class,
         NoLeadingImportSlashFixer::class,
@@ -59,7 +60,6 @@ return ECSConfig::configure()
         ShortScalarCastFixer::class,
         SingleTraitInsertPerStatementFixer::class,
         TernaryOperatorSpacesFixer::class,
-        VisibilityRequiredFixer::class,
     ])
     ->withConfiguredRule(BracesPositionFixer::class, ['allow_single_line_empty_anonymous_classes' => true])
     ->withConfiguredRule(ClassDefinitionFixer::class, ['inline_constructor_arguments' => false, 'space_before_parenthesis' => true])

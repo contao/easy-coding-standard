@@ -15,8 +15,8 @@ use PhpCsFixer\Fixer\Basic\NoMultipleStatementsPerLineFixer;
 use PhpCsFixer\Fixer\Casing\ConstantCaseFixer;
 use PhpCsFixer\Fixer\Casing\LowercaseKeywordsFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer;
+use PhpCsFixer\Fixer\ClassNotation\ModifierKeywordsFixer;
 use PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer;
-use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\Comment\NoTrailingWhitespaceInCommentFixer;
 use PhpCsFixer\Fixer\ControlStructure\ControlStructureBracesFixer;
 use PhpCsFixer\Fixer\ControlStructure\ControlStructureContinuationPositionFixer;
@@ -69,6 +69,6 @@ return ECSConfig::configure()
         SwitchCaseSpaceFixer::class,
     ])
     ->withConfiguredRule(MethodArgumentSpaceFixer::class, ['on_multiline' => 'ensure_fully_multiline'])
+    ->withConfiguredRule(ModifierKeywordsFixer::class, ['elements' => ['method', 'property']])
     ->withConfiguredRule(SingleClassElementPerStatementFixer::class, ['elements' => ['property']])
-    ->withConfiguredRule(VisibilityRequiredFixer::class, ['elements' => ['method', 'property']])
 ;

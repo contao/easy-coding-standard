@@ -186,7 +186,18 @@ return ECSConfig::configure()
     ->withConfiguredRule(PhpdocTypesFixer::class, ['groups' => ['simple', 'meta']])
     ->withConfiguredRule(PhpUnitTestCaseStaticMethodCallsFixer::class, ['call_type' => 'this'])
     ->withConfiguredRule(RandomApiMigrationFixer::class, ['replacements' => ['mt_rand' => 'random_int', 'rand' => 'random_int']])
-    ->withConfiguredRule(ReferenceUsedNamesOnlySniff::class, ['searchAnnotations' => true, 'allowFullyQualifiedNameForCollidingClasses' => true, 'allowFullyQualifiedGlobalClasses' => true, 'allowFullyQualifiedGlobalFunctions' => true, 'allowFullyQualifiedGlobalConstants' => true, 'allowPartialUses' => false])
+    ->withConfiguredRule(ReferenceUsedNamesOnlySniff::class, [
+        'searchAnnotations' => true,
+        'allowFullyQualifiedNameForCollidingClasses' => true,
+        'allowFullyQualifiedGlobalClasses' => true,
+        'allowFullyQualifiedGlobalFunctions' => true,
+        'allowFullyQualifiedGlobalConstants' => true,
+        'allowPartialUses' => false,
+        'namespacesRequiredToUsePartially' => [
+            'Doctrine\ORM\Mapping as ORM',
+            'Symfony\Component\Validator\Constraints as Assert',
+        ],
+    ])
     ->withConfiguredRule(StringImplicitBackslashesFixer::class, ['single_quoted' => 'ignore', 'double_quoted' => 'escape', 'heredoc' => 'escape'])
     ->withConfiguredRule(TrailingCommaInMultilineFixer::class, ['elements' => ['arrays', 'arguments', 'match', 'parameters'], 'after_heredoc' => true])
     ->withConfiguredRule(UnusedUsesSniff::class, ['searchAnnotations' => true])

@@ -80,10 +80,10 @@ final class ChainedMethodBlockFixer extends AbstractFixer
                 continue;
             }
 
-            $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+            $next = $tokens->getNextMeaningfulToken($index);
 
             // Not a method call
-            if (!$tokens[$nextMeaningful + 1]->equals('(')) {
+            if (!$tokens[$next + 1]->equals('(')) {
                 continue;
             }
 
@@ -95,9 +95,9 @@ final class ChainedMethodBlockFixer extends AbstractFixer
             }
 
             $start = $tokens->getPrevTokenOfKind($index, [';', '{']);
-            $nextMeaningful = $tokens->getNextMeaningfulToken($start);
+            $next = $tokens->getNextMeaningfulToken($start);
 
-            if ($tokens[$nextMeaningful]->equals('}')) {
+            if ($tokens[$next]->equals('}')) {
                 $index = $end;
                 continue;
             }

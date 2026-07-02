@@ -85,58 +85,58 @@ final class TypeHintOrderFixer extends AbstractFixer
                 continue;
             }
 
-            $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+            $next = $tokens->getNextMeaningfulToken($index);
 
             // Ignore constants
-            if ($tokens[$nextMeaningful]->isGivenKind(T_CONST)) {
+            if ($tokens[$next]->isGivenKind(T_CONST)) {
                 continue;
             }
 
-            if ($tokens[$nextMeaningful]->isGivenKind(T_STATIC)) {
-                $nextMeaningful = $tokens->getNextMeaningfulToken($nextMeaningful);
+            if ($tokens[$next]->isGivenKind(T_STATIC)) {
+                $next = $tokens->getNextMeaningfulToken($next);
             }
 
-            if (\defined('T_READONLY') && $tokens[$nextMeaningful]->isGivenKind(T_READONLY)) {
-                $nextMeaningful = $tokens->getNextMeaningfulToken($nextMeaningful);
+            if (\defined('T_READONLY') && $tokens[$next]->isGivenKind(T_READONLY)) {
+                $next = $tokens->getNextMeaningfulToken($next);
             }
 
             // No type hint
-            if ($tokens[$nextMeaningful]->isGivenKind(T_VARIABLE)) {
+            if ($tokens[$next]->isGivenKind(T_VARIABLE)) {
                 continue;
             }
 
-            if ($tokens[$nextMeaningful]->isGivenKind(T_FUNCTION)) {
-                $index = $this->handleFunction($tokens, $nextMeaningful);
+            if ($tokens[$next]->isGivenKind(T_FUNCTION)) {
+                $index = $this->handleFunction($tokens, $next);
             } else {
-                $index = $this->handleClassProperty($tokens, $nextMeaningful);
+                $index = $this->handleClassProperty($tokens, $next);
             }
         }
     }
 
-    private function handleFunction(Tokens $tokens, int $nextMeaningful): int
+    private function handleFunction(Tokens $tokens, int $next): int
     {
-        $end = $tokens->getNextTokenOfKind($nextMeaningful, [';', '{']);
+        $end = $tokens->getNextTokenOfKind($next, [';', '{']);
 
         // Arguments
-        $argsStart = $tokens->getNextTokenOfKind($nextMeaningful, ['(']);
-        $argsEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $argsStart);
+        $argsStart = $tokens->getNextTokenOfKind($next, ['(']);
+        $argsEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $argsStart);
         $vars = $tokens->findGivenKind(T_VARIABLE, $argsStart, $argsEnd);
 
         if ([] !== $vars) {
             foreach (array_keys($vars) as $pos) {
-                $prevMeaningful = $tokens->getPrevMeaningfulToken($pos);
+                $prev = $tokens->getPrevMeaningfulToken($pos);
 
                 // No type hint
-                if ($tokens[$prevMeaningful]->equals('(') || $tokens[$prevMeaningful]->equals(',')) {
+                if ($tokens[$prev]->equals('(') || $tokens[$prev]->equals(',')) {
                     continue;
                 }
 
-                while ($prevMeaningful - 1 > $argsStart && !$tokens[$prevMeaningful - 1]->isGivenKind(T_WHITESPACE)) {
-                    --$prevMeaningful;
+                while ($prev - 1 > $argsStart && !$tokens[$prev - 1]->isGivenKind(T_WHITESPACE)) {
+                    --$prev;
                 }
 
-                if ($new = $this->orderTypeHint($tokens->generatePartialCode($prevMeaningful, $pos - 2))) {
-                    $tokens->overrideRange($prevMeaningful, $pos - 2, $new);
+                if ($new = $this->orderTypeHint($tokens->generatePartialCode($prev, $pos - 2))) {
+                    $tokens->overrideRange($prev, $pos - 2, $new);
                 }
             }
         }
@@ -159,14 +159,14 @@ final class TypeHintOrderFixer extends AbstractFixer
         return $end;
     }
 
-    private function handleClassProperty(Tokens $tokens, int $nextMeaningful): int
+    private function handleClassProperty(Tokens $tokens, int $next): int
     {
-        $end = $tokens->getNextTokenOfKind($nextMeaningful, [';']);
+        $end = $tokens->getNextTokenOfKind($next, [';']);
 
-        for ($i = $nextMeaningful; $i <= $end; ++$i) {
+        for ($i = $next; $i <= $end; ++$i) {
             if ($tokens[$i]->isGivenKind(T_VARIABLE)) {
-                if ($new = $this->orderTypeHint($tokens->generatePartialCode($nextMeaningful, $i - 2))) {
-                    $tokens->overrideRange($nextMeaningful, $i - 2, $new);
+                if ($new = $this->orderTypeHint($tokens->generatePartialCode($next, $i - 2))) {
+                    $tokens->overrideRange($next, $i - 2, $new);
                 }
                 break;
             }

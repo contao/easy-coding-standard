@@ -67,14 +67,14 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
                 --$isArrayStart;
             }
 
-            $prevMeaningful = $tokens->getPrevMeaningfulToken($isArrayStart);
+            $prev = $tokens->getPrevMeaningfulToken($isArrayStart);
 
-            if (!$tokens[$prevMeaningful]->isGivenKind(T_BOOLEAN_AND) && !$tokens[$prevMeaningful]->equals('(')) {
+            if (!$tokens[$prev]->isGivenKind(T_BOOLEAN_AND) && !$tokens[$prev]->equals('(')) {
                 continue;
             }
 
             $isArrayArg = $index + 1;
-            $isArrayEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $isArrayArg);
+            $isArrayEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $isArrayArg);
             $booleanAnd = $tokens->getNextMeaningfulToken($isArrayEnd);
 
             if (!$tokens[$booleanAnd]->isGivenKind(T_BOOLEAN_AND)) {
@@ -92,7 +92,7 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
             }
 
             $emptyArg = $empty + 1;
-            $emptyEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $emptyArg);
+            $emptyEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $emptyArg);
 
             $isArrayContent = $tokens->generatePartialCode($isArrayArg + 1, $isArrayEnd - 1);
             $emptyContent = $tokens->generatePartialCode($emptyArg + 1, $emptyEnd - 1);

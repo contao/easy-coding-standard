@@ -79,11 +79,11 @@ final class MockMethodChainingIndentationFixer extends AbstractFixer
                 continue;
             }
 
-            $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+            $next = $tokens->getNextMeaningfulToken($index);
 
             if (
-                !$tokens[$nextMeaningful + 1]->equals('(')
-                || !\in_array($tokens[$nextMeaningful]->getContent(), self::$methods, true)
+                !$tokens[$next + 1]->equals('(')
+                || !\in_array($tokens[$next]->getContent(), self::$methods, true)
             ) {
                 continue;
             }

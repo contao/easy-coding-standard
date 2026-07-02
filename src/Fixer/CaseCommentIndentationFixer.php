@@ -68,20 +68,20 @@ final class CaseCommentIndentationFixer extends AbstractFixer
                 continue;
             }
 
-            $prevMeaningful = $tokens->getPrevNonWhitespace($index);
+            $prev = $tokens->getPrevNonWhitespace($index);
 
-            if (!$tokens[$prevMeaningful]->isGivenKind(T_COMMENT)) {
+            if (!$tokens[$prev]->isGivenKind(T_COMMENT)) {
                 continue;
             }
 
             // If there is more than one line break between the comment and the "case"
             // statement, the two do not belong to each other.
-            if (substr_count($tokens->generatePartialCode($prevMeaningful, $index), "\n") > 1) {
+            if (substr_count($tokens->generatePartialCode($prev, $index), "\n") > 1) {
                 continue;
             }
 
             $indentCase = $this->getIndent($tokens, $index);
-            $indentComment = $this->getIndent($tokens, $prevMeaningful, false);
+            $indentComment = $this->getIndent($tokens, $prev, false);
 
             if ($indentCase === $indentComment) {
                 continue;
@@ -89,9 +89,9 @@ final class CaseCommentIndentationFixer extends AbstractFixer
 
             $indent = ltrim($indentCase, "\n");
             $replacement = rtrim($indentComment, "\t ").$indent;
-            $i = $prevMeaningful - 1;
+            $i = $prev - 1;
 
-            $tokens->offsetSet($prevMeaningful - 1, new Token([T_WHITESPACE, $replacement]));
+            $tokens->offsetSet($prev - 1, new Token([T_WHITESPACE, $replacement]));
 
             // Handle multi-line comments
             while (true) {

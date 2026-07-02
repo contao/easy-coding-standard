@@ -103,7 +103,7 @@ final class FunctionCallWithMultilineArrayFixer extends AbstractFixer
             }
 
             $start = $index + 1;
-            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $start);
+            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $start);
 
             if (!$this->isMultiLineStatement($tokens, $start, $end)) {
                 $index = $end + 1;
@@ -155,7 +155,7 @@ final class FunctionCallWithMultilineArrayFixer extends AbstractFixer
 
     private function isMultilineArrayArgument(Tokens $tokens, int $start): bool
     {
-        if ($tokens[$start]->isGivenKind([T_ELLIPSIS, CT::T_ARRAY_SQUARE_BRACE_OPEN])) {
+        if ($tokens[$start]->isGivenKind([T_ELLIPSIS, CT::T_ARRAY_BRACKET_OPEN])) {
             $index = $start;
         } elseif (!$index = $tokens->getNextMeaningfulToken($start)) {
             return false;
@@ -165,7 +165,7 @@ final class FunctionCallWithMultilineArrayFixer extends AbstractFixer
             ++$index;
         }
 
-        if (!$tokens[$index]->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_OPEN)) {
+        if (!$tokens[$index]->isGivenKind(CT::T_ARRAY_BRACKET_OPEN)) {
             return false;
         }
 

@@ -59,18 +59,18 @@ final class NoExpectsThisAnyFixer extends AbstractFixer
                 continue;
             }
 
-            $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+            $next = $tokens->getNextMeaningfulToken($index);
 
             if (
-                'expects' !== $tokens[$nextMeaningful]->getContent()
-                || !$tokens[$nextMeaningful + 1]->equals('(')
+                'expects' !== $tokens[$next]->getContent()
+                || !$tokens[$next + 1]->equals('(')
             ) {
                 continue;
             }
 
-            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextMeaningful + 1);
+            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $next + 1);
 
-            if ('($this->any())' !== $tokens->generatePartialCode($nextMeaningful + 1, $end)) {
+            if ('($this->any())' !== $tokens->generatePartialCode($next + 1, $end)) {
                 continue;
             }
 

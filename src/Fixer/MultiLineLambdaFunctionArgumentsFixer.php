@@ -65,38 +65,38 @@ final class MultiLineLambdaFunctionArgumentsFixer extends AbstractFixer
                 continue;
             }
 
-            $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+            $next = $tokens->getNextMeaningfulToken($index);
 
             // Not a lambda function
-            if (!$tokens[$nextMeaningful]->equals('(')) {
+            if (!$tokens[$next]->equals('(')) {
                 continue;
             }
 
-            $prevMeaningful = $tokens->getPrevMeaningfulToken($index);
+            $prev = $tokens->getPrevMeaningfulToken($index);
 
-            if ($tokens[$prevMeaningful]->isGivenKind(T_STATIC)) {
-                $prevMeaningful = $tokens->getPrevMeaningfulToken($prevMeaningful);
+            if ($tokens[$prev]->isGivenKind(T_STATIC)) {
+                $prev = $tokens->getPrevMeaningfulToken($prev);
             }
 
             // Not inside a method call
-            if (!\in_array($tokens[$prevMeaningful]->getContent(), ['(', ','], true)) {
+            if (!\in_array($tokens[$prev]->getContent(), ['(', ','], true)) {
                 continue;
             }
 
             // The arguments are on separate lines already
-            if ($this->hasNewline($tokens, $prevMeaningful + 1)) {
+            if ($this->hasNewline($tokens, $prev + 1)) {
                 continue;
             }
 
             $start = $tokens->getPrevTokenOfKind($index, ['(']);
-            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $start);
+            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $start);
 
             // No line-breaks required for inline lambda functions
             if (!$this->isMultiLineStatement($tokens, $start, $end)) {
                 continue;
             }
 
-            $this->fixIndentation($tokens, $start, $end, $this->getIndent($tokens, $prevMeaningful));
+            $this->fixIndentation($tokens, $start, $end, $this->getIndent($tokens, $prev));
 
             $index = $end;
         }

@@ -63,27 +63,27 @@ final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
                 continue;
             }
 
-            $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+            $next = $tokens->getNextMeaningfulToken($index);
 
-            if ($tokens[$nextMeaningful]->isGivenKind(CT::T_RETURN_REF)) {
-                $nextMeaningful = $tokens->getNextMeaningfulToken($nextMeaningful);
+            if ($tokens[$next]->isGivenKind(CT::T_RETURN_REF)) {
+                $next = $tokens->getNextMeaningfulToken($next);
             }
 
-            $isLambda = !$tokens[$nextMeaningful]->isGivenKind(T_STRING);
-            $isConstructor = '__construct' === $tokens[$nextMeaningful]->getContent();
+            $isLambda = !$tokens[$next]->isGivenKind(T_STRING);
+            $isConstructor = '__construct' === $tokens[$next]->getContent();
 
             if (!$isLambda) {
-                $nextMeaningful = $tokens->getNextMeaningfulToken($nextMeaningful);
+                $next = $tokens->getNextMeaningfulToken($next);
             }
 
-            if (!$end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextMeaningful)) {
+            if (!$end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $next)) {
                 continue;
             }
 
             $isPropertyPromotion = false;
 
             if ($isConstructor) {
-                for ($i = $nextMeaningful; $i < $end; ++$i) {
+                for ($i = $next; $i < $end; ++$i) {
                     if ($tokens[$i]->isGivenKind(self::$cppKinds)) {
                         $isPropertyPromotion = true;
                         break;
@@ -96,7 +96,7 @@ final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
                 continue;
             }
 
-            for ($i = $nextMeaningful; $i < $end; ++$i) {
+            for ($i = $next; $i < $end; ++$i) {
                 if (!$tokens[$i]->isGivenKind(T_WHITESPACE)) {
                     continue;
                 }

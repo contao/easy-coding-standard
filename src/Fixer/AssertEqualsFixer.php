@@ -67,7 +67,7 @@ final class AssertEqualsFixer extends AbstractFixer
                 continue;
             }
 
-            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $index + 1);
+            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $index + 1);
 
             $argumentsAnalyzer = new ArgumentsAnalyzer();
             $argumentsIndexes = $argumentsAnalyzer->getArguments($tokens, $index + 1, $end);

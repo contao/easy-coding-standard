@@ -62,22 +62,22 @@ final class MultiLineIfIndentationFixer extends AbstractFixer
                 continue;
             }
 
-            $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+            $next = $tokens->getNextMeaningfulToken($index);
 
-            if (!$tokens[$nextMeaningful]->equals('(')) {
+            if (!$tokens[$next]->equals('(')) {
                 continue;
             }
 
             $indent = $this->getIndent($tokens, $index);
-            $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextMeaningful);
+            $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $next);
 
-            if (!$this->isMultiLineStatement($tokens, $nextMeaningful, $index)) {
+            if (!$this->isMultiLineStatement($tokens, $next, $index)) {
                 continue;
             }
 
             // Add a line-break after the opening parenthesis
-            if (!$tokens[$nextMeaningful + 1]->isGivenKind(T_WHITESPACE)) {
-                $tokens->insertAt($nextMeaningful + 1, new Token([T_WHITESPACE, $indent.'    ']));
+            if (!$tokens[$next + 1]->isGivenKind(T_WHITESPACE)) {
+                $tokens->insertAt($next + 1, new Token([T_WHITESPACE, $indent.'    ']));
                 ++$index;
             }
 

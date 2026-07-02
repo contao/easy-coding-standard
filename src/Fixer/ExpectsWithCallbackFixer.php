@@ -104,7 +104,7 @@ final class ExpectsWithCallbackFixer extends AbstractFixer
                 continue;
             }
 
-            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $start);
+            $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $start);
 
             $argumentsAnalyzer = new ArgumentsAnalyzer();
             $argumentsIndexes = $argumentsAnalyzer->getArguments($tokens, $start, $end);

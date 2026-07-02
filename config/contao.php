@@ -24,6 +24,7 @@ use Contao\EasyCodingStandard\Fixer\MultiLineIfIndentationFixer;
 use Contao\EasyCodingStandard\Fixer\MultiLineLambdaFunctionArgumentsFixer;
 use Contao\EasyCodingStandard\Fixer\NoExpectsThisAnyFixer;
 use Contao\EasyCodingStandard\Fixer\NoLineBreakBetweenMethodArgumentsFixer;
+use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterShortEchoTagFixer;
 use Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer;
 use Contao\EasyCodingStandard\Fixer\TypeHintOrderFixer;
 use Contao\EasyCodingStandard\Sniffs\ContaoFrameworkClassAliasSniff;
@@ -131,6 +132,7 @@ return ECSConfig::configure()
         MultiLineLambdaFunctionArgumentsFixer::class,
         NoExpectsThisAnyFixer::class,
         NoLineBreakBetweenMethodArgumentsFixer::class,
+        NoSemicolonAfterShortEchoTagFixer::class,
         NoSuperfluousElseifFixer::class,
         NoUnsetOnPropertyFixer::class,
         NoUselessElseFixer::class,
@@ -186,18 +188,7 @@ return ECSConfig::configure()
     ->withConfiguredRule(PhpdocTypesFixer::class, ['groups' => ['simple', 'meta']])
     ->withConfiguredRule(PhpUnitTestCaseStaticMethodCallsFixer::class, ['call_type' => 'this'])
     ->withConfiguredRule(RandomApiMigrationFixer::class, ['replacements' => ['mt_rand' => 'random_int', 'rand' => 'random_int']])
-    ->withConfiguredRule(ReferenceUsedNamesOnlySniff::class, [
-        'searchAnnotations' => true,
-        'allowFullyQualifiedNameForCollidingClasses' => true,
-        'allowFullyQualifiedGlobalClasses' => true,
-        'allowFullyQualifiedGlobalFunctions' => true,
-        'allowFullyQualifiedGlobalConstants' => true,
-        'allowPartialUses' => false,
-        'namespacesRequiredToUsePartially' => [
-            'Doctrine\ORM\Mapping as ORM',
-            'Symfony\Component\Validator\Constraints as Assert',
-        ],
-    ])
+    ->withConfiguredRule(ReferenceUsedNamesOnlySniff::class, ['searchAnnotations' => true, 'allowFullyQualifiedNameForCollidingClasses' => true, 'allowFullyQualifiedGlobalClasses' => true, 'allowFullyQualifiedGlobalFunctions' => true, 'allowFullyQualifiedGlobalConstants' => true, 'allowPartialUses' => false, 'namespacesRequiredToUsePartially' => ['Doctrine\ORM\Mapping as ORM', 'Symfony\Component\Validator\Constraints as Assert']])
     ->withConfiguredRule(StringImplicitBackslashesFixer::class, ['single_quoted' => 'ignore', 'double_quoted' => 'escape', 'heredoc' => 'escape'])
     ->withConfiguredRule(TrailingCommaInMultilineFixer::class, ['elements' => ['arrays', 'arguments', 'match', 'parameters'], 'after_heredoc' => true])
     ->withConfiguredRule(UnusedUsesSniff::class, ['searchAnnotations' => true])

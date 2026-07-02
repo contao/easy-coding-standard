@@ -59,36 +59,36 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
         for ($index = 1, $count = \count($tokens); $index < $count; ++$index) {
             switch (true) {
                 case $tokens[$index]->isGivenKind(T_CLASS):
-                    $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+                    $next = $tokens->getNextMeaningfulToken($index);
 
                     // Return if the class is not a command
-                    if (!str_ends_with($tokens[$nextMeaningful]->getContent(), 'Command')) {
+                    if (!str_ends_with($tokens[$next]->getContent(), 'Command')) {
                         return;
                     }
                     break;
 
                 case $tokens[$index]->isGivenKind(T_FUNCTION):
-                    $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+                    $next = $tokens->getNextMeaningfulToken($index);
 
                     // Skip the method if it is not the configure() method
-                    if ('configure' !== $tokens[$nextMeaningful]->getContent()) {
-                        $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+                    if ('configure' !== $tokens[$next]->getContent()) {
+                        $next = $tokens->getNextMeaningfulToken($index);
 
-                        if ($tokens[$nextMeaningful]->equals('(')) {
-                            $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $nextMeaningful);
+                        if ($tokens[$next]->equals('(')) {
+                            $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $next);
                         }
                     }
                     break;
 
                 case $tokens[$index]->isGivenKind(T_OBJECT_OPERATOR):
-                    $nextMeaningful = $tokens->getNextMeaningfulToken($index);
+                    $next = $tokens->getNextMeaningfulToken($index);
 
-                    if (!\in_array($tokens[$nextMeaningful]->getContent(), ['addArgument', 'addOption'], true)) {
+                    if (!\in_array($tokens[$next]->getContent(), ['addArgument', 'addOption'], true)) {
                         continue 2;
                     }
 
-                    $blockStart = $nextMeaningful + 1;
-                    $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $blockStart);
+                    $blockStart = $next + 1;
+                    $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $blockStart);
 
                     if ($tokens[$blockStart + 1]->isGivenKind(T_WHITESPACE)) {
                         $tokens->clearAt(++$blockStart);

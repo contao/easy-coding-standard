@@ -41,7 +41,6 @@ use PhpCsFixer\Fixer\ControlStructure\NoSuperfluousElseifFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer;
 use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\FunctionNotation\MultilinePromotedPropertiesFixer;
-use PhpCsFixer\Fixer\FunctionNotation\NullableTypeDeclarationForDefaultNullValueFixer;
 use PhpCsFixer\Fixer\FunctionNotation\RegularCallableCallFixer;
 use PhpCsFixer\Fixer\FunctionNotation\StaticLambdaFixer;
 use PhpCsFixer\Fixer\FunctionNotation\UseArrowFunctionsFixer;
@@ -182,7 +181,6 @@ return ECSConfig::configure()
     ->withConfiguredRule(MultilineWhitespaceBeforeSemicolonsFixer::class, ['strategy' => 'new_line_for_chained_calls'])
     ->withConfiguredRule(NativeConstantInvocationFixer::class, ['fix_built_in' => false, 'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'], 'scope' => 'namespaced'])
     ->withConfiguredRule(NoWhitespaceBeforeCommaInArrayFixer::class, ['after_heredoc' => true])
-    ->withConfiguredRule(NullableTypeDeclarationForDefaultNullValueFixer::class, ['use_nullable_type_declaration' => true])
     ->withConfiguredRule(PhpdocSeparationFixer::class, ['groups' => [['template', 'mixin'], ['preserveGlobalState', 'runInSeparateProcess'], ['copyright', 'license'], ['Attributes', 'Attribute'], ['ORM\\*'], ['Assert\\*']]])
     ->withConfiguredRule(PhpdocToCommentFixer::class, ['ignored_tags' => ['todo', 'see']])
     ->withConfiguredRule(PhpdocTypesFixer::class, ['groups' => ['simple', 'meta']])

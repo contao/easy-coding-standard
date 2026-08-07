@@ -207,6 +207,7 @@ return ECSConfig::configure()
         NoUselessSprintfFixer::class,
         NoWhitespaceBeforeCommaInArrayFixer::class,
         NormalizeIndexBraceFixer::class,
+        NullableTypeDeclarationForDefaultNullValueFixer::class,
         ObjectOperatorWithoutWhitespaceFixer::class,
         OrderedTraitsFixer::class,
         PhpUnitConstructFixer::class,
@@ -271,7 +272,6 @@ return ECSConfig::configure()
     ->withConfiguredRule(NoSuperfluousPhpdocTagsFixer::class, ['remove_inheritdoc' => true])
     ->withConfiguredRule(NoUnneededBracesFixer::class, ['namespaces' => true])
     ->withConfiguredRule(NoUnneededControlParenthesesFixer::class, ['statements' => ['break', 'clone', 'continue', 'echo_print', 'others', 'return', 'switch_case', 'yield', 'yield_from']])
-    ->withConfiguredRule(NullableTypeDeclarationForDefaultNullValueFixer::class, ['use_nullable_type_declaration' => false])
     ->withConfiguredRule(OperatorLinebreakFixer::class, ['only_booleans' => true])
     ->withConfiguredRule(OrderedImportsFixer::class, ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'])
     ->withConfiguredRule(PhpdocOrderFixer::class, ['order' => ['param', 'return', 'throws']])

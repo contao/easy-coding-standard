@@ -228,9 +228,11 @@ final class TypeHintOrderFixer extends AbstractFixer
         $tokens = Tokens::fromCode(\sprintf(self::TYPE_CHECK_TEMPLATE, $typehint));
         $typeColon = array_key_first($tokens->findGivenKind(CT::T_TYPE_COLON));
         $openingBrace = $tokens->getNextTokenOfKind($typeColon, ['{']);
+        $typeStart = $tokens->getNextMeaningfulToken($typeColon);
+        $typeEnd = $tokens->getPrevMeaningfulToken($openingBrace);
 
-        $tokens->overrideRange(0, $typeColon, []);
-        $tokens->overrideRange($openingBrace, \count($tokens) - 1, []);
+        $tokens->overrideRange(0, $typeStart - 1, []);
+        $tokens->overrideRange($typeEnd + 1, \count($tokens) - 1, []);
         $tokens->clearEmptyTokens();
 
         return $tokens;

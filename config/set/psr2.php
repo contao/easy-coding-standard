@@ -29,6 +29,7 @@ use PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NoSpacesAfterFunctionNameFixer;
 use PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer;
 use PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer;
+use PhpCsFixer\Fixer\LanguageConstruct\SingleSpaceAroundConstructFixer;
 use PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer;
 use PhpCsFixer\Fixer\Operator\NoSpaceAroundDoubleColonFixer;
 use PhpCsFixer\Fixer\PhpTag\NoClosingTagFixer;
@@ -43,13 +44,11 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 return ECSConfig::configure()
     ->withRules([
         BlankLineAfterNamespaceFixer::class,
-        BracesPositionFixer::class,
         ClassDefinitionFixer::class,
         ConstantCaseFixer::class,
         ControlStructureBracesFixer::class,
         ControlStructureContinuationPositionFixer::class,
         ElseifFixer::class,
-        FunctionDeclarationFixer::class,
         IndentationTypeFixer::class,
         LineEndingFixer::class,
         LowercaseKeywordsFixer::class,
@@ -68,7 +67,10 @@ return ECSConfig::configure()
         SwitchCaseSemicolonToColonFixer::class,
         SwitchCaseSpaceFixer::class,
     ])
+    ->withConfiguredRule(BracesPositionFixer::class, ['allow_single_line_anonymous_functions' => false])
+    ->withConfiguredRule(FunctionDeclarationFixer::class, ['closure_fn_spacing' => 'one'])
     ->withConfiguredRule(MethodArgumentSpaceFixer::class, ['on_multiline' => 'ensure_fully_multiline'])
     ->withConfiguredRule(ModifierKeywordsFixer::class, ['elements' => ['method', 'property']])
     ->withConfiguredRule(SingleClassElementPerStatementFixer::class, ['elements' => ['property']])
+    ->withConfiguredRule(SingleSpaceAroundConstructFixer::class, ['constructs_followed_by_a_single_space' => ['abstract', 'as', 'case', 'catch', 'class', 'do', 'else', 'elseif', 'final', 'for', 'foreach', 'function', 'if', 'interface', 'namespace', 'private', 'protected', 'public', 'static', 'switch', 'trait', 'try', 'use_lambda', 'while'], 'constructs_preceded_by_a_single_space' => ['as', 'else', 'elseif', 'use_lambda']])
 ;

@@ -18,7 +18,6 @@ use PhpCsFixer\Fixer\Alias\NoAliasFunctionsFixer;
 use PhpCsFixer\Fixer\Alias\NoAliasLanguageConstructCallFixer;
 use PhpCsFixer\Fixer\Alias\NoMixedEchoPrintFixer;
 use PhpCsFixer\Fixer\Alias\SetTypeToCastFixer;
-use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
@@ -34,15 +33,18 @@ use PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer;
 use PhpCsFixer\Fixer\Casing\MagicMethodCasingFixer;
 use PhpCsFixer\Fixer\Casing\NativeFunctionCasingFixer;
 use PhpCsFixer\Fixer\Casing\NativeTypeDeclarationCasingFixer;
-use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
 use PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer;
 use PhpCsFixer\Fixer\CastNotation\NoShortBoolCastFixer;
 use PhpCsFixer\Fixer\CastNotation\NoUnsetCastFixer;
+use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer;
+use PhpCsFixer\Fixer\ClassNotation\ModernSerializationMethodsFixer;
 use PhpCsFixer\Fixer\ClassNotation\NoNullPropertyInitializationFixer;
 use PhpCsFixer\Fixer\ClassNotation\NoPhp4ConstructorFixer;
 use PhpCsFixer\Fixer\ClassNotation\NoUnneededFinalMethodFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedTraitsFixer;
+use PhpCsFixer\Fixer\ClassNotation\OrderedTypesFixer;
+use PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer;
 use PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer;
 use PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer;
 use PhpCsFixer\Fixer\Comment\NoEmptyCommentFixer;
@@ -68,6 +70,8 @@ use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NoUselessSprintfFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NullableTypeDeclarationForDefaultNullValueFixer;
 use PhpCsFixer\Fixer\FunctionNotation\SingleLineThrowFixer;
+use PhpCsFixer\Fixer\FunctionNotation\StaticLambdaFixer;
+use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\Fixer\Import\FullyQualifiedStrictTypesFixer;
 use PhpCsFixer\Fixer\Import\GlobalNamespaceImportFixer;
 use PhpCsFixer\Fixer\Import\NoUnneededImportAliasFixer;
@@ -79,13 +83,16 @@ use PhpCsFixer\Fixer\LanguageConstruct\ErrorSuppressionFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\GetClassToClassKeywordFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer;
+use PhpCsFixer\Fixer\LanguageConstruct\NullableTypeDeclarationFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\SingleSpaceAroundConstructFixer;
 use PhpCsFixer\Fixer\NamespaceNotation\CleanNamespaceFixer;
 use PhpCsFixer\Fixer\NamespaceNotation\NoLeadingNamespaceWhitespaceFixer;
 use PhpCsFixer\Fixer\Naming\NoHomoglyphNamesFixer;
+use PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
 use PhpCsFixer\Fixer\Operator\IncrementStyleFixer;
 use PhpCsFixer\Fixer\Operator\LogicalOperatorsFixer;
+use PhpCsFixer\Fixer\Operator\LongToShorthandOperatorFixer;
 use PhpCsFixer\Fixer\Operator\NoUselessConcatOperatorFixer;
 use PhpCsFixer\Fixer\Operator\NoUselessNullsafeOperatorFixer;
 use PhpCsFixer\Fixer\Operator\ObjectOperatorWithoutWhitespaceFixer;
@@ -119,6 +126,7 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocTrimConsecutiveBlankLineSeparationFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesOrderFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocVarAnnotationCorrectOrderFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer;
 use PhpCsFixer\Fixer\PhpTag\EchoTagSyntaxFixer;
 use PhpCsFixer\Fixer\PhpTag\LinebreakAfterOpeningTagFixer;
@@ -128,10 +136,12 @@ use PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitMockShortWillReturnFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitSetUpTearDownVisibilityFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestAnnotationFixer;
+use PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer;
 use PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer;
 use PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer;
 use PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer;
+use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\StringNotation\NoBinaryStringFixer;
 use PhpCsFixer\Fixer\StringNotation\SimpleToComplexStringVariableFixer;
 use PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer;
@@ -140,6 +150,7 @@ use PhpCsFixer\Fixer\StringNotation\StringLineEndingFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
 use PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer;
 use PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer;
+use PhpCsFixer\Fixer\Whitespace\StatementIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\TypeDeclarationSpacesFixer;
 use PhpCsFixer\Fixer\Whitespace\TypesSpacesFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
@@ -148,9 +159,8 @@ return ECSConfig::configure()
     ->withRules([
         AlignMultilineCommentFixer::class,
         ArrayPushFixer::class,
-        ArraySyntaxFixer::class,
         BacktickToShellExecFixer::class,
-        CastSpacesFixer::class,
+        BinaryOperatorSpacesFixer::class,
         ClassReferenceNameCasingFixer::class,
         CleanNamespaceFixer::class,
         CombineNestedDirnameFixer::class,
@@ -173,8 +183,10 @@ return ECSConfig::configure()
         LambdaNotUsedImportFixer::class,
         LinebreakAfterOpeningTagFixer::class,
         LogicalOperatorsFixer::class,
+        LongToShorthandOperatorFixer::class,
         MagicConstantCasingFixer::class,
         MagicMethodCasingFixer::class,
+        ModernSerializationMethodsFixer::class,
         ModernizeStrposFixer::class,
         ModernizeTypesCastingFixer::class,
         NativeFunctionCasingFixer::class,
@@ -204,9 +216,11 @@ return ECSConfig::configure()
         NoUnusedImportsFixer::class,
         NoUselessConcatOperatorFixer::class,
         NoUselessNullsafeOperatorFixer::class,
+        NoUselessReturnFixer::class,
         NoUselessSprintfFixer::class,
         NoWhitespaceBeforeCommaInArrayFixer::class,
         NormalizeIndexBraceFixer::class,
+        NullableTypeDeclarationFixer::class,
         NullableTypeDeclarationForDefaultNullValueFixer::class,
         ObjectOperatorWithoutWhitespaceFixer::class,
         OrderedTraitsFixer::class,
@@ -221,19 +235,17 @@ return ECSConfig::configure()
         PhpdocIndentFixer::class,
         PhpdocInlineTagNormalizerFixer::class,
         PhpdocNoAccessFixer::class,
-        PhpdocNoAliasTagFixer::class,
         PhpdocNoPackageFixer::class,
         PhpdocNoUselessInheritdocFixer::class,
         PhpdocReturnSelfReferenceFixer::class,
-        PhpdocScalarFixer::class,
-        PhpdocSeparationFixer::class,
         PhpdocSingleLineVarSpacingFixer::class,
         PhpdocSummaryFixer::class,
-        PhpdocToCommentFixer::class,
         PhpdocTrimFixer::class,
         PhpdocTrimConsecutiveBlankLineSeparationFixer::class,
         PhpdocTypesFixer::class,
+        PhpdocVarAnnotationCorrectOrderFixer::class,
         PhpdocVarWithoutNameFixer::class,
+        ProtectedToPrivateFixer::class,
         PsrAutoloadingFixer::class,
         SelfAccessorFixer::class,
         SemicolonAfterInstructionFixer::class,
@@ -246,13 +258,12 @@ return ECSConfig::configure()
         SingleSpaceAroundConstructFixer::class,
         StandardizeIncrementFixer::class,
         StandardizeNotEqualsFixer::class,
+        StaticLambdaFixer::class,
         StringLengthToEmptyFixer::class,
         StringLineEndingFixer::class,
         SwitchContinueToBreakFixer::class,
         TernaryToElvisOperatorFixer::class,
-        TrailingCommaInMultilineFixer::class,
         TrimArraySpacesFixer::class,
-        TypeDeclarationSpacesFixer::class,
         TypesSpacesFixer::class,
         UnaryOperatorSpacesFixer::class,
         WhitespaceAfterCommaInArrayFixer::class,
@@ -260,23 +271,34 @@ return ECSConfig::configure()
     ])
     ->withConfiguredRule(BlankLineBeforeStatementFixer::class, ['statements' => ['return']])
     ->withConfiguredRule(BracesPositionFixer::class, ['allow_single_line_anonymous_functions' => true, 'allow_single_line_empty_anonymous_classes' => true])
+    ->withConfiguredRule(ClassAttributesSeparationFixer::class, ['elements' => ['method' => 'one']])
     ->withConfiguredRule(ClassDefinitionFixer::class, ['single_line' => true])
+    ->withConfiguredRule(DeclareStrictTypesFixer::class, ['strategy' => 'remove'])
     ->withConfiguredRule(EmptyLoopBodyFixer::class, ['style' => 'braces'])
     ->withConfiguredRule(FopenFlagsFixer::class, ['b_mode' => false])
     ->withConfiguredRule(GeneralPhpdocTagRenameFixer::class, ['replacements' => ['inheritDocs' => 'inheritDoc']])
     ->withConfiguredRule(GlobalNamespaceImportFixer::class, ['import_classes' => false, 'import_constants' => false, 'import_functions' => false])
-    ->withConfiguredRule(MethodArgumentSpaceFixer::class, ['on_multiline' => 'ignore'])
+    ->withConfiguredRule(MethodArgumentSpaceFixer::class, ['after_heredoc' => true, 'on_multiline' => 'ignore'])
     ->withConfiguredRule(NativeConstantInvocationFixer::class, ['strict' => false])
     ->withConfiguredRule(NativeFunctionInvocationFixer::class, ['include' => ['@compiler_optimized'], 'scope' => 'namespaced', 'strict' => true])
     ->withConfiguredRule(NoExtraBlankLinesFixer::class, ['tokens' => ['attribute', 'case', 'continue', 'curly_brace_block', 'default', 'extra', 'parenthesis_brace_block', 'square_brace_block', 'switch', 'throw', 'use']])
-    ->withConfiguredRule(NoSuperfluousPhpdocTagsFixer::class, ['remove_inheritdoc' => true])
+    ->withConfiguredRule(NoSuperfluousPhpdocTagsFixer::class, ['allow_hidden_params' => true, 'remove_inheritdoc' => true])
     ->withConfiguredRule(NoUnneededBracesFixer::class, ['namespaces' => true])
-    ->withConfiguredRule(NoUnneededControlParenthesesFixer::class, ['statements' => ['break', 'clone', 'continue', 'echo_print', 'others', 'return', 'switch_case', 'yield', 'yield_from']])
+    ->withConfiguredRule(NoUnneededControlParenthesesFixer::class, ['statements' => ['break', 'clone', 'continue', 'echo_print', 'negative_instanceof', 'others', 'return', 'switch_case', 'yield', 'yield_from']])
     ->withConfiguredRule(OperatorLinebreakFixer::class, ['only_booleans' => true])
     ->withConfiguredRule(OrderedImportsFixer::class, ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'])
+    ->withConfiguredRule(OrderedTypesFixer::class, ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'])
+    ->withConfiguredRule(PhpdocNoAliasTagFixer::class, ['replacements' => ['const' => 'var', 'link' => 'see', 'property-read' => 'property', 'property-write' => 'property', 'type' => 'var']])
     ->withConfiguredRule(PhpdocOrderFixer::class, ['order' => ['param', 'return', 'throws']])
+    ->withConfiguredRule(PhpdocScalarFixer::class, ['types' => ['boolean', 'callback', 'double', 'integer', 'never-return', 'never-returns', 'no-return', 'real', 'str']])
+    ->withConfiguredRule(PhpdocSeparationFixer::class, ['groups' => [['Annotation', 'NamedArgumentConstructor', 'Target'], ...PhpdocSeparationFixer::OPTION_GROUPS_DEFAULT], 'skip_unlisted_annotations' => false])
     ->withConfiguredRule(PhpdocTagTypeFixer::class, ['tags' => ['inheritdoc' => 'inline']])
+    ->withConfiguredRule(PhpdocToCommentFixer::class, ['allow_before_return_statement' => true])
     ->withConfiguredRule(PhpdocTypesOrderFixer::class, ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'])
     ->withConfiguredRule(SingleLineCommentStyleFixer::class, ['comment_types' => ['hash']])
     ->withConfiguredRule(SpaceAfterSemicolonFixer::class, ['remove_in_empty_for_expressions' => true])
+    ->withConfiguredRule(StatementIndentationFixer::class, ['stick_comment_to_next_continuous_control_statement' => true])
+    ->withConfiguredRule(TrailingCommaInMultilineFixer::class, ['after_heredoc' => true, 'elements' => ['array_destructuring', 'arrays', 'match', 'parameters']])
+    ->withConfiguredRule(TypeDeclarationSpacesFixer::class, ['elements' => ['function', 'property']])
+    ->withConfiguredRule(VoidReturnFixer::class, ['fix_lambda' => false])
 ;

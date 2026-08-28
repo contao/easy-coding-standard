@@ -58,7 +58,7 @@ final class CommentLengthFixer extends AbstractFixer
 
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
-        for ($index = 1, $count = \count($tokens); $index < $count; ++$index) {
+        for ($index = 1; $index < \count($tokens); ++$index) {
             if ($tokens[$index]->isGivenKind(T_COMMENT)) {
                 $index = $this->handleComment($tokens, $index);
             } elseif ($tokens[$index]->isGivenKind(T_DOC_COMMENT)) {
@@ -112,7 +112,7 @@ final class CommentLengthFixer extends AbstractFixer
         }
 
         $new = [];
-        $indent = $this->getIndent($tokens, $index);
+        $indent = $this->getIndent($tokens, $index) ?: "\n";
 
         for ($i = 0, $c = \count($lines); $i < $c; ++$i) {
             if ($i > 0) {
@@ -125,7 +125,7 @@ final class CommentLengthFixer extends AbstractFixer
         $tokens->clearRange($index, $end);
         $tokens->insertAt($index, $new);
 
-        return $end + 1;
+        return $end + \count($new);
     }
 
     private function handleDocComment(Tokens $tokens, int $index): int
@@ -182,10 +182,7 @@ final class CommentLengthFixer extends AbstractFixer
 
         while ([] !== $chunks) {
             $word = array_shift($chunks);
-
-            if (!isset($lines[$i])) {
-                $lines[$i] = $prefix;
-            }
+            $lines[$i] ??= $prefix;
 
             if ($prefix !== $lines[$i] && \strlen($lines[$i]) + \strlen($word) > $length) {
                 $lines[++$i] = $prefix;

@@ -36,6 +36,39 @@ class CommentLengthFixerTest extends TestCase
         yield [
             <<<'EOT'
                 <?php
+                // This is a deliberately very long comment containing enough words to require wrapping across multiple lines by the fixer.
+                EOT,
+            <<<'EOT'
+                <?php
+                // This is a deliberately very long comment containing enough words to require
+                // wrapping across multiple lines by the fixer.
+                EOT,
+        ];
+
+        yield [
+            <<<'EOT'
+                <?php
+
+                $foo = true;
+                // This is a deliberately very long comment containing enough words to require wrapping across multiple lines by the fixer.
+                $bar = true;
+                // This is another deliberately very long comment containing enough words to require wrapping across multiple lines by the fixer.
+                EOT,
+            <<<'EOT'
+                <?php
+
+                $foo = true;
+                // This is a deliberately very long comment containing enough words to require
+                // wrapping across multiple lines by the fixer.
+                $bar = true;
+                // This is another deliberately very long comment containing enough words to
+                // require wrapping across multiple lines by the fixer.
+                EOT,
+        ];
+
+        yield [
+            <<<'EOT'
+                <?php
 
                 // This comment is shorter than 80 characters.
                 // It should be on one line.

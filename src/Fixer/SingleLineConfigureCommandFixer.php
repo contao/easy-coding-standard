@@ -59,11 +59,18 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
         for ($index = 1, $count = \count($tokens); $index < $count; ++$index) {
             switch (true) {
                 case $tokens[$index]->isGivenKind(T_CLASS):
+                    $prev = $tokens->getPrevMeaningfulToken($index);
+
+                    if ($tokens[$prev]->isGivenKind(T_PAAMAYIM_NEKUDOTAYIM)) {
+                        break;
+                    }
+
                     $next = $tokens->getNextMeaningfulToken($index);
 
-                    // Return if the class is not a command
+                    // Skip the class if it is not a command
                     if (!str_ends_with($tokens[$next]->getContent(), 'Command')) {
-                        return;
+                        $bodyStart = $tokens->getNextTokenOfKind($next, ['{']);
+                        $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_BRACE, $bodyStart);
                     }
                     break;
 
@@ -72,10 +79,14 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
 
                     // Skip the method if it is not the configure() method
                     if ('configure' !== $tokens[$next]->getContent()) {
-                        $next = $tokens->getNextMeaningfulToken($index);
+                        $argsStart = $tokens->getNextTokenOfKind($next, ['(']);
+                        $argsEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $argsStart);
+                        $bodyStart = $tokens->getNextTokenOfKind($argsEnd, ['{', ';']);
 
-                        if ($tokens[$next]->equals('(')) {
-                            $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $next);
+                        if ($tokens[$bodyStart]->equals('{')) {
+                            $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_BRACE, $bodyStart);
+                        } else {
+                            $index = $bodyStart;
                         }
                     }
                     break;

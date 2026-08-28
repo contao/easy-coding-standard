@@ -80,5 +80,63 @@ class SingleLineConfigureCommandFixerTest extends TestCase
                 }
                 EOT,
         ];
+
+        yield [
+            <<<'EOT'
+                <?php
+
+                class Helper
+                {
+                }
+
+                class SomeCommand
+                {
+                    protected function execute(): void
+                    {
+                        $this->addOption(
+                            'unchanged',
+                            null
+                        );
+                    }
+
+                    protected function configure(): void
+                    {
+                        $this->addOption(
+                            'fixed',
+                            Foo::class,
+                            null
+                        );
+                        $this->addOption(
+                            'also-fixed',
+                            null
+                        );
+                    }
+                }
+                EOT,
+            <<<'EOT'
+                <?php
+
+                class Helper
+                {
+                }
+
+                class SomeCommand
+                {
+                    protected function execute(): void
+                    {
+                        $this->addOption(
+                            'unchanged',
+                            null
+                        );
+                    }
+
+                    protected function configure(): void
+                    {
+                        $this->addOption('fixed', Foo::class, null);
+                        $this->addOption('also-fixed', null);
+                    }
+                }
+                EOT,
+        ];
     }
 }

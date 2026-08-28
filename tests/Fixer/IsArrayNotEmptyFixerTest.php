@@ -29,6 +29,7 @@ class IsArrayNotEmptyFixerTest extends TestCase
         $fixer->fix($this->createMock('SplFileInfo'), $tokens);
 
         $this->assertSame($expected, $tokens->generateCode());
+        $this->assertFalse($tokens->isTokenKindFound(T_INLINE_HTML));
     }
 
     public static function getCodeSamples(): iterable
@@ -60,6 +61,39 @@ class IsArrayNotEmptyFixerTest extends TestCase
                 }
 
                 if (!empty($array['foo']) && \is_array($array['foo'])) {
+                }
+                EOT,
+        ];
+
+        yield [
+            <<<'EOT'
+                <?php
+
+                if (is_array($array['foo']) && foo() && isset($array['foo'])) {
+                }
+
+                if (is_array($array['foo']) && ! empty($array['foo'])) {
+                }
+
+                if (is_array($array['foo']) && empty($array['foo'])) {
+                }
+
+                if (is_array($array['foo']) && /* keep this comment */ isset($array['foo'])) {
+                }
+                EOT,
+            <<<'EOT'
+                <?php
+
+                if (is_array($array['foo']) && foo() && isset($array['foo'])) {
+                }
+
+                if (! empty($array['foo']) && is_array($array['foo'])) {
+                }
+
+                if (is_array($array['foo']) && empty($array['foo'])) {
+                }
+
+                if (is_array($array['foo']) && /* keep this comment */ isset($array['foo'])) {
                 }
                 EOT,
         ];

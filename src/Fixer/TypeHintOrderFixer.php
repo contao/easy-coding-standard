@@ -74,7 +74,7 @@ final class TypeHintOrderFixer extends AbstractFixer
 
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
-        for ($index = 1, $count = \count($tokens); $index < $count; ++$index) {
+        for ($index = 1; $index < \count($tokens); ++$index) {
             if (!$tokens[$index]->isGivenKind([T_PUBLIC, T_PROTECTED, T_PRIVATE, T_FUNCTION, T_FN])) {
                 continue;
             }
@@ -117,35 +117,13 @@ final class TypeHintOrderFixer extends AbstractFixer
     {
         $end = $tokens->getNextTokenOfKind($next, [';', '{']);
 
-        // Arguments
+        // Return type
         $argsStart = $tokens->getNextTokenOfKind($next, ['(']);
         $argsEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $argsStart);
-        $vars = $tokens->findGivenKind(T_VARIABLE, $argsStart, $argsEnd);
-
-        if ([] !== $vars) {
-            foreach (array_keys($vars) as $pos) {
-                $prev = $tokens->getPrevMeaningfulToken($pos);
-
-                // No type hint
-                if ($tokens[$prev]->equals('(') || $tokens[$prev]->equals(',')) {
-                    continue;
-                }
-
-                while ($prev - 1 > $argsStart && !$tokens[$prev - 1]->isGivenKind(T_WHITESPACE)) {
-                    --$prev;
-                }
-
-                if ($new = $this->orderTypeHint($tokens->generatePartialCode($prev, $pos - 2))) {
-                    $tokens->overrideRange($prev, $pos - 2, $new);
-                }
-            }
-        }
-
-        // Return type
         $vars = $tokens->findGivenKind(CT::T_TYPE_COLON, $argsEnd, $end - 1);
 
         if ([] !== $vars) {
-            $start = $stop = array_key_first($vars) + 2;
+            $start = $stop = $tokens->getNextMeaningfulToken(array_key_first($vars));
 
             while ($stop < $end - 1 && !$tokens[$stop + 1]->isGivenKind(T_WHITESPACE)) {
                 ++$stop;
@@ -156,7 +134,34 @@ final class TypeHintOrderFixer extends AbstractFixer
             }
         }
 
-        return $end;
+        // Arguments (process right-to-left so growing replacements do not
+        // invalidate the indices)
+        $vars = $tokens->findGivenKind(T_VARIABLE, $argsStart, $argsEnd);
+
+        if ([] !== $vars) {
+            foreach (array_reverse(array_keys($vars)) as $pos) {
+                $end = $tokens->getPrevMeaningfulToken($pos);
+
+                // No type hint
+                if ($tokens[$end]->equals('(') || $tokens[$end]->equals(',')) {
+                    continue;
+                }
+
+                $start = $end;
+
+                while ($start - 1 > $argsStart && !$tokens[$start - 1]->isGivenKind(T_WHITESPACE)) {
+                    --$start;
+                }
+
+                if ($new = $this->orderTypeHint($tokens->generatePartialCode($start, $end))) {
+                    $tokens->overrideRange($start, $end, $new);
+                }
+            }
+        }
+
+        $argsEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $argsStart);
+
+        return $tokens->getNextTokenOfKind($argsEnd, [';', '{']);
     }
 
     private function handleClassProperty(Tokens $tokens, int $next): int
@@ -165,14 +170,16 @@ final class TypeHintOrderFixer extends AbstractFixer
 
         for ($i = $next; $i <= $end; ++$i) {
             if ($tokens[$i]->isGivenKind(T_VARIABLE)) {
-                if ($new = $this->orderTypeHint($tokens->generatePartialCode($next, $i - 2))) {
-                    $tokens->overrideRange($next, $i - 2, $new);
+                $typeEnd = $tokens->getPrevMeaningfulToken($i);
+
+                if ($new = $this->orderTypeHint($tokens->generatePartialCode($next, $typeEnd))) {
+                    $tokens->overrideRange($next, $typeEnd, $new);
                 }
                 break;
             }
         }
 
-        return $end;
+        return $tokens->getNextTokenOfKind($next, [';']);
     }
 
     private function orderTypeHint(string $typehint): Tokens|null
@@ -218,6 +225,19 @@ final class TypeHintOrderFixer extends AbstractFixer
             $new .= '|null';
         }
 
-        return Tokens::fromCode($new);
+        if ($new === $typehint) {
+            return null;
+        }
+
+        $tokens = Tokens::fromCode('<?php function ('.$new.' $value) {};');
+        $start = $tokens->getNextTokenOfKind(0, ['(']) + 1;
+        $variable = array_key_first($tokens->findGivenKind(T_VARIABLE));
+        $end = $tokens->getPrevMeaningfulToken($variable);
+
+        $tokens->clearRange(0, $start - 1);
+        $tokens->clearRange($end + 1, \count($tokens) - 1);
+        $tokens->clearEmptyTokens();
+
+        return $tokens;
     }
 }

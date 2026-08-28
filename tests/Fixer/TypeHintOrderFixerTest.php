@@ -29,6 +29,7 @@ class TypeHintOrderFixerTest extends TestCase
         $fixer->fix($this->createMock('SplFileInfo'), $tokens);
 
         $this->assertSame($expected, $tokens->generateCode());
+        $this->assertFalse($tokens->isTokenKindFound(T_INLINE_HTML));
     }
 
     public static function getCodeSamples(): iterable
@@ -88,6 +89,31 @@ class TypeHintOrderFixerTest extends TestCase
 
                         $bar = fn (int|string $id): FooService|null => null;
                     }
+                }
+                EOT,
+        ];
+
+        yield [
+            <<<'EOT'
+                <?php
+
+                function foo(?Foo $foo, ?Bar $bar): ?Logger
+                {
+                }
+
+                function bar(?Foo $foo): ?Logger
+                {
+                }
+                EOT,
+            <<<'EOT'
+                <?php
+
+                function foo(Foo|null $foo, Bar|null $bar): Logger|null
+                {
+                }
+
+                function bar(Foo|null $foo): Logger|null
+                {
                 }
                 EOT,
         ];

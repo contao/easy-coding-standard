@@ -81,14 +81,18 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
                 continue;
             }
 
-            if (!$empty = $tokens->getNextTokenOfKind($booleanAnd, [[T_ISSET], [T_EMPTY]])) {
+            $emptyStart = $tokens->getNextNonWhitespace($booleanAnd);
+
+            if ($tokens[$emptyStart]->isGivenKind(T_ISSET)) {
+                $empty = $emptyStart;
+            } elseif ($tokens[$emptyStart]->equals('!')) {
+                $empty = $tokens->getNextMeaningfulToken($emptyStart);
+
+                if (!$tokens[$empty]->isGivenKind(T_EMPTY)) {
+                    continue;
+                }
+            } else {
                 continue;
-            }
-
-            $emptyStart = $empty;
-
-            if ($tokens[$emptyStart - 1]->equals('!')) {
-                --$emptyStart;
             }
 
             $emptyArg = $empty + 1;
@@ -101,11 +105,15 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
                 continue;
             }
 
-            $isArrayCode = $tokens->generatePartialCode($isArrayStart, $isArrayEnd);
-            $emptyCode = $tokens->generatePartialCode($emptyStart, $emptyEnd);
+            $newTokens = [];
 
-            $tokens->clearRange($isArrayStart, $emptyEnd);
-            $tokens->insertAt($emptyEnd, Tokens::fromCode($emptyCode.' && '.$isArrayCode));
+            foreach ([[$emptyStart, $emptyEnd], [$isArrayEnd + 1, $emptyStart - 1], [$isArrayStart, $isArrayEnd]] as [$start, $end]) {
+                for ($i = $start; $i <= $end; ++$i) {
+                    $newTokens[] = $tokens[$i];
+                }
+            }
+
+            $tokens->overrideRange($isArrayStart, $emptyEnd, $newTokens);
 
             $index = $emptyEnd + 1;
         }

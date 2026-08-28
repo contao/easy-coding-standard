@@ -27,9 +27,6 @@ use Contao\EasyCodingStandard\Fixer\NoLineBreakBetweenMethodArgumentsFixer;
 use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterShortEchoTagFixer;
 use Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer;
 use Contao\EasyCodingStandard\Fixer\TypeHintOrderFixer;
-use Contao\EasyCodingStandard\Sniffs\ContaoFrameworkClassAliasSniff;
-use Contao\EasyCodingStandard\Sniffs\SetDefinitionCommandSniff;
-use Contao\EasyCodingStandard\Sniffs\UseSprintfInExceptionsSniff;
 use PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
@@ -89,12 +86,10 @@ use SlevomatCodingStandard\Sniffs\Operators\RequireCombinedAssignmentOperatorSni
 use SlevomatCodingStandard\Sniffs\PHP\DisallowDirectMagicInvokeCallSniff;
 use SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\NullTypeHintOnLastPositionSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\UselessConstantTypeHintSniff;
 use SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff;
 use SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff;
 use SlevomatCodingStandard\Sniffs\Whitespaces\DuplicateSpacesSniff;
-use Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
@@ -113,7 +108,6 @@ return ECSConfig::configure()
         CombineConsecutiveIssetsFixer::class,
         CombineConsecutiveUnsetsFixer::class,
         CommentLengthFixer::class,
-        ContaoFrameworkClassAliasSniff::class,
         DeclareStrictTypesFixer::class,
         DisallowArrayTypeHintSyntaxSniff::class,
         DisallowDirectMagicInvokeCallSniff::class,
@@ -136,9 +130,7 @@ return ECSConfig::configure()
         NoUnsetOnPropertyFixer::class,
         NoUselessElseFixer::class,
         NoUselessReturnFixer::class,
-        NullTypeHintOnLastPositionSniff::class,
         OrderedClassElementsFixer::class,
-        ParamReturnAndVarTagMalformsFixer::class,
         PhpdocLineSpanFixer::class,
         PhpdocNoEmptyReturnFixer::class,
         PhpdocOrderByValueFixer::class,
@@ -156,7 +148,6 @@ return ECSConfig::configure()
         ReturnAssignmentFixer::class,
         RequireCombinedAssignmentOperatorSniff::class,
         SelfStaticAccessorFixer::class,
-        SetDefinitionCommandSniff::class,
         SingleLineConfigureCommandFixer::class,
         StaticLambdaFixer::class,
         StrictComparisonFixer::class,
@@ -169,7 +160,6 @@ return ECSConfig::configure()
         UselessConstantTypeHintSniff::class,
         UselessParenthesesSniff::class,
         UselessVariableSniff::class,
-        UseSprintfInExceptionsSniff::class,
         VoidReturnFixer::class,
     ])
     ->withConfiguredRule(BlankLineBeforeStatementFixer::class, ['statements' => ['do', 'for', 'foreach', 'return', 'switch', 'throw', 'try', 'while']])

@@ -64,14 +64,6 @@ The package contains the following custom fixers:
 | [`SingleLineConfigureCommandFixer`](src/Fixer/SingleLineConfigureCommandFixer.php) | Fixes the indentation of Symfony command arguments and options. |
 | [`TypeHintOrderFixer`](src/Fixer/TypeHintOrderFixer.php) | Fixes the type hint order in method declarations. |
 
-The package contains the following custom sniffs:
-
-| Class | Description |
-| --- | --- |
-| [`ContaoFrameworkClassAliasSniff`](src/Sniffs/ContaoFrameworkClassAliasSniff.php) | Prevents using aliased Contao classes instead of their originals. |
-| [`SetDefinitionCommandSniff`](src/Sniffs/SetDefinitionCommandSniff.php) | Prevents using the `setDefinition()` method in Symfony commands. |
-| [`UseSprintfInExceptionsSniff`](src/Sniffs/UseSprintfInExceptionsSniff.php) | Prevents using string interpolation in exception messages. |
-
 ## License
 
 Contao is licensed under the terms of the LGPLv3.

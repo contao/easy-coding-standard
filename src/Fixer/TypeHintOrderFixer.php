@@ -23,6 +23,8 @@ final class TypeHintOrderFixer extends AbstractFixer
 {
     use IndentationFixerTrait;
 
+    private const TYPE_CHECK_TEMPLATE = '<?php function f(): %s {}';
+
     private static array $nativeTypes = [
         'array',
         'callable',
@@ -218,6 +220,19 @@ final class TypeHintOrderFixer extends AbstractFixer
             $new .= '|null';
         }
 
-        return Tokens::fromCode($new);
+        return $this->tokenizeTypeHint($new);
+    }
+
+    private function tokenizeTypeHint(string $typehint): Tokens
+    {
+        $tokens = Tokens::fromCode(\sprintf(self::TYPE_CHECK_TEMPLATE, $typehint));
+        $typeColon = array_key_first($tokens->findGivenKind(CT::T_TYPE_COLON));
+        $openingBrace = $tokens->getNextTokenOfKind($typeColon, ['{']);
+
+        $tokens->overrideRange(0, $typeColon, []);
+        $tokens->overrideRange($openingBrace, \count($tokens) - 1, []);
+        $tokens->clearEmptyTokens();
+
+        return $tokens;
     }
 }

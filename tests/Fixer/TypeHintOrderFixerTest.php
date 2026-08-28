@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Contao\EasyCodingStandard\Tests\Fixer;
 
 use Contao\EasyCodingStandard\Fixer\TypeHintOrderFixer;
+use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use PhpCsFixer\Tokenizer\Tokens;
 use PHPUnit\Framework\TestCase;
 
@@ -29,6 +30,37 @@ class TypeHintOrderFixerTest extends TestCase
         $fixer->fix($this->createMock('SplFileInfo'), $tokens);
 
         $this->assertSame($expected, $tokens->generateCode());
+        $this->assertTrue($tokens->isMonolithicPhp());
+    }
+
+    public function testHeaderCommentFixerCanProcessReorderedTypeHint(): void
+    {
+        $tokens = Tokens::fromCode(
+            <<<'EOT'
+                <?php
+
+                class Foo
+                {
+                    public function bar(string|FooService|null $service): void
+                    {
+                    }
+                }
+                EOT,
+        );
+
+        $file = $this->createMock('SplFileInfo');
+        (new TypeHintOrderFixer())->fix($file, $tokens);
+
+        $headerFixer = new HeaderCommentFixer();
+        $headerFixer->configure([
+            'header' => 'This file is part of Contao.',
+        ]);
+
+        $this->assertTrue($headerFixer->isCandidate($tokens));
+
+        $headerFixer->fix($file, $tokens);
+
+        $this->assertStringContainsString('This file is part of Contao.', $tokens->generateCode());
     }
 
     public static function getCodeSamples(): iterable
@@ -40,6 +72,10 @@ class TypeHintOrderFixerTest extends TestCase
                 interface FooInterface
                 {
                     public function bar(object|FooService|BarService $service, iterable|int $count): ?string;
+
+                    public function getCallable(): null|callable;
+
+                    public function getStatic(): null|static;
                 }
 
                 class Foo implements FooInterface
@@ -60,6 +96,14 @@ class TypeHintOrderFixerTest extends TestCase
 
                         $bar = fn (string|int $id): ?FooService => null;
                     }
+
+                    public function getCallable(): null|callable
+                    {
+                    }
+
+                    public function getStatic(): null|static
+                    {
+                    }
                 }
                 EOT,
             <<<'EOT'
@@ -68,6 +112,10 @@ class TypeHintOrderFixerTest extends TestCase
                 interface FooInterface
                 {
                     public function bar(BarService|FooService|object $service, int|iterable $count): string|null;
+
+                    public function getCallable(): callable|null;
+
+                    public function getStatic(): static|null;
                 }
 
                 class Foo implements FooInterface
@@ -87,6 +135,14 @@ class TypeHintOrderFixerTest extends TestCase
                         };
 
                         $bar = fn (int|string $id): FooService|null => null;
+                    }
+
+                    public function getCallable(): callable|null
+                    {
+                    }
+
+                    public function getStatic(): static|null
+                    {
                     }
                 }
                 EOT,

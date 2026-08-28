@@ -26,11 +26,11 @@ use Contao\EasyCodingStandard\Fixer\NoExpectsThisAnyFixer;
 use Contao\EasyCodingStandard\Fixer\NoLineBreakBetweenMethodArgumentsFixer;
 use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterShortEchoTagFixer;
 use Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer;
-use Contao\EasyCodingStandard\Fixer\TypeHintOrderFixer;
 use PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
 use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
+use PhpCsFixer\Fixer\ClassNotation\OrderedTypesFixer;
 use PhpCsFixer\Fixer\ClassNotation\SelfStaticAccessorFixer;
 use PhpCsFixer\Fixer\Comment\MultilineCommentOpeningClosingFixer;
 use PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer;
@@ -146,7 +146,6 @@ return ECSConfig::configure()
         StrictComparisonFixer::class,
         StrictParamFixer::class,
         TernaryToNullCoalescingFixer::class,
-        TypeHintOrderFixer::class,
         UnusedInheritedVariablePassedToClosureSniff::class,
         UseArrowFunctionsFixer::class,
         UselessAliasSniff::class,
@@ -165,6 +164,7 @@ return ECSConfig::configure()
     ->withConfiguredRule(NativeConstantInvocationFixer::class, ['fix_built_in' => false, 'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'], 'scope' => 'namespaced'])
     ->withConfiguredRule(NoWhitespaceBeforeCommaInArrayFixer::class, ['after_heredoc' => true])
     ->withConfiguredRule(NullableTypeDeclarationFixer::class, ['syntax' => 'union'])
+    ->withConfiguredRule(OrderedTypesFixer::class, ['null_adjustment' => 'always_last', 'sort_algorithm' => 'alpha', 'case_sensitive' => true])
     ->withConfiguredRule(PhpdocSeparationFixer::class, ['groups' => [['template', 'mixin'], ['preserveGlobalState', 'runInSeparateProcess'], ['copyright', 'license'], ['Attributes', 'Attribute'], ['ORM\\*'], ['Assert\\*']]])
     ->withConfiguredRule(PhpdocToCommentFixer::class, ['ignored_tags' => ['todo', 'see']])
     ->withConfiguredRule(PhpdocTypesFixer::class, ['groups' => ['simple', 'meta']])

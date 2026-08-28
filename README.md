@@ -62,7 +62,6 @@ The package contains the following custom fixers:
 | [`NoLineBreakBetweenMethodArgumentsFixer`](src/Fixer/NoLineBreakBetweenMethodArgumentsFixer.php) | Fixes the indentation of method declarations. |
 | [`NoSemicolonAfterShortEchoTagFixer`](src/Fixer/NoSemicolonAfterShortEchoTagFixer.php) | Removes the semicolon after short echo tag instructions. |
 | [`SingleLineConfigureCommandFixer`](src/Fixer/SingleLineConfigureCommandFixer.php) | Fixes the indentation of Symfony command arguments and options. |
-| [`TypeHintOrderFixer`](src/Fixer/TypeHintOrderFixer.php) | Fixes the type hint order in method declarations. |
 
 ## License
 

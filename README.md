@@ -48,20 +48,20 @@ The package contains the following custom fixers:
 | --- | --- |
 | [`AssertEqualsFixer`](src/Fixer/AssertEqualsFixer.php) | Replaces `asserEquals()` with `assertSame()` in unit tests unless the method is used to compare two objects. |
 | [`CaseCommentIndentationFixer`](src/Fixer/CaseCommentIndentationFixer.php) | Fixes the comment indentation before a `case` statement. |
-| [`ChainedMethodBlockFixer`](src/Fixer/ChainedMethodBlockFixer.php) | Adds an empty line after a block of chained method calls. |
 | [`CommentLengthFixer`](src/Fixer/CommentLengthFixer.php) | Adjusts the length of comments regardless of their indentation so that each line is about 80 characters long. |
 | [`ExpectsWithCallbackFixer`](src/Fixer/ExpectsWithCallbackFixer.php) | Adjusts the indentation of `$this->callback()` calls inside the `with()` method of a unit test. |
 | [`FindByPkFixer`](src/Fixer/FindByPkFixer.php) | Replaces `findByPk()` calls with `findById()`. |
-| [`FunctionCallWithMultilineArrayFixer`](src/Fixer/FunctionCallWithMultilineArrayFixer.php) | Fixes the indentation of function calls with multi-line array arguments. |
 | [`InlinePhpdocCommentFixer`](src/Fixer/InlinePhpdocCommentFixer.php) | Ensures that inline phpDoc comments are not converted to regular comments. |
 | [`IsArrayNotEmptyFixer`](src/Fixer/IsArrayNotEmptyFixer.php) | Fixes the order of `isset()` and `empty()` calls in conjunction with `is_array()` checks. |
 | [`MockMethodChainingIndentationFixer`](src/Fixer/MockMethodChainingIndentationFixer.php) | Fixes the indentation of chained mock methods. |
+| [`MultilineCallArgumentsFixer`](src/Fixer/MultilineCallArgumentsFixer.php) | Puts every argument of a multi-line call and every element of a multi-line array on its own line. |
 | [`MultiLineIfIndentationFixer`](src/Fixer/MultiLineIfIndentationFixer.php) | Fixes the indentation of multi-line if statements. |
 | [`MultiLineLambdaFunctionArgumentsFixer`](src/Fixer/MultiLineLambdaFunctionArgumentsFixer.php) | Fixes the indentation of multi-line lambda function arguments. |
 | [`NoExpectsThisAnyFixer`](src/Fixer/NoExpectsThisAnyFixer.php) | Removes the explicit `any()` assertion in unit tests. |
 | [`NoLineBreakBetweenMethodArgumentsFixer`](src/Fixer/NoLineBreakBetweenMethodArgumentsFixer.php) | Fixes the indentation of method declarations. |
 | [`NoSemicolonAfterShortEchoTagFixer`](src/Fixer/NoSemicolonAfterShortEchoTagFixer.php) | Removes the semicolon after short echo tag instructions. |
 | [`SingleLineConfigureCommandFixer`](src/Fixer/SingleLineConfigureCommandFixer.php) | Fixes the indentation of Symfony command arguments and options. |
+| [`StatementGroupingFixer`](src/Fixer/StatementGroupingFixer.php) | Separates statements that do not belong together with an empty line and removes empty lines between statements that do. |
 
 ## License
 

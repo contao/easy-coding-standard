@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Contao\EasyCodingStandard\Fixer;
 
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 trait IndentationFixerTrait
@@ -44,5 +45,10 @@ trait IndentationFixerTrait
         }
 
         return false;
+    }
+
+    protected function isLineBreak(Token $token): bool
+    {
+        return $token->isWhitespace() && str_contains($token->getContent(), "\n");
     }
 }

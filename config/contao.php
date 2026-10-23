@@ -12,20 +12,20 @@ declare(strict_types=1);
 
 use Contao\EasyCodingStandard\Fixer\AssertEqualsFixer;
 use Contao\EasyCodingStandard\Fixer\CaseCommentIndentationFixer;
-use Contao\EasyCodingStandard\Fixer\ChainedMethodBlockFixer;
 use Contao\EasyCodingStandard\Fixer\CommentLengthFixer;
 use Contao\EasyCodingStandard\Fixer\ExpectsWithCallbackFixer;
 use Contao\EasyCodingStandard\Fixer\FindByPkFixer;
-use Contao\EasyCodingStandard\Fixer\FunctionCallWithMultilineArrayFixer;
 use Contao\EasyCodingStandard\Fixer\InlinePhpdocCommentFixer;
 use Contao\EasyCodingStandard\Fixer\IsArrayNotEmptyFixer;
 use Contao\EasyCodingStandard\Fixer\MockMethodChainingIndentationFixer;
+use Contao\EasyCodingStandard\Fixer\MultilineCallArgumentsFixer;
 use Contao\EasyCodingStandard\Fixer\MultiLineIfIndentationFixer;
 use Contao\EasyCodingStandard\Fixer\MultiLineLambdaFunctionArgumentsFixer;
 use Contao\EasyCodingStandard\Fixer\NoExpectsThisAnyFixer;
 use Contao\EasyCodingStandard\Fixer\NoLineBreakBetweenMethodArgumentsFixer;
 use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterShortEchoTagFixer;
 use Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer;
+use Contao\EasyCodingStandard\Fixer\StatementGroupingFixer;
 use PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
@@ -99,7 +99,6 @@ return ECSConfig::configure()
         BlankLineAfterStrictTypesFixer::class,
         CaseCommentIndentationFixer::class,
         CastSpacesFixer::class,
-        ChainedMethodBlockFixer::class,
         CombineConsecutiveIssetsFixer::class,
         CombineConsecutiveUnsetsFixer::class,
         CommentLengthFixer::class,
@@ -107,7 +106,6 @@ return ECSConfig::configure()
         DisallowDirectMagicInvokeCallSniff::class,
         ExpectsWithCallbackFixer::class,
         FindByPkFixer::class,
-        FunctionCallWithMultilineArrayFixer::class,
         HeredocIndentationFixer::class,
         HeredocToNowdocFixer::class,
         InlinePhpdocCommentFixer::class,
@@ -115,6 +113,7 @@ return ECSConfig::configure()
         ListSyntaxFixer::class,
         MethodChainingIndentationFixer::class,
         MockMethodChainingIndentationFixer::class,
+        MultilineCallArgumentsFixer::class,
         MultilineCommentOpeningClosingFixer::class,
         MultiLineIfIndentationFixer::class,
         MultiLineLambdaFunctionArgumentsFixer::class,
@@ -140,6 +139,7 @@ return ECSConfig::configure()
         RequireCombinedAssignmentOperatorSniff::class,
         SelfStaticAccessorFixer::class,
         SingleLineConfigureCommandFixer::class,
+        StatementGroupingFixer::class,
         StrictComparisonFixer::class,
         StrictParamFixer::class,
         TernaryToNullCoalescingFixer::class,

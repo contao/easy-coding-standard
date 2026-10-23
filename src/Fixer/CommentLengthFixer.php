@@ -135,6 +135,7 @@ final class CommentLengthFixer extends AbstractFixer
 
         $docBlock = new DocBlock($tokens[$index]->getContent());
         $lines = $docBlock->getLines();
+
         $content = end($lines)->getContent();
         $indent = substr($content, 0, strpos($content, '*'));
 

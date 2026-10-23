@@ -37,10 +37,10 @@
     "scripts": {
         "all": [
             "@rector",
-            "@ecs",
+            "@cs-fixer",
             "@unit-tests"
         ],
-        "ecs": "vendor/bin/ecs check --fix",
+        "cs-fixer": "vendor/bin/ecs check --fix",
         "rector": "vendor/bin/rector",
         "unit-tests": "vendor/bin/phpunit"
     }

@@ -29,10 +29,71 @@ class SingleLineConfigureCommandFixerTest extends TestCase
         $fixer->fix($this->createMock('SplFileInfo'), $tokens);
 
         $this->assertSame($expected, $tokens->generateCode());
+
+        $tokens = Tokens::fromCode($tokens->generateCode());
+        $fixer->fix($this->createMock('SplFileInfo'), $tokens);
+
+        $this->assertSame($expected, $tokens->generateCode());
     }
 
     public static function getCodeSamples(): iterable
     {
+        foreach (['line' => '// Argument', 'hash' => '# Argument', 'block' => '/* Argument */', 'doc' => '/** Argument */'] as $name => $comment) {
+            yield $name.' comments in command arguments and options are kept' => [
+                str_replace(
+                    'COMMENT',
+                    $comment,
+                    <<<'EOT'
+                        <?php
+
+                        class SomeCommand
+                        {
+                            protected function configure(): void
+                            {
+                                $this->addArgument(
+                                    'foo',
+                                    COMMENT
+                                    1,
+                                );
+                                $this->addOption(
+                                    'bar',
+                                    null, COMMENT
+                                );
+                                $this->addArgument(
+                                    'baz',
+                                    1
+                                );
+                            }
+                        }
+                        EOT,
+                ),
+                str_replace(
+                    'COMMENT',
+                    $comment,
+                    <<<'EOT'
+                        <?php
+
+                        class SomeCommand
+                        {
+                            protected function configure(): void
+                            {
+                                $this->addArgument(
+                                    'foo',
+                                    COMMENT
+                                    1,
+                                );
+                                $this->addOption(
+                                    'bar',
+                                    null, COMMENT
+                                );
+                                $this->addArgument('baz', 1);
+                            }
+                        }
+                        EOT,
+                ),
+            ];
+        }
+
         yield [
             <<<'EOT'
                 <?php

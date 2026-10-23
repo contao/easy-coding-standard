@@ -101,6 +101,12 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
                     $blockStart = $next + 1;
                     $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $blockStart);
 
+                    // Do not remove the line breaks that terminate comments.
+                    if (array_filter($tokens->findGivenKind([T_COMMENT, T_DOC_COMMENT], $blockStart + 1, $blockEnd))) {
+                        $index = $blockEnd;
+                        continue 2;
+                    }
+
                     if ($tokens[$blockStart + 1]->isGivenKind(T_WHITESPACE)) {
                         $tokens->clearAt(++$blockStart);
                     }

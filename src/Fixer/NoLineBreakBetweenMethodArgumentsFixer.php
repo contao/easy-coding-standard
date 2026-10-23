@@ -91,7 +91,8 @@ final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
                 }
             }
 
-            if ($isPropertyPromotion) {
+            // Do not remove the line breaks that terminate comments.
+            if ($isPropertyPromotion || array_filter($tokens->findGivenKind([T_COMMENT, T_DOC_COMMENT], $next + 1, $end))) {
                 $index = $end + 1;
                 continue;
             }

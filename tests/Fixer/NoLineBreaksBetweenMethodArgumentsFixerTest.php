@@ -29,10 +29,65 @@ class NoLineBreaksBetweenMethodArgumentsFixerTest extends TestCase
         $fixer->fix($this->createMock('SplFileInfo'), $tokens);
 
         $this->assertSame($expected, $tokens->generateCode());
+
+        $tokens = Tokens::fromCode($tokens->generateCode());
+        $fixer->fix($this->createMock('SplFileInfo'), $tokens);
+
+        $this->assertSame($expected, $tokens->generateCode());
     }
 
     public static function getCodeSamples(): iterable
     {
+        foreach (['line' => '// Parameter', 'hash' => '# Parameter', 'block' => '/* Parameter */', 'doc' => '/** Parameter */'] as $name => $comment) {
+            yield $name.' comments in parameter lists are kept' => [
+                str_replace(
+                    'COMMENT',
+                    $comment,
+                    <<<'EOT'
+                        <?php
+
+                        class Foo
+                        {
+                            public function foo(
+                                COMMENT
+                                string $foo, COMMENT
+                            ): void
+                            {
+                            }
+
+                            public function bar(
+                                string $bar,
+                                string $baz,
+                            ): void
+                            {
+                            }
+                        }
+                        EOT,
+                ),
+                str_replace(
+                    'COMMENT',
+                    $comment,
+                    <<<'EOT'
+                        <?php
+
+                        class Foo
+                        {
+                            public function foo(
+                                COMMENT
+                                string $foo, COMMENT
+                            ): void
+                            {
+                            }
+
+                            public function bar(string $bar, string $baz,): void
+                            {
+                            }
+                        }
+                        EOT,
+                ),
+            ];
+        }
+
         yield [
             <<<'EOT'
                 <?php

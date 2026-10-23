@@ -59,7 +59,8 @@ final class MockMethodChainingIndentationFixer extends AbstractFixer
                                 $mock = $this->createMock(Foo::class);
                                 $mock
                                     ->method("isBar")
-                                    ->willReturn(false);
+                                    ->willReturn(false)
+                                ;
                         }
                         EOT,
                 ),

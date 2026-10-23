@@ -28,14 +28,12 @@ use Contao\EasyCodingStandard\Fixer\NoSemicolonAfterShortEchoTagFixer;
 use Contao\EasyCodingStandard\Fixer\SingleLineConfigureCommandFixer;
 use PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
-use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
 use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedTypesFixer;
 use PhpCsFixer\Fixer\ClassNotation\SelfStaticAccessorFixer;
 use PhpCsFixer\Fixer\Comment\MultilineCommentOpeningClosingFixer;
 use PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoSuperfluousElseifFixer;
-use PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer;
 use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\FunctionNotation\MultilinePromotedPropertiesFixer;
 use PhpCsFixer\Fixer\FunctionNotation\RegularCallableCallFixer;
@@ -92,7 +90,6 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return ECSConfig::configure()
     ->withSets([
-        __DIR__.'/set/psr12.php',
         __DIR__.'/set/symfony.php',
     ])
     ->withRules([
@@ -115,6 +112,7 @@ return ECSConfig::configure()
         HeredocToNowdocFixer::class,
         InlinePhpdocCommentFixer::class,
         IsArrayNotEmptyFixer::class,
+        ListSyntaxFixer::class,
         MethodChainingIndentationFixer::class,
         MockMethodChainingIndentationFixer::class,
         MultilineCommentOpeningClosingFixer::class,
@@ -125,7 +123,6 @@ return ECSConfig::configure()
         NoSemicolonAfterShortEchoTagFixer::class,
         NoSuperfluousElseifFixer::class,
         NoUnsetOnPropertyFixer::class,
-        NoUselessElseFixer::class,
         PhpdocLineSpanFixer::class,
         PhpdocNoEmptyReturnFixer::class,
         PhpdocOrderByValueFixer::class,
@@ -158,15 +155,13 @@ return ECSConfig::configure()
     ->withConfiguredRule(DuplicateSpacesSniff::class, ['ignoreSpacesInAnnotation' => true])
     ->withConfiguredRule(EchoTagSyntaxFixer::class, ['format' => 'short'])
     ->withConfiguredRule(GeneralPhpdocAnnotationRemoveFixer::class, ['annotations' => ['author', 'inheritdoc']])
-    ->withConfiguredRule(ListSyntaxFixer::class, ['syntax' => 'short'])
     ->withConfiguredRule(MultilinePromotedPropertiesFixer::class, ['minimum_number_of_parameters' => 2])
     ->withConfiguredRule(MultilineWhitespaceBeforeSemicolonsFixer::class, ['strategy' => 'new_line_for_chained_calls'])
-    ->withConfiguredRule(NativeConstantInvocationFixer::class, ['fix_built_in' => false, 'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'], 'scope' => 'namespaced'])
-    ->withConfiguredRule(NoWhitespaceBeforeCommaInArrayFixer::class, ['after_heredoc' => true])
+    ->withConfiguredRule(NativeConstantInvocationFixer::class, ['fix_built_in' => false, 'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'], 'scope' => 'namespaced', 'strict' => true])
     ->withConfiguredRule(NullableTypeDeclarationFixer::class, ['syntax' => 'union'])
     ->withConfiguredRule(OrderedTypesFixer::class, ['null_adjustment' => 'always_last', 'sort_algorithm' => 'alpha', 'case_sensitive' => true])
     ->withConfiguredRule(PhpdocSeparationFixer::class, ['groups' => [['template', 'mixin'], ['preserveGlobalState', 'runInSeparateProcess'], ['copyright', 'license'], ['Attributes', 'Attribute'], ['ORM\\*'], ['Assert\\*']]])
-    ->withConfiguredRule(PhpdocToCommentFixer::class, ['ignored_tags' => ['todo', 'see']])
+    ->withConfiguredRule(PhpdocToCommentFixer::class, ['allow_before_return_statement' => false, 'ignored_tags' => ['todo', 'see']])
     ->withConfiguredRule(PhpdocTypesFixer::class, ['groups' => ['simple', 'meta']])
     ->withConfiguredRule(PhpUnitTestCaseStaticMethodCallsFixer::class, ['call_type' => 'this'])
     ->withConfiguredRule(RandomApiMigrationFixer::class, ['replacements' => ['mt_rand' => 'random_int', 'rand' => 'random_int']])

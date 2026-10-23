@@ -41,7 +41,6 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return ECSConfig::configure()
     ->withSets([
-        __DIR__.'/psr1.php',
         __DIR__.'/psr2.php',
     ])
     ->withRules([
@@ -68,7 +67,7 @@ return ECSConfig::configure()
     ->withConfiguredRule(BracesPositionFixer::class, ['allow_single_line_anonymous_functions' => false, 'allow_single_line_empty_anonymous_classes' => true])
     ->withConfiguredRule(ClassDefinitionFixer::class, ['inline_constructor_arguments' => false, 'space_before_parenthesis' => true])
     ->withConfiguredRule(NewWithParenthesesFixer::class, ['anonymous_class' => true])
-    ->withConfiguredRule(NoExtraBlankLinesFixer::class, ['tokens' => 'use'])
+    ->withConfiguredRule(NoExtraBlankLinesFixer::class, ['tokens' => ['use']])
     ->withConfiguredRule(OrderedClassElementsFixer::class, ['order' => ['use_trait']])
     ->withConfiguredRule(OrderedImportsFixer::class, ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'none'])
     ->withConfiguredRule(SingleImportPerStatementFixer::class, ['group_to_single_imports' => false])

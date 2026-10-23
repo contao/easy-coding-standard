@@ -62,7 +62,7 @@ final class ExpectsWithCallbackFixer extends AbstractFixer
                                     $this->callback(
                                         function () {
                                         }
-                                    )
+                                    ),
                                 );
                         }
                         EOT,

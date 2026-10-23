@@ -42,6 +42,9 @@ use PhpCsFixer\Fixer\Whitespace\StatementIndentationFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return ECSConfig::configure()
+    ->withSets([
+        __DIR__.'/psr1.php',
+    ])
     ->withRules([
         BlankLineAfterNamespaceFixer::class,
         ClassDefinitionFixer::class,
@@ -69,7 +72,7 @@ return ECSConfig::configure()
     ])
     ->withConfiguredRule(BracesPositionFixer::class, ['allow_single_line_anonymous_functions' => false])
     ->withConfiguredRule(FunctionDeclarationFixer::class, ['closure_fn_spacing' => 'one'])
-    ->withConfiguredRule(MethodArgumentSpaceFixer::class, ['on_multiline' => 'ensure_fully_multiline'])
+    ->withConfiguredRule(MethodArgumentSpaceFixer::class, ['after_heredoc' => false, 'attribute_placement' => 'ignore', 'on_multiline' => 'ensure_fully_multiline'])
     ->withConfiguredRule(ModifierKeywordsFixer::class, ['elements' => ['method', 'property']])
     ->withConfiguredRule(SingleClassElementPerStatementFixer::class, ['elements' => ['property']])
     ->withConfiguredRule(SingleSpaceAroundConstructFixer::class, ['constructs_followed_by_a_single_space' => ['abstract', 'as', 'case', 'catch', 'class', 'do', 'else', 'elseif', 'final', 'for', 'foreach', 'function', 'if', 'interface', 'namespace', 'private', 'protected', 'public', 'static', 'switch', 'trait', 'try', 'use_lambda', 'while'], 'constructs_preceded_by_a_single_space' => ['as', 'else', 'elseif', 'use_lambda']])

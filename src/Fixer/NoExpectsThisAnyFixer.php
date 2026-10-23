@@ -39,7 +39,8 @@ final class NoExpectsThisAnyFixer extends AbstractFixer
                                 $mock
                                     ->expects($this->any())
                                     ->method("isBar")
-                                    ->willReturn(false);
+                                    ->willReturn(false)
+                                ;
                         }
                         EOT,
                 ),

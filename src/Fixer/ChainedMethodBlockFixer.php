@@ -48,6 +48,7 @@ final class ChainedMethodBlockFixer extends AbstractFixer
                                 ;
 
                                 $mock->isFoo();
+                            }
                         }
                         EOT,
                 ),

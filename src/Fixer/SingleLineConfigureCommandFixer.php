@@ -61,15 +61,24 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
                 case $tokens[$index]->isGivenKind(T_CLASS):
                     $prev = $tokens->getPrevMeaningfulToken($index);
 
-                    if ($tokens[$prev]->isGivenKind(T_PAAMAYIM_NEKUDOTAYIM)) {
+                    if (null !== $prev && $tokens[$prev]->isGivenKind(T_PAAMAYIM_NEKUDOTAYIM)) {
                         break;
                     }
 
                     $next = $tokens->getNextMeaningfulToken($index);
 
+                    if (null === $next) {
+                        break;
+                    }
+
                     // Skip the class if it is not a command
                     if (!str_ends_with($tokens[$next]->getContent(), 'Command')) {
                         $bodyStart = $tokens->getNextTokenOfKind($next, ['{']);
+
+                        if (null === $bodyStart) {
+                            break;
+                        }
+
                         $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_BRACE, $bodyStart);
                     }
                     break;
@@ -77,11 +86,24 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
                 case $tokens[$index]->isGivenKind(T_FUNCTION):
                     $next = $tokens->getNextMeaningfulToken($index);
 
+                    if (null === $next) {
+                        break;
+                    }
+
                     // Skip the method if it is not the configure() method
                     if ('configure' !== $tokens[$next]->getContent()) {
                         $argsStart = $tokens->getNextTokenOfKind($next, ['(']);
+
+                        if (null === $argsStart) {
+                            break;
+                        }
+
                         $argsEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $argsStart);
                         $bodyStart = $tokens->getNextTokenOfKind($argsEnd, ['{', ';']);
+
+                        if (null === $bodyStart) {
+                            break;
+                        }
 
                         if ($tokens[$bodyStart]->equals('{')) {
                             $index = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_BRACE, $bodyStart);
@@ -93,6 +115,10 @@ final class SingleLineConfigureCommandFixer extends AbstractFixer
 
                 case $tokens[$index]->isGivenKind(T_OBJECT_OPERATOR):
                     $next = $tokens->getNextMeaningfulToken($index);
+
+                    if (null === $next) {
+                        break;
+                    }
 
                     if (!\in_array($tokens[$next]->getContent(), ['addArgument', 'addOption'], true)) {
                         continue 2;

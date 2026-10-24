@@ -20,6 +20,19 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
+/**
+ * @phpstan-type StatementInfo array{
+ *     category: string,
+ *     subject: string|null,
+ *     subjectParts: list<string>,
+ *     multiline: bool,
+ *     chained: bool,
+ *     valueSubject: string|null,
+ *     valueFunction: string|null,
+ *     function: string|null,
+ *     uses: array<string, 'object'|'argument'>
+ * }
+ */
 final class StatementGroupingFixer extends AbstractFixer
 {
     use IndentationFixerTrait;
@@ -170,72 +183,72 @@ final class StatementGroupingFixer extends AbstractFixer
     {
         // Every frame represents a block; only curly brace blocks (and the top-level
         // code) contain statements.
-        $stack = [['list' => true, 'start' => null, 'statements' => []]];
+        $stack = [];
+        $frame = ['list' => true, 'start' => null, 'statements' => []];
 
         for ($index = 0, $count = \count($tokens); $index < $count; ++$index) {
             $token = $tokens[$index];
-            $top = array_key_last($stack);
 
             if ($blockType = Tokens::detectBlockType($token)) {
                 if ($blockType['isStart']) {
-                    if ($stack[$top]['list'] && null === $stack[$top]['start']) {
-                        $stack[$top]['start'] = $index;
+                    if ($frame['list'] && null === $frame['start']) {
+                        $frame['start'] = $index;
                     }
 
-                    $stack[] = [
+                    $stack[] = $frame;
+
+                    $frame = [
                         'list' => Tokens::BLOCK_TYPE_BRACE === $blockType['type'],
                         'start' => null,
                         'statements' => [],
                     ];
-                } elseif ($top > 0) {
-                    $frame = array_pop($stack);
-
+                } elseif (null !== ($parent = array_pop($stack))) {
                     if ($frame['list']) {
                         $this->fixStatements($tokens, $frame['statements']);
                     }
 
-                    $top = array_key_last($stack);
-                    $start = $stack[$top]['start'];
+                    $frame = $parent;
+                    $start = $frame['start'];
 
                     // The closing brace ends a control structure or declaration
-                    if ($token->equals('}') && $stack[$top]['list'] && null !== $start && !$tokens[$start]->isGivenKind(self::EXPRESSION_START_KINDS)) {
-                        $stack[$top]['start'] = null;
+                    if ($token->equals('}') && $frame['list'] && null !== $start && !$tokens[$start]->isGivenKind(self::EXPRESSION_START_KINDS)) {
+                        $frame['start'] = null;
                     }
                 }
 
                 continue;
             }
 
-            if (!$stack[$top]['list'] || $token->isWhitespace() || $token->isComment()) {
+            if (!$frame['list'] || $token->isWhitespace() || $token->isComment()) {
                 continue;
             }
 
             if ($token->equals(';')) {
-                if (null !== $stack[$top]['start']) {
-                    $stack[$top]['statements'][] = [$stack[$top]['start'], $index];
-                    $stack[$top]['start'] = null;
+                if (null !== $frame['start']) {
+                    $frame['statements'][] = [$frame['start'], $index];
+                    $frame['start'] = null;
                 }
 
                 continue;
             }
 
             if ($token->isGivenKind([T_OPEN_TAG, T_OPEN_TAG_WITH_ECHO, T_CLOSE_TAG, T_INLINE_HTML])) {
-                $stack[$top]['start'] = null;
+                $frame['start'] = null;
                 continue;
             }
 
-            if (null === $stack[$top]['start']) {
-                $stack[$top]['start'] = $index;
+            if (null === $frame['start']) {
+                $frame['start'] = $index;
                 continue;
             }
 
             // The colon ends a case label
-            if ($token->equals(':') && $tokens[$stack[$top]['start']]->isGivenKind([T_CASE, T_DEFAULT])) {
-                $stack[$top]['start'] = null;
+            if ($token->equals(':') && $tokens[$frame['start']]->isGivenKind([T_CASE, T_DEFAULT])) {
+                $frame['start'] = null;
             }
         }
 
-        $this->fixStatements($tokens, $stack[0]['statements']);
+        $this->fixStatements($tokens, $frame['statements']);
     }
 
     /**
@@ -318,6 +331,9 @@ final class StatementGroupingFixer extends AbstractFixer
      * chained-call block on the same subject as A (e.g. "$mock = …;" and a "$mock"
      * chain) or if A is an assignment and A and B are both single-line. Multi-line
      * statements keep their empty line.
+     *
+     * @param StatementInfo $a
+     * @param StatementInfo $b
      */
     private function removesEmptyLine(array $a, array $b, bool $related): bool
     {
@@ -392,6 +408,10 @@ final class StatementGroupingFixer extends AbstractFixer
         return null !== $keyword && $tokens[$keyword]->isGivenKind(T_DECLARE);
     }
 
+    /**
+     * @param StatementInfo $a
+     * @param StatementInfo $b
+     */
     private function needsEmptyLine(array $a, array $b, bool $related, bool $inGroup): bool
     {
         // Rule 1: related statements
@@ -438,6 +458,11 @@ final class StatementGroupingFixer extends AbstractFixer
         return !isset(self::GROUPS[$a['category']]) || self::GROUPS[$a['category']] !== (self::GROUPS[$b['category']] ?? null);
     }
 
+    /**
+     * @param StatementInfo      $a
+     * @param StatementInfo      $b
+     * @param StatementInfo|null $c
+     */
     private function isRelated(array $a, array $b, array|null $c = null): bool
     {
         if (null === $a['subject']) {
@@ -468,6 +493,10 @@ final class StatementGroupingFixer extends AbstractFixer
     /**
      * Checks whether A and B share the same variable, but are not related because B
      * is used in the next statement only as an argument (not as an object).
+     *
+     * @param StatementInfo      $a
+     * @param StatementInfo      $b
+     * @param StatementInfo|null $c
      */
     private function isBrokenByArgumentUse(array $a, array $b, array|null $c): bool
     {
@@ -477,6 +506,9 @@ final class StatementGroupingFixer extends AbstractFixer
     /**
      * Checks whether A and B are single-line assignments whose values begin with a method
      * call on the same variable, e.g. "$a = $config->getA();" and "$b = $config->getB();".
+     *
+     * @param StatementInfo $a
+     * @param StatementInfo $b
      */
     private function sharesCall(array $a, array $b): bool
     {
@@ -492,6 +524,9 @@ final class StatementGroupingFixer extends AbstractFixer
     /**
      * Returns how the variable assigned in B is used in the next statement: as an
      * "object" (subject or method call target), as an "argument" or not at all.
+     *
+     * @param StatementInfo      $b
+     * @param StatementInfo|null $c
      *
      * @return 'object'|'argument'|null
      */
@@ -511,6 +546,9 @@ final class StatementGroupingFixer extends AbstractFixer
     /**
      * Checks whether B is a function or static call that uses the variable assigned
      * in A, e.g. "$container = …;" and "System::setContainer($container);".
+     *
+     * @param StatementInfo $a
+     * @param StatementInfo $b
      */
     private function isUsedInCall(array $a, array $b): bool
     {
@@ -523,6 +561,9 @@ final class StatementGroupingFixer extends AbstractFixer
 
     /**
      * Checks whether two different subjects belong to the same object.
+     *
+     * @param StatementInfo $a
+     * @param StatementInfo $b
      */
     private function isSameObject(array $a, array $b): bool
     {
@@ -557,7 +598,7 @@ final class StatementGroupingFixer extends AbstractFixer
     }
 
     /**
-     * @return array{category: string, subject: string|null, subjectParts: list<string>, multiline: bool, chained: bool, valueSubject: string|null, valueFunction: string|null, function: string|null, uses: array<string, 'object'|'argument'>}
+     * @return StatementInfo
      */
     private function analyzeStatement(Tokens $tokens, int $start, int $end): array
     {
@@ -589,13 +630,19 @@ final class StatementGroupingFixer extends AbstractFixer
         // Silenced statements, e.g. "@trigger_error(…);"
         if ($tokens[$start]->equals('@')) {
             $start = $tokens->getNextMeaningfulToken($start);
+
+            if (null === $start) {
+                return $info;
+            }
         }
 
         $token = $tokens[$start];
 
         if ($token->isGivenKind(T_VARIABLE)) {
             // Closure call, e.g. "$fn()"
-            if ($tokens[$tokens->getNextMeaningfulToken($start)]->equals('(')) {
+            $next = $tokens->getNextMeaningfulToken($start);
+
+            if (null !== $next && $tokens[$next]->equals('(')) {
                 $info['category'] = self::FUNCTION_CALL;
 
                 return $info;
@@ -612,11 +659,19 @@ final class StatementGroupingFixer extends AbstractFixer
         }
 
         if ($token->isGivenKind([CT::T_DESTRUCTURING_BRACKET_OPEN, T_LIST])) {
+            $next = $tokens->getNextMeaningfulToken($start);
+
+            if (null === $next) {
+                return $info;
+            }
+
             $close = $token->isGivenKind(T_LIST)
-                ? $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $tokens->getNextMeaningfulToken($start))
+                ? $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $next)
                 : $tokens->findBlockEnd(Tokens::BLOCK_TYPE_DESTRUCTURING_BRACKET, $start);
 
-            if ($tokens[$tokens->getNextMeaningfulToken($close)]->equals('=')) {
+            $next = $tokens->getNextMeaningfulToken($close);
+
+            if (null !== $next && $tokens[$next]->equals('=')) {
                 $info['category'] = self::ASSIGNMENT;
             }
 
@@ -638,6 +693,10 @@ final class StatementGroupingFixer extends AbstractFixer
 
         $next = $tokens->getNextMeaningfulToken($index);
 
+        if (null === $next) {
+            return $info;
+        }
+
         // Function call
         if ($tokens[$next]->equals('(') && !$token->isGivenKind(T_STATIC)) {
             $info['function'] = strtolower($name);
@@ -652,12 +711,18 @@ final class StatementGroupingFixer extends AbstractFixer
 
         $member = $tokens->getNextMeaningfulToken($next);
 
+        if (null === $member) {
+            return $info;
+        }
+
         // Static property
         if ($tokens[$member]->isGivenKind(T_VARIABLE)) {
             return $this->analyzeVariableStatement($tokens, $member, $name.'::', $info);
         }
 
-        if (!$tokens[$member]->isGivenKind(T_STRING) || !$tokens[$tokens->getNextMeaningfulToken($member)]->equals('(')) {
+        $arguments = $tokens->getNextMeaningfulToken($member);
+
+        if (!$tokens[$member]->isGivenKind(T_STRING) || null === $arguments || !$tokens[$arguments]->equals('(')) {
             return $info;
         }
 
@@ -670,6 +735,11 @@ final class StatementGroupingFixer extends AbstractFixer
         return $info;
     }
 
+    /**
+     * @param StatementInfo $info
+     *
+     * @return StatementInfo
+     */
     private function analyzeVariableStatement(Tokens $tokens, int $index, string $prefix, array $info): array
     {
         $variable = $index;
@@ -689,6 +759,10 @@ final class StatementGroupingFixer extends AbstractFixer
                 }
 
                 $index = $tokens->getNextMeaningfulToken($next);
+
+                if (null === $index) {
+                    return $info;
+                }
 
                 if ($blockType = Tokens::detectBlockType($tokens[$index])) {
                     $index = $tokens->findBlockEnd($blockType['type'], $index);
@@ -728,10 +802,12 @@ final class StatementGroupingFixer extends AbstractFixer
 
         $operator = $tokens->getNextMeaningfulToken($variable);
 
-        if ($tokens[$operator]->isGivenKind(T_DOUBLE_COLON)) {
+        if (null !== $operator && $tokens[$operator]->isGivenKind(T_DOUBLE_COLON)) {
             $member = $tokens->getNextMeaningfulToken($operator);
 
-            if ($tokens[$tokens->getNextMeaningfulToken($member)]->equals('(')) {
+            $arguments = null !== $member ? $tokens->getNextMeaningfulToken($member) : null;
+
+            if (null !== $arguments && $tokens[$arguments]->equals('(')) {
                 $info['category'] = self::STATIC_CALL;
 
                 return $info;
@@ -776,17 +852,23 @@ final class StatementGroupingFixer extends AbstractFixer
         $parts = [$tokens[$index]->getContent(), ...$this->getArrayKeys($tokens, $index)];
         $operator = $tokens->getNextMeaningfulToken($index);
 
-        if (!$tokens[$operator]->isObjectOperator()) {
+        if (null === $operator || !$tokens[$operator]->isObjectOperator()) {
             return $parts;
         }
 
         $property = $tokens->getNextMeaningfulToken($operator);
 
-        if (!$tokens[$property]->isGivenKind(T_STRING) || $tokens[$tokens->getNextMeaningfulToken($property)]->equals('(')) {
+        if (null === $property || !$tokens[$property]->isGivenKind(T_STRING)) {
             return $parts;
         }
 
-        $index = (int) $property;
+        $next = $tokens->getNextMeaningfulToken($property);
+
+        if (null !== $next && $tokens[$next]->equals('(')) {
+            return $parts;
+        }
+
+        $index = $property;
 
         return [...$parts, '->'.$tokens[$property]->getContent(), ...$this->getArrayKeys($tokens, $index)];
     }
@@ -813,16 +895,23 @@ final class StatementGroupingFixer extends AbstractFixer
 
             // In Foo::$property the variable token names a static property, whereas in
             // Foo::$method() it reads the local variable naming the method.
-            if ($tokens[$prev]->isGivenKind(T_DOUBLE_COLON) && !$tokens[$tokens->getNextMeaningfulToken($i)]->equals('(')) {
+            $next = $tokens->getNextMeaningfulToken($i);
+
+            if (null !== $prev && $tokens[$prev]->isGivenKind(T_DOUBLE_COLON) && (null === $next || !$tokens[$next]->equals('('))) {
                 $class = $tokens->getPrevMeaningfulToken($prev);
+
+                if (null === $class) {
+                    continue;
+                }
+
                 $prefix = $tokens[$class]->getContent();
 
-                while ($tokens[$previous = $tokens->getPrevMeaningfulToken($class)]->isGivenKind(T_NS_SEPARATOR)) {
+                while (null !== ($previous = $tokens->getPrevMeaningfulToken($class)) && $tokens[$previous]->isGivenKind(T_NS_SEPARATOR)) {
                     $prefix = $tokens[$previous]->getContent().$prefix;
                     $class = $previous;
                     $previous = $tokens->getPrevMeaningfulToken($class);
 
-                    if ($tokens[$previous]->isGivenKind(T_STRING)) {
+                    if (null !== $previous && $tokens[$previous]->isGivenKind(T_STRING)) {
                         $prefix = $tokens[$previous]->getContent().$prefix;
                         $class = $previous;
                     }
@@ -844,7 +933,7 @@ final class StatementGroupingFixer extends AbstractFixer
 
                 $object = isset($parts[$key + 1])
                     ? str_starts_with($parts[$key + 1], '->')
-                    : $tokens[$next]->isObjectOperator() || $tokens[$next]->isGivenKind(T_DOUBLE_COLON);
+                    : null !== $next && ($tokens[$next]->isObjectOperator() || $tokens[$next]->isGivenKind(T_DOUBLE_COLON));
 
                 if ($object || !isset($uses[$subject])) {
                     $uses[$subject] = $object ? 'object' : 'argument';
@@ -911,17 +1000,19 @@ final class StatementGroupingFixer extends AbstractFixer
         for ($level = 0; $level < 2; ++$level) {
             $operator = $tokens->getNextMeaningfulToken($index);
 
-            if (!$tokens[$operator]->isObjectOperator()) {
+            if (null === $operator || !$tokens[$operator]->isObjectOperator()) {
                 return null;
             }
 
             $index = $tokens->getNextMeaningfulToken($operator);
 
-            if (!$tokens[$index]->isGivenKind(T_STRING)) {
+            if (null === $index || !$tokens[$index]->isGivenKind(T_STRING)) {
                 return null;
             }
 
-            if ($tokens[$tokens->getNextMeaningfulToken($index)]->equals('(')) {
+            $next = $tokens->getNextMeaningfulToken($index);
+
+            if (null !== $next && $tokens[$next]->equals('(')) {
                 return $subject;
             }
 
@@ -945,7 +1036,9 @@ final class StatementGroupingFixer extends AbstractFixer
             return null;
         }
 
-        if (!$tokens[$tokens->getNextMeaningfulToken($index)]->equals('(')) {
+        $next = $tokens->getNextMeaningfulToken($index);
+
+        if (null === $next || !$tokens[$next]->equals('(')) {
             return null;
         }
 
@@ -973,13 +1066,19 @@ final class StatementGroupingFixer extends AbstractFixer
 
         $operator = $tokens->getNextMeaningfulToken($index);
 
-        if (!$tokens[$operator]->isObjectOperator()) {
+        if (null === $operator || !$tokens[$operator]->isObjectOperator()) {
             return false;
         }
 
         $method = $tokens->getNextMeaningfulToken($operator);
 
-        if (!$tokens[$method]->isGivenKind(T_STRING) || !$tokens[$tokens->getNextMeaningfulToken($method)]->equals('(')) {
+        if (null === $method || !$tokens[$method]->isGivenKind(T_STRING)) {
+            return false;
+        }
+
+        $arguments = $tokens->getNextMeaningfulToken($method);
+
+        if (null === $arguments || !$tokens[$arguments]->equals('(')) {
             return false;
         }
 

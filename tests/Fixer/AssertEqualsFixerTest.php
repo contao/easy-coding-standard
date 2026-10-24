@@ -33,6 +33,23 @@ class AssertEqualsFixerTest extends TestCase
 
     public static function getCodeSamples(): iterable
     {
+        yield 'calls without arguments are preserved' => [
+            <<<'EOT'
+                <?php
+
+                $this->assertEquals();
+                $this->assertNotEquals();
+                $this->assertEquals(42, $value);
+                EOT,
+            <<<'EOT'
+                <?php
+
+                $this->assertEquals();
+                $this->assertNotEquals();
+                $this->assertSame(42, $value);
+                EOT,
+        ];
+
         yield [
             <<<'EOT'
                 <?php

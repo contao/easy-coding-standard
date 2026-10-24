@@ -188,6 +188,10 @@ final class MultilineCallArgumentsFixer extends AbstractFixer
         if ($tokens[$index]->isGivenKind(T_FUNCTION)) {
             if ($tokens[$next]->isGivenKind(CT::T_RETURN_REF)) {
                 $next = $tokens->getNextMeaningfulToken($next);
+
+                if (null === $next) {
+                    return null;
+                }
             }
 
             if ($tokens[$next]->isGivenKind(T_STRING)) {
@@ -195,7 +199,7 @@ final class MultilineCallArgumentsFixer extends AbstractFixer
             }
         }
 
-        if (!$tokens[$next]->equals('(')) {
+        if (null === $next || !$tokens[$next]->equals('(')) {
             return null;
         }
 
@@ -209,28 +213,33 @@ final class MultilineCallArgumentsFixer extends AbstractFixer
     private function isCall(Tokens $tokens, int $index): bool
     {
         $prev = $tokens->getPrevMeaningfulToken($index);
+
+        if (null === $prev) {
+            return false;
+        }
+
         $prevPrev = $tokens->getPrevMeaningfulToken($prev);
 
         if ($tokens[$prev]->isGivenKind(T_STATIC)) {
-            return $tokens[$prevPrev]->isGivenKind(T_NEW);
+            return null !== $prevPrev && $tokens[$prevPrev]->isGivenKind(T_NEW);
         }
 
         if ($tokens[$prev]->isGivenKind(T_CLASS)) {
-            return $tokens[$prevPrev]->isGivenKind([T_NEW, T_READONLY]);
+            return null !== $prevPrev && $tokens[$prevPrev]->isGivenKind([T_NEW, T_READONLY]);
         }
 
         if ($tokens[$prev]->equals(')')) {
             $open = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS, $prev);
             $keyword = $tokens->getPrevMeaningfulToken($open);
 
-            return !$tokens[$keyword]->isGivenKind(self::SKIPPED_KINDS);
+            return null === $keyword || !$tokens[$keyword]->isGivenKind(self::SKIPPED_KINDS);
         }
 
         if ($tokens[$prev]->isGivenKind([T_VARIABLE, CT::T_DYNAMIC_PROP_BRACE_CLOSE, CT::T_DYNAMIC_VAR_BRACE_CLOSE]) || ']' === $tokens[$prev]->getContent()) {
             return true;
         }
 
-        return $tokens[$prev]->isGivenKind(T_STRING) && !$tokens[$prevPrev]->isGivenKind([T_FUNCTION, CT::T_RETURN_REF]);
+        return $tokens[$prev]->isGivenKind(T_STRING) && (null === $prevPrev || !$tokens[$prevPrev]->isGivenKind([T_FUNCTION, CT::T_RETURN_REF]));
     }
 
     /**
@@ -240,20 +249,24 @@ final class MultilineCallArgumentsFixer extends AbstractFixer
     {
         $prev = $tokens->getPrevMeaningfulToken($index);
 
-        if (!$tokens[$prev]->isGivenKind(T_STRING)) {
+        if (null === $prev || !$tokens[$prev]->isGivenKind(T_STRING)) {
             return null;
         }
 
         $name = $tokens[$prev]->getContent();
         $prevPrev = $tokens->getPrevMeaningfulToken($prev);
 
-        if ($tokens[$prevPrev]->isGivenKind(T_DOUBLE_COLON)) {
+        if (null !== $prevPrev && $tokens[$prevPrev]->isGivenKind(T_DOUBLE_COLON)) {
             $class = $tokens->getPrevMeaningfulToken($prevPrev);
+
+            if (null === $class) {
+                return null;
+            }
 
             return $tokens[$class]->getContent().'::'.$name;
         }
 
-        if ($tokens[$prevPrev]->isObjectOperator()) {
+        if (null !== $prevPrev && $tokens[$prevPrev]->isObjectOperator()) {
             return '->'.$name;
         }
 
@@ -333,7 +346,7 @@ final class MultilineCallArgumentsFixer extends AbstractFixer
      * @param-out bool $hasTrailingComma
      * @param-out bool $hasHeredoc
      *
-     * @return array<int, array{0: int, 1: int}>|null
+     * @return list<array{int, int}>|null
      */
     private function getElements(Tokens $tokens, int $open, int $close, bool|null &$hasTrailingComma = null, bool|null &$hasHeredoc = null): array|null
     {
@@ -423,9 +436,15 @@ final class MultilineCallArgumentsFixer extends AbstractFixer
     /**
      * Puts every element on its own line, adds a trailing comma and puts the closing
      * bracket on its own line.
+     *
+     * @param list<array{int, int}> $elements
      */
     private function expand(Tokens $tokens, int $open, int $close, array $elements, bool $hasTrailingComma, bool $compactArrays = false): void
     {
+        if ([] === $elements) {
+            return;
+        }
+
         $indent = $this->getLineIndent($tokens, $open);
         $innerIndent = $indent.'    ';
 
@@ -500,6 +519,8 @@ final class MultilineCallArgumentsFixer extends AbstractFixer
     /**
      * Checks whether the call has two arguments, the first one is simple and the
      * second one is a multi-line array, e.g. myFunction($foo, [ … ]).
+     *
+     * @param list<array{int, int}> $elements
      */
     private function isSecondArgumentArrayException(Tokens $tokens, array $elements, string|null $name): bool
     {
@@ -529,7 +550,7 @@ final class MultilineCallArgumentsFixer extends AbstractFixer
             $start = $tokens->getNextMeaningfulToken($start);
         }
 
-        if (!$tokens[$start]->isGivenKind(CT::T_ARRAY_BRACKET_OPEN)) {
+        if (null === $start || !$tokens[$start]->isGivenKind(CT::T_ARRAY_BRACKET_OPEN)) {
             return false;
         }
 
@@ -542,6 +563,8 @@ final class MultilineCallArgumentsFixer extends AbstractFixer
 
     /**
      * Converts the call to myFunction($foo, [ … ]).
+     *
+     * @param list<array{int, int}> $elements
      */
     private function collapse(Tokens $tokens, int $open, int $close, array $elements): void
     {

@@ -17,6 +17,9 @@
     },
     "require-dev": {
         "contao/rector": "^1.2",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-symfony": "^2.0",
         "phpunit/phpunit": "^11.5"
     },
     "autoload": {
@@ -38,10 +41,12 @@
         "all": [
             "@rector",
             "@cs-fixer",
-            "@unit-tests"
+            "@unit-tests",
+            "@phpstan"
         ],
-        "cs-fixer": "vendor/bin/ecs check --fix",
-        "rector": "vendor/bin/rector",
-        "unit-tests": "vendor/bin/phpunit"
+        "cs-fixer": "@php vendor/bin/ecs check --fix",
+        "rector": "@php vendor/bin/rector",
+        "unit-tests": "@php vendor/bin/phpunit",
+        "phpstan": "@php vendor/bin/phpstan analyze"
     }
 }

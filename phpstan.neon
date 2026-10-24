@@ -1,0 +1,44 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-symfony/rules.neon
+
+parameters:
+    level: 10
+
+    paths:
+        - %currentWorkingDirectory%/config
+        - %currentWorkingDirectory%/src
+        - %currentWorkingDirectory%/tests
+
+    # PHP_CodeSniffer uses its own autoloader instead of Composer autoloading.
+    scanFiles:
+        - vendor/squizlabs/php_codesniffer/src/Sniffs/Sniff.php
+
+    # These PHP-CS-Fixer APIs are intentionally used by our custom fixers and sets.
+    ignoreErrors:
+        -
+            identifier: class.extendsInternalClass
+            message: '#extends internal class PhpCsFixer\\AbstractFixer#'
+            path: src/Fixer/*
+        -
+            identifier: new.internalClass
+            message: '#internal class PhpCsFixer\\Tokenizer\\Analyzer\\ArgumentsAnalyzer#'
+            path: src/Fixer/*
+        -
+            identifier: method.internalClass
+            message: '#internal class PhpCsFixer\\Tokenizer\\Analyzer\\ArgumentsAnalyzer#'
+            path: src/Fixer/*
+        -
+            identifier: method.internalClass
+            message: '#internal class PhpCsFixer\\AbstractFixer#'
+            path: tests/Fixer/*
+        -
+            identifier: classConstant.internal
+            message: '#PhpCsFixer\\Fixer\\Phpdoc\\PhpdocSeparationFixer::OPTION_GROUPS_DEFAULT#'
+            path: config/set/symfony.php
+
+    treatPhpDocTypesAsCertain: false
+    rememberPossiblyImpureFunctionValues: false

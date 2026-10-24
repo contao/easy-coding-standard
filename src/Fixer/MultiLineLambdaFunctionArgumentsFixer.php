@@ -68,18 +68,18 @@ final class MultiLineLambdaFunctionArgumentsFixer extends AbstractFixer
             $next = $tokens->getNextMeaningfulToken($index);
 
             // Not a lambda function
-            if (!$tokens[$next]->equals('(')) {
+            if (null === $next || !$tokens[$next]->equals('(')) {
                 continue;
             }
 
             $prev = $tokens->getPrevMeaningfulToken($index);
 
-            if ($tokens[$prev]->isGivenKind(T_STATIC)) {
+            if (null !== $prev && $tokens[$prev]->isGivenKind(T_STATIC)) {
                 $prev = $tokens->getPrevMeaningfulToken($prev);
             }
 
             // Not inside a method call
-            if (!\in_array($tokens[$prev]->getContent(), ['(', ','], true)) {
+            if (null === $prev || !\in_array($tokens[$prev]->getContent(), ['(', ','], true)) {
                 continue;
             }
 
@@ -89,6 +89,11 @@ final class MultiLineLambdaFunctionArgumentsFixer extends AbstractFixer
             }
 
             $start = $tokens->getPrevTokenOfKind($index, ['(']);
+
+            if (null === $start) {
+                continue;
+            }
+
             $end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $start);
 
             // No line-breaks required for inline lambda functions

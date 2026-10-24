@@ -131,6 +131,9 @@ final class ExpectsWithCallbackFixer extends AbstractFixer
         return $start;
     }
 
+    /**
+     * @param array<int, int> $argumentsIndexes
+     */
     private function addLineBreak(Tokens $tokens, array $argumentsIndexes, int $start, int $end): void
     {
         $indent = $this->getIndent($tokens, $start);

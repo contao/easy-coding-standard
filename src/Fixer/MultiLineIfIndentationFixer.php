@@ -64,7 +64,7 @@ final class MultiLineIfIndentationFixer extends AbstractFixer
 
             $next = $tokens->getNextMeaningfulToken($index);
 
-            if (!$tokens[$next]->equals('(')) {
+            if (null === $next || !$tokens[$next]->equals('(')) {
                 continue;
             }
 

@@ -22,6 +22,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class AssertEqualsFixer extends AbstractFixer
 {
+    /**
+     * @var array<string, string>
+     */
     private array $mapper = [
         'assertEquals' => 'assertSame',
         'assertNotEquals' => 'assertNotSame',
@@ -73,6 +76,11 @@ final class AssertEqualsFixer extends AbstractFixer
             $argumentsIndexes = $argumentsAnalyzer->getArguments($tokens, $index + 1, $end);
 
             $argStart = array_key_first($argumentsIndexes);
+
+            if (null === $argStart) {
+                continue;
+            }
+
             $argEnd = $argumentsIndexes[$argStart];
 
             // Continue if the expected value is a or contains an object

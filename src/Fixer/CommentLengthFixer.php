@@ -136,8 +136,20 @@ final class CommentLengthFixer extends AbstractFixer
         $docBlock = new DocBlock($tokens[$index]->getContent());
         $lines = $docBlock->getLines();
 
-        $content = end($lines)->getContent();
-        $indent = substr($content, 0, strpos($content, '*'));
+        $lastLine = end($lines);
+
+        if (false === $lastLine) {
+            return $index + 1;
+        }
+
+        $content = $lastLine->getContent();
+        $asterisk = strpos($content, '*');
+
+        if (false === $asterisk) {
+            return $index + 1;
+        }
+
+        $indent = substr($content, 0, $asterisk);
 
         foreach ($lines as $line) {
             $content = $line->getContent();
@@ -175,22 +187,24 @@ final class CommentLengthFixer extends AbstractFixer
         return $index + 1;
     }
 
+    /**
+     * @return list<string>
+     */
     private function getLines(string $comment, int $length, string $prefix = ''): array
     {
         $lines = [];
-        $i = 0;
-        $chunks = explode(' ', $comment);
+        $line = $prefix;
 
-        while ([] !== $chunks) {
-            $word = array_shift($chunks);
-            $lines[$i] ??= $prefix;
-
-            if ($prefix !== $lines[$i] && \strlen($lines[$i]) + \strlen($word) > $length) {
-                $lines[++$i] = $prefix;
+        foreach (explode(' ', $comment) as $word) {
+            if ($prefix !== $line && \strlen($line) + \strlen($word) > $length) {
+                $lines[] = $line;
+                $line = $prefix;
             }
 
-            $lines[$i] .= " $word";
+            $line .= " $word";
         }
+
+        $lines[] = $line;
 
         return $lines;
     }

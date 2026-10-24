@@ -69,7 +69,7 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
 
             $prev = $tokens->getPrevMeaningfulToken($isArrayStart);
 
-            if (!$tokens[$prev]->isGivenKind(T_BOOLEAN_AND) && !$tokens[$prev]->equals('(')) {
+            if (null === $prev || (!$tokens[$prev]->isGivenKind(T_BOOLEAN_AND) && !$tokens[$prev]->equals('('))) {
                 continue;
             }
 
@@ -78,18 +78,22 @@ final class IsArrayNotEmptyFixer extends AbstractFixer
             $isArrayEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $isArrayArg);
             $booleanAnd = $tokens->getNextMeaningfulToken($isArrayEnd);
 
-            if (!$tokens[$booleanAnd]->isGivenKind(T_BOOLEAN_AND)) {
+            if (null === $booleanAnd || !$tokens[$booleanAnd]->isGivenKind(T_BOOLEAN_AND)) {
                 continue;
             }
 
             $emptyStart = $tokens->getNextNonWhitespace($booleanAnd);
+
+            if (null === $emptyStart) {
+                continue;
+            }
 
             if ($tokens[$emptyStart]->isGivenKind(T_ISSET)) {
                 $empty = $emptyStart;
             } elseif ($tokens[$emptyStart]->equals('!')) {
                 $empty = $tokens->getNextMeaningfulToken($emptyStart);
 
-                if (!$tokens[$empty]->isGivenKind(T_EMPTY)) {
+                if (null === $empty || !$tokens[$empty]->isGivenKind(T_EMPTY)) {
                     continue;
                 }
             } else {

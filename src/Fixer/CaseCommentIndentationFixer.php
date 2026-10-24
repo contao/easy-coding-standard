@@ -70,7 +70,7 @@ final class CaseCommentIndentationFixer extends AbstractFixer
 
             $prev = $tokens->getPrevNonWhitespace($index);
 
-            if (!$tokens[$prev]->isGivenKind(T_COMMENT)) {
+            if (null === $prev || !$tokens[$prev]->isGivenKind(T_COMMENT)) {
                 continue;
             }
 
@@ -97,7 +97,7 @@ final class CaseCommentIndentationFixer extends AbstractFixer
             while (true) {
                 $prevComment = $tokens->getPrevNonWhitespace($i);
 
-                if (!$tokens[$prevComment]->isGivenKind(T_COMMENT)) {
+                if (null === $prevComment || !$tokens[$prevComment]->isGivenKind(T_COMMENT)) {
                     break;
                 }
 

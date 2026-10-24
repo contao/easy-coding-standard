@@ -33,6 +33,29 @@ class MockMethodChainingIndentationFixerTest extends TestCase
 
     public static function getCodeSamples(): iterable
     {
+        yield 'a chain at the beginning of the file is indented' => [
+            <<<'EOT'
+                <?php
+
+                $mock->method('foo')->willReturn(false);
+                EOT,
+            <<<'EOT'
+                <?php
+
+                $mock
+                    ->method('foo')
+                    ->willReturn(false);
+                EOT,
+        ];
+
+        $code = <<<'EOT'
+            <?php
+
+            $mock->method('foo')->willReturn(false) ?>
+            EOT;
+
+        yield 'a chain without a terminating semicolon is preserved' => [$code, $code];
+
         yield [
             <<<'EOT'
                 <?php

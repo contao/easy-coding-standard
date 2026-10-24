@@ -63,7 +63,8 @@ final class NoExpectsThisAnyFixer extends AbstractFixer
             $next = $tokens->getNextMeaningfulToken($index);
 
             if (
-                'expects' !== $tokens[$next]->getContent()
+                null === $next
+                || 'expects' !== $tokens[$next]->getContent()
                 || !$tokens[$next + 1]->equals('(')
             ) {
                 continue;

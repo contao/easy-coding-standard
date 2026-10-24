@@ -24,6 +24,9 @@ final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
 {
     use IndentationFixerTrait;
 
+    /**
+     * @var list<int>
+     */
     private static array $cppKinds = [
         CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PUBLIC,
         CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PROTECTED,
@@ -65,8 +68,16 @@ final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
 
             $next = $tokens->getNextMeaningfulToken($index);
 
+            if (null === $next) {
+                continue;
+            }
+
             if ($tokens[$next]->isGivenKind(CT::T_RETURN_REF)) {
                 $next = $tokens->getNextMeaningfulToken($next);
+
+                if (null === $next) {
+                    continue;
+                }
             }
 
             $isLambda = !$tokens[$next]->isGivenKind(T_STRING);
@@ -74,6 +85,10 @@ final class NoLineBreakBetweenMethodArgumentsFixer extends AbstractFixer
 
             if (!$isLambda) {
                 $next = $tokens->getNextMeaningfulToken($next);
+
+                if (null === $next) {
+                    continue;
+                }
             }
 
             if (!$end = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS, $next)) {

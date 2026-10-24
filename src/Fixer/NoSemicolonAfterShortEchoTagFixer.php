@@ -48,7 +48,7 @@ final class NoSemicolonAfterShortEchoTagFixer extends AbstractFixer
 
             $prev = $tokens->getPrevMeaningfulToken($index);
 
-            if ($hasShortEchoTag && $tokens[$prev]->equalsAny([';'])) {
+            if ($hasShortEchoTag && null !== $prev && $tokens[$prev]->equalsAny([';'])) {
                 $tokens->clearAt($prev);
             }
 

@@ -23,6 +23,9 @@ final class MockMethodChainingIndentationFixer extends AbstractFixer
 {
     use IndentationFixerTrait;
 
+    /**
+     * @var list<string>
+     */
     private static array $methods = [
         'after',
         'expects',
@@ -83,14 +86,20 @@ final class MockMethodChainingIndentationFixer extends AbstractFixer
             $next = $tokens->getNextMeaningfulToken($index);
 
             if (
-                !$tokens[$next + 1]->equals('(')
+                null === $next
+                || !$tokens[$next + 1]->equals('(')
                 || !\in_array($tokens[$next]->getContent(), self::$methods, true)
             ) {
                 continue;
             }
 
-            $start = $tokens->getPrevTokenOfKind($index, [';', '{']);
+            $start = $tokens->getPrevTokenOfKind($index, [';', '{']) ?? 0;
             $end = $tokens->getNextTokenOfKind($index, [';']);
+
+            if (null === $end) {
+                continue;
+            }
+
             $operators = $tokens->findGivenKind(T_OBJECT_OPERATOR, $start, $end);
             $operatorsCount = \count($operators);
 

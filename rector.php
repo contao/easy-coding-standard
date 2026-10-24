@@ -23,5 +23,5 @@ return RectorConfig::configure()
         __DIR__.'/rector.php',
     ])
     ->withParallel()
-    ->withCache(sys_get_temp_dir().'/ecs/rector')
+    ->withCache(sys_get_temp_dir().'/rector/ecs')
 ;

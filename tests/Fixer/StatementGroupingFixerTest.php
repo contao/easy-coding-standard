@@ -373,6 +373,34 @@ class StatementGroupingFixerTest extends TestCase
                 EOT,
         ];
 
+        $payload = <<<'EOT'
+            <?php
+
+            $altcha = $this->getAltcha($repository);
+            $challenge = $altcha->createChallenge('salt?expires='.(time() - 600), 42);
+
+            $payload = $challenge->toArray();
+            $payload['number'] = 42;
+            $payload['challenge'] = 'foobar';
+            EOT;
+
+        yield 'direct use that starts an array group keeps its empty line' => [$payload, $payload];
+
+        yield 'direct use that starts an array group gets an empty line' => [
+            str_replace("\n\n\$payload", "\n\$payload", $payload),
+            $payload,
+        ];
+
+        $unchanged = <<<'EOT'
+            <?php
+
+            $challenge = $altcha->createChallenge();
+            $payload = $challenge->toArray();
+            consume($payload);
+            EOT;
+
+        yield 'direct use followed by argument use stays together' => [$unchanged, $unchanged];
+
         yield 'only adjacent statements are compared' => [
             <<<'EOT'
                 <?php

@@ -481,9 +481,10 @@ final class StatementGroupingFixer extends AbstractFixer
             return true;
         }
 
-        // Direct use (only if the declaration is single-line)
+        // Direct use (only if the declaration is single-line), unless a new block begins
+        // with B
         if (self::ASSIGNMENT === $a['category'] && self::ASSIGNMENT === $b['category'] && !$a['multiline'] && $a['subject'] === $b['valueSubject']) {
-            return true;
+            return null === $c || !$this->isSameObject($b, $c);
         }
 
         // Shared use, unless a new block begins with B

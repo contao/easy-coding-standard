@@ -128,6 +128,13 @@ $mock
    method call on `$x` (`$serializer = new Serializer(…);` → `$normalized = $serializer->normalize(…);`). A multi-line
    declaration is not related: `$operation = $operation->withParameters([…]);` → `$operations[$name] = $operation->…`
    gets an empty line (rule 2).
+   **A new related group takes precedence over direct use:** if the directly adjacent statement C has the same
+   object or array as B's subject (as defined in rule 2 above), A and B are not related by direct use. For example,
+   `$payload = $challenge->toArray();` followed by `$payload['number'] = 42;` starts a new group at `$payload`.
+   The related-group spacing rule (rule 4 below) inserts or preserves the empty line before this group.
+   Merely calling a method on B's variable to assign a different variable does not start such a group:
+   `$altcha = …;` → `$challenge = $altcha->createChallenge(…);` → `$payload = $challenge->toArray();` keeps
+   `$altcha` and `$challenge` together. Using B's variable only as an argument also leaves direct use intact.
 4. **Shared use:** A and B are single-line assignments whose right-hand sides both begin with a method call on the
    same variable (`$projectDir = $parameterBag->resolveValue(…);` → `$uploadDir = $parameterBag->resolveValue(…);`,
    `$defaults = $config->getDefaults();` → `$requirements = $config->getRequirements();`). `$this` does not count
@@ -185,6 +192,19 @@ not insert an empty line (`$graph1 = $schemaManager->…;` → `$graph2 = $schem
 Using a variable only as an argument does **not** make statements related: `$requestStack->push($request)` is not
 related to `$request = …`, `$operations = [$prefix.'…' => …]` is not related to `$prefix = …`, and
 `$this->assertSame(…, $operation->getUriTemplate())` is not related to `$operation = …`.
+
+```php
+// Expected output: keep or insert the empty line before the new array group
+$altcha = $this->getAltcha($repository);
+$challenge = $altcha->createChallenge('salt?expires='.(time() - 600), 42);
+
+$payload = $challenge->toArray();
+$payload['number'] = 42;
+$payload['challenge'] = 'foobar';
+```
+
+The group spans several lines, but each statement is single-line. This exception belongs to the definition of
+"direct use"; rule 3b (an assignment followed by a function or static call) is unchanged.
 
 A **related group** is a maximal sequence of adjacent statements where each pair of neighbours is related.
 
@@ -846,6 +866,10 @@ Tests go to `../../tests/Fixer` (one test class per fixer, same structure as the
 - Closure calls (`$fn(…);`) are function calls (grouped with `ksort()` etc., separated from assignments).
 - Shared use is broken up if the variable assigned in B is used in the next statement (`$factory`/`$menu`,
   `$template`/`$event['details']`, `$processed[]`/`$table`).
+- Direct use is broken up when B and C have the same object or array as subject: the `$challenge` / `$payload`
+  example keeps an existing empty line and inserts a missing one. A second fixer pass must leave the output unchanged.
+  The preceding `$altcha` / `$challenge` pair stays together; using `$payload` only as an argument also leaves direct
+  use intact.
 - Code in closures, global code and an `../../ecs.php`-like configuration file.
 - Comments between statements: the statements before and after them are not compared (e.g. a comment inside a `$mock`
   setup); empty line before the comment after `;` and `}`, none after `{` and `:`, none after the comment; consecutive

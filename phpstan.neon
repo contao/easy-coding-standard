@@ -42,3 +42,4 @@ parameters:
 
     treatPhpDocTypesAsCertain: false
     rememberPossiblyImpureFunctionValues: false
+    tmpDir: %env.TMPDIR%/phpstan/ecs

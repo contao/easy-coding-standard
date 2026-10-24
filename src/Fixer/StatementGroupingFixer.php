@@ -449,12 +449,12 @@ final class StatementGroupingFixer extends AbstractFixer
             return true;
         }
 
-        // Rules 5 to 11: statements of the same group stay together, and so do an
-        // assignment and a following assertion
-        if (self::ASSIGNMENT === $a['category'] && self::ASSERTION === $b['category']) {
+        // Rule 5: assignments and calls stay with a following assertion
+        if (self::ASSERTION === $b['category'] && \in_array($a['category'], [self::ASSIGNMENT, self::VARIABLE_CALL, self::FUNCTION_CALL, self::STATIC_CALL], true)) {
             return false;
         }
 
+        // Rule 6: statements of the same group stay together
         return !isset(self::GROUPS[$a['category']]) || self::GROUPS[$a['category']] !== (self::GROUPS[$b['category']] ?? null);
     }
 

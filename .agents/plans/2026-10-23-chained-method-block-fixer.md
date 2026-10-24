@@ -225,10 +225,23 @@ For two adjacent statements A and B (no comment, no neutral statement between th
     `mb_substitute_character(0xFFFD);`). This does not make A and B related.
 4. A or B belongs to a related group of two or more statements (and they are not related to each other) →
    **empty line**.
-5. A is an assignment and B is an assertion → **no empty line**.
+5. A is an assignment, variable call, function call or static call and B is an assertion → **no empty line**.
+   This includes calls directly on `$this` and closure calls. It does not make A and B related; existing empty lines
+   are kept. Earlier rules still take precedence (multi-line statements, deprecations and related-group boundaries).
 6. A and B belong to the same group → **no empty line**; otherwise **empty line**. The groups are *variables*
    (assignments and variable calls), *calls* (function calls and static calls) and *assertions*. Deprecations and
    neutral statements belong to no group.
+
+```php
+// Unchanged: each action stays with its following assertion
+$this->addEventsToEventDispatcher($webWorker);
+$this->assertFalse($webWorker->hasCliWorkersRunning());
+
+$this->triggerRealWorkers();
+$this->assertTrue($webWorker->hasCliWorkersRunning());
+```
+
+The last assertion is still separated from a following action by an empty line (rule 6).
 
 ### Removing empty lines
 
@@ -881,7 +894,12 @@ Tests go to `../../tests/Fixer` (one test class per fixer, same structure as the
 - Statements on the same line are not compared; `case` and `default` labels.
 - `$this->foo` / `$this->bar` (and `$this->getFoo()->bar`) are not related, existing empty lines are kept; different
   properties with a multi-line B are not related.
-- Multi-line assertions (assumption 2) and chained-call blocks with `?->`.
+- Actions followed by assertions: calls on `$this`, other objects, functions, static methods and closures stay
+  attached to following `$this->assert*()`, `self::assert*()` and `static::assert*()` calls. Existing empty lines
+  before assertions are preserved; the last assertion is still separated from a following action. Include the
+  `$webWorker` example above and verify idempotence. Earlier rules for multi-line statements, deprecations and
+  related-group boundaries still take precedence.
+- Multi-line assertions (assumption 1) and chained-call blocks with `?->`.
 - Control structures between statements (untouched).
 - Assertions via `$this->`, `self::` and `static::`, `$this->expect*()`, in a non-test class as well.
 - Existing empty lines between unrelated statements are kept (the examples above).
@@ -912,10 +930,7 @@ Tests go to `../../tests/Fixer` (one test class per fixer, same structure as the
 
 ## Assumptions (not explicitly confirmed)
 
-1. A variable, function or static call directly followed by an assertion gets an empty line (rule 6), e.g.
-   `$service->run();` → `$this->assertTrue(…);`. Only "assignment followed by assertion" was confirmed to stay
-   together.
-2. Multi-line assertions are handled by rule 2, i.e. they get an empty line before and after them unless they are
+1. Multi-line assertions are handled by rule 2, i.e. they get an empty line before and after them unless they are
    related to the neighbour (they usually are not).
 
 ## Implementation notes

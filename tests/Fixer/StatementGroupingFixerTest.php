@@ -815,6 +815,31 @@ class StatementGroupingFixerTest extends TestCase
                 EOT,
         ];
 
+        $workers = <<<'EOT'
+            <?php
+
+            $this->addEventsToEventDispatcher($webWorker);
+            $this->assertFalse($webWorker->hasCliWorkersRunning());
+
+            $this->triggerRealWorkers();
+            $this->assertTrue($webWorker->hasCliWorkersRunning());
+            EOT;
+
+        yield 'actions and their assertions stay together' => [$workers, $workers];
+
+        foreach (['$service->run();', '$this->run();', 'run();', 'Service::run();', '$callback();'] as $call) {
+            foreach (['$this->assertTrue($result);', 'self::assertTrue($result);', 'static::assertTrue($result);'] as $assertion) {
+                yield $call.' followed by '.$assertion => [
+                    "<?php\n\n".$call."\n".$assertion."\nnextAction();",
+                    "<?php\n\n".$call."\n".$assertion."\n\nnextAction();",
+                ];
+
+                $unchanged = "<?php\n\n".$call."\n\n".$assertion;
+
+                yield $call.' keeps an existing empty line before '.$assertion => [$unchanged, $unchanged];
+            }
+        }
+
         yield 'assertions' => [
             <<<'EOT'
                 <?php
@@ -868,7 +893,6 @@ class StatementGroupingFixerTest extends TestCase
                         $this->expectExceptionMessage('Invalid');
 
                         $service->run();
-
                         self::assertTrue(true);
                         static::assertFalse(false);
 

@@ -14,6 +14,7 @@ use Contao\Rector\Set\SetList;
 use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
+    ->withPhpSets(php82: true)
     ->withSets([SetList::CONTAO])
     ->withPaths([
         __DIR__.'/config',

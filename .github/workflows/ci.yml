@@ -4,7 +4,89 @@ on:
     pull_request: ~
     push: ~
 
+permissions:
+    contents: read
+
 jobs:
+    rector:
+        name: Rector
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.2'
+                  extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo_mysql, zlib
+                  coverage: none
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  show-progress: false
+                  persist-credentials: false
+
+            - name: Install Contao
+              uses: ramsey/composer-install@v4
+
+            - name: Install Rector
+              uses: ramsey/composer-install@v4
+              with:
+                  working-directory: vendor-bin/rector
+
+            - name: Run Rector
+              run: vendor-bin/rector/vendor/bin/rector --dry-run --no-progress-bar
+
+    ecs:
+        name: ECS
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.2'
+                  extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo_mysql, zlib
+                  coverage: none
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  show-progress: false
+                  persist-credentials: false
+
+            - name: Install Contao
+              uses: ramsey/composer-install@v4
+
+            - name: Run ECS
+              run: vendor/bin/ecs check --no-progress-bar
+
+    phpstan:
+        name: PHPStan
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.2'
+                  extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, pcre, pdo_mysql, zlib
+                  coverage: none
+
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  show-progress: false
+                  persist-credentials: false
+
+            - name: Install Contao
+              uses: ramsey/composer-install@v4
+
+            - name: Install PHPStan
+              uses: ramsey/composer-install@v4
+              with:
+                  working-directory: vendor-bin/phpstan
+
+            - name: Run PHPStan
+              run: vendor-bin/phpstan/vendor/bin/phpstan analyse --no-progress
+
     tests:
         name: PHP ${{ matrix.php }}
         runs-on: ubuntu-latest

@@ -1,9 +1,10 @@
 includes:
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-    - vendor/phpstan/phpstan-phpunit/extension.neon
-    - vendor/phpstan/phpstan-phpunit/rules.neon
-    - vendor/phpstan/phpstan-symfony/extension.neon
-    - vendor/phpstan/phpstan-symfony/rules.neon
+    - vendor-bin/phpstan/config/config.php
+    - vendor-bin/phpstan/vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - vendor-bin/phpstan/vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor-bin/phpstan/vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor-bin/phpstan/vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor-bin/phpstan/vendor/phpstan/phpstan-symfony/rules.neon
 
 parameters:
     level: 10
@@ -42,4 +43,3 @@ parameters:
 
     treatPhpDocTypesAsCertain: false
     rememberPossiblyImpureFunctionValues: false
-    tmpDir: %env.TMPDIR%/phpstan/ecs
